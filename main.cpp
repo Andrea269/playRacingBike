@@ -235,7 +235,7 @@ int main(int argc, char* argv[]){
  * A --> Svolta a sinistra
  * D -->  Svolta a destra
  *
- * F1 --> Cambia camera ne esistono 5
+ * F1 --> Cambia telecamera; Esistono 5 telecamere diverse
  * SHIFT --> Camera retromarcia
  * F2 --> Cambia l'uso dei Wireframe
  *
