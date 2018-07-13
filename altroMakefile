@@ -1,0 +1,28 @@
+# Project: playRacingBike
+
+CPP  = g++ -std=c++0x
+BIN  = playRacingBike
+OBJ  = main.o Bike/bike.o Mesh/mesh.o
+
+LIBS = -lGL -lGLU -lSDL2 -lSDL2_image -lSDL2_ttf -lm
+
+FLAG = -w
+RM = rm -f
+
+all: $(BIN)
+
+
+clean:
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(FLAG) $(OBJ) -o $(BIN) $(LIBS)
+
+main.o: main.cpp
+	$(CPP) $(FLAG) -c main.cpp -o main.o
+
+Bike/bike.o: Bike/bike.cpp
+	$(CPP) $(FLAG) -c Bike/bike.cpp -o Bike/bike.o
+
+Mesh/mesh.o: Mesh/mesh.cpp
+	$(CPP) $(FLAG) -c Mesh/mesh.cpp -o Mesh/mesh.o
