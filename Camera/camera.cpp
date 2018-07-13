@@ -39,7 +39,7 @@ void Camera::InitCamera(){
     cameras[3].plusEY= 0;
 }
 
-void Camera::UpdateCamera(float orientation, float positionOnX, float positionOnY, float positionOnZ){//todo invertire camera marcia indietro
+void Camera::UpdateCamera(float orientation, float positionOnX, float positionOnY, float positionOnZ){
 
     if(indexCamera==4){
         glTranslatef(0,0,-eyeDistance);

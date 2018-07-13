@@ -11,24 +11,26 @@
 #include <GL/glu.h>
 #endif
 
-#include <vector> // la classe vector di STL
+#include <vector>
 
 #include "bike.h"
 
 #include "../Mesh/point3.h"
 #include "../Mesh/mesh.h"
 
-Mesh bodyBike((char *)"ObjectMesh/BodyBike.obj");
-Mesh seat((char *)"ObjectMesh/SeatBike.obj");
-Mesh glass((char *)"ObjectMesh/GlassBike.obj");
-Mesh shell((char *)"ObjectMesh/ShellBike.obj");
-Mesh frontWheel((char *)"ObjectMesh/FrontWheelBike.obj");
-Mesh frontWheelRim((char *)"ObjectMesh/FrontWheelRimBike.obj");
-Mesh backWheel((char *)"ObjectMesh/BackWheelBike.obj");
-Mesh backWheelRim((char *)"ObjectMesh/BackWheelRimBike.obj");
-Mesh cylinder((char *)"ObjectMesh/CylinderBike.obj");
-Mesh knobs((char *)"ObjectMesh/KnobsBike.obj");
-Mesh brakes((char *)"ObjectMesh/BrakesBike.obj");
+//todo radrizzare da blander la moto e alzare ruota avanti
+
+Mesh bodyBike((char *)"Bike/BikeMesh/BodyBike.obj");
+Mesh seat((char *)"Bike/BikeMesh/SeatBike.obj");
+Mesh glass((char *)"Bike/BikeMesh/GlassBike.obj");
+Mesh shell((char *)"Bike/BikeMesh/ShellBike.obj");
+Mesh frontWheel((char *)"Bike/BikeMesh/FrontWheelBike.obj");
+Mesh frontWheelRim((char *)"Bike/BikeMesh/FrontWheelRimBike.obj");
+Mesh backWheel((char *)"Bike/BikeMesh/BackWheelBike.obj");
+Mesh backWheelRim((char *)"Bike/BikeMesh/BackWheelRimBike.obj");
+Mesh cylinder((char *)"Bike/BikeMesh/CylinderBike.obj");
+Mesh knobs((char *)"Bike/BikeMesh/KnobsBike.obj");
+Mesh brakes((char *)"Bike/BikeMesh/BrakesBike.obj");
 
 
 void EventBike::EventButton(int button, bool isPressed, int* comands){

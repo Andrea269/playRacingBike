@@ -1,7 +1,8 @@
 # Graphics
 
-3D graphics course project
-Game realization: playRacingBike
+3D graphics course project.
+
+Game realization: playRacingBike.
 
 ## Commands:
 * W -> Accelerate

@@ -16,11 +16,13 @@
 #include "Bike/bike.h"
 #include "Camera/camera.h"
 #include "Menu/menu.h"
+#include "Coin/coin.h"
 
 using namespace std;
-Bike bike;//todo radrizzare da blander la moto e alzare ruota avanti
+Bike bike;
 Camera camera;
 Menu menu;
+Coin coin;
 
 int viewportW=1000;
 int viewportH=1000;
@@ -102,6 +104,7 @@ void rendering(SDL_Window *window){
 
     drawFloor();
     bike.Render();
+    coin.Render(bike.orientation, bike.positionOnX, bike.positionOnY, bike.positionOnZ);
 
 
 
@@ -129,7 +132,7 @@ int main(int argc, char* argv[]){
     SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
     SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
 
-    SDL_Window *window=SDL_CreateWindow("Recing Bike", 0, 0, viewportW, viewportH, SDL_WINDOW_OPENGL|SDL_WINDOW_RESIZABLE);
+    SDL_Window *window=SDL_CreateWindow("Racing Bike", 0, 0, viewportW, viewportH, SDL_WINDOW_OPENGL|SDL_WINDOW_RESIZABLE);
     SDL_GLContext sdlContext=SDL_GL_CreateContext(window);
 
     glEnable(GL_DEPTH_TEST);
