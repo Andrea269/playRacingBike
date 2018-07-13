@@ -1,9 +1,9 @@
-#Graphics
+# Graphics
 
 3D graphics course project
 Game realization: playRacingBike
 
-Commands:
+## Commands:
 * W -> Accelerate
 * S -> Decelerate to reverse
 * A -> Turn left
