@@ -2,6 +2,7 @@
 // Created by andrea on 13/07/18.
 //
 
+#include <SDL2/SDL.h>
 #include <stdio.h>
 #include <math.h>
 #ifdef __APPLE__
@@ -27,7 +28,6 @@ void Coin::InitCoin(float x, float z) {
     positionOnZ=z;
 }
 
-//todo
 void Coin::Render() {
     if(!destroy){
         glPushMatrix();
@@ -39,7 +39,24 @@ void Coin::Render() {
         glRotatef(coinRotation, 1, 1, 1);
         glTranslate(-coinMesh.Center());
 
-        glColor3f( 255, 215, 0);
+        glBindTexture(GL_TEXTURE_2D,0);
+        glEnable(GL_TEXTURE_2D);
+        glEnable(GL_TEXTURE_GEN_S);
+        glEnable(GL_TEXTURE_GEN_T);
+
+        // ulilizzo le coordinate OGGETTO
+        // cioe' le coordnate originali, PRIMA della moltiplicazione per la ModelView
+        // in modo che la texture sia "attaccata" all'oggetto, e non "proiettata" su esso
+        glTexGeni(GL_S, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
+        glTexGeni(GL_T, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
+        float sz=1.0/(coinMesh.bbmax.Z() - coinMesh.bbmin.Z());
+        float ty=1.0/(coinMesh.bbmax.Y() - coinMesh.bbmin.Y());
+        float s[4]={0,0,sz,  - coinMesh.bbmin.Z()*sz };
+        float t[4]={0,ty,0,  - coinMesh.bbmin.Y()*ty };
+        glTexGenfv(GL_S, GL_OBJECT_PLANE, s);
+        glTexGenfv(GL_T, GL_OBJECT_PLANE, t);
+
+        // glColor3f( 255, 215, 0);
         coinMesh.RenderNxV();
 
         glPopMatrix();

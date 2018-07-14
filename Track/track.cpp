@@ -12,15 +12,12 @@
 #include <GL/glu.h>
 #endif
 
-#include <vector>
 
 #include "track.h"
 
-#include "../Mesh/point3.h"
-#include "../Mesh/mesh.h"
 
 
-Mesh trackMesh((char *)"Track/track.obj");
+Mesh trackMesh((char *)"Track/track3.obj");
 
 void Track::InitTrack(float x, float z) {
     positionOnX=x;
@@ -29,15 +26,49 @@ void Track::InitTrack(float x, float z) {
 
 void Track::Render() {
     glPushMatrix();
-    glTranslatef(positionOnX+27, positionOnY, positionOnZ-30);
+   // glTranslatef(positionOnX+27, positionOnY, positionOnZ-30);
+    glTranslatef(positionOnX-10, positionOnY, positionOnZ-20);
 
     glScalef(-10,10,-10);
 
-//    glTranslate(trackMesh.Center());
-//    glRotatef(, 1, 1, 1);
-//    glTranslate(-trackMesh.Center());
+    SetupRoadTexture(trackMesh.bbmin, trackMesh.bbmax);
+    trackMesh.RenderNxV();
 
-    trackMesh.RenderNxV();//todo texture strada
+
+//    glTranslatef(positionOnX, positionOnY, positionOnZ+1.5);
+//   // SetupRoadTexture(trackMesh.bbmin, trackMesh.bbmax);
+//    trackMesh.RenderNxV();
 
     glPopMatrix();
+}
+
+void Track::SetupRoadTexture(Point3 min, Point3 max){
+    glBindTexture(GL_TEXTURE_2D,1);
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_GEN_S);
+    glEnable(GL_TEXTURE_GEN_T);
+
+    // ulilizzo le coordinate OGGETTO
+    // cioe' le coordnate originali, PRIMA della moltiplicazione per la ModelView
+    // in modo che la texture sia "attaccata" all'oggetto, e non "proiettata" su esso
+
+    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
+    glTexGeni(GL_T, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
+    float sz=1.0/(max.Z() - min.Z());
+    float sx=1/(max.X() - min.X());
+    float s[4]={sx, 0,0, - min.X()*sx };
+    float t[4]={0,0,sz,  - min.Z()*sz };
+    glTexGenfv(GL_S, GL_OBJECT_PLANE, t);
+    glTexGenfv(GL_T, GL_OBJECT_PLANE, s);
+
+
+
+/*    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
+    float sx=1/(max.X() - min.X());
+    float s[4]={max.X()*sx, 0,0, - min.X()*sx };
+    glTexGenfv(GL_T, GL_OBJECT_PLANE, s);
+
+
+
+*/
 }
