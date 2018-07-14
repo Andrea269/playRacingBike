@@ -17,12 +17,14 @@
 #include "Camera/camera.h"
 #include "Menu/menu.h"
 #include "Coin/coin.h"
+#include "Track/track.h"
 
 using namespace std;
 Bike bike;
 Camera camera;
 Menu menu;
 Coin coin;
+Track track;
 int point=0;
 
 int viewportW=1000;
@@ -39,30 +41,6 @@ void  SetCoordToPixel(){
     glLoadIdentity();
     glTranslatef(-1,-1,0);
     glScalef(2.0/viewportW, 2.0/viewportH, 1);
-}
-
-void drawFloor(){
-    const float S=20; // size
-    const float H=0;   // altezza
-    const int K=400; //disegna K x K quads
-
-    // disegna KxK quads
-    glBegin(GL_QUADS);
-    glColor3f(0.6, 0.6, 0.6); // colore uguale x tutti i quads
-    glNormal3f(0,1,0);       // normale verticale uguale x tutti
-    for (int x=0; x<K; x++){
-        for (int z=0; z<K; z++) {
-            float x0=-S + 2*(x+0)*S/K;
-            float x1=-S + 2*(x+1)*S/K;
-            float z0=-S + 2*(z+0)*S/K;
-            float z1=-S + 2*(z+1)*S/K;
-            glVertex3d(x0, H, z0);
-            glVertex3d(x1, H, z0);
-            glVertex3d(x1, H, z1);
-            glVertex3d(x0, H, z1);
-        }
-    }
-    glEnd();
 }
 
 void rendering(SDL_Window *window){
@@ -104,7 +82,7 @@ void rendering(SDL_Window *window){
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 127);
 
 
-    drawFloor();
+    track.Render();
     bike.Render();
     coin.Render();
 
@@ -149,6 +127,7 @@ int main(int argc, char* argv[]){
     menu.InitMenu(viewportW, viewportH);
 
     coin.InitCoin(bike.positionOnX, bike.positionOnZ-3);
+    track.InitTrack(bike.positionOnX, bike.positionOnZ);
     rendering(window);
 
     bool cond=true;

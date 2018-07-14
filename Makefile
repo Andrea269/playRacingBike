@@ -4,8 +4,8 @@ CPP  = g++
 CC   = gcc
 BIN  = playRacingBike
 
-OBJ  = main.o Bike/bike.o Mesh/mesh.o Camera/camera.o Menu/menu.o Coin/coin.o
-LINKOBJ  = main.o Bike/bike.o Mesh/mesh.o Camera/camera.o Menu/menu.o Coin/coin.o
+OBJ  = main.o Bike/bike.o Mesh/mesh.o Camera/camera.o Menu/menu.o Coin/coin.o Track/track.o
+LINKOBJ  = main.o Bike/bike.o Mesh/mesh.o Camera/camera.o Menu/menu.o Coin/coin.o Track/track.o
 
 # Library linking
 OS := $(shell uname)
@@ -58,4 +58,7 @@ Menu/menu.o: Menu/menu.cpp
 
 Coin/coin.o: Coin/coin.cpp
 	$(CPP) -c -Wno-deprecated $(FRMPATH) Coin/coin.cpp -o Coin/coin.o
+
+Track/track.o: Track/track.cpp
+	$(CPP) -c -Wno-deprecated $(FRMPATH) Track/track.cpp -o Track/track.o
 
