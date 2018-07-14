@@ -22,29 +22,36 @@
 
 Mesh coinMesh((char *)"Coin/Coin.obj");
 
-
-//todo
-void Coin::Render(float orientation, float positionOnX, float positionOnY, float positionOnZ) {
-    glPushMatrix();
-    glTranslatef(positionOnX, positionOnY+0.5, positionOnZ-3);
-//    glRotatef(orientation, 0, 1, 0);
-
-    glScalef(-0.3,0.3,-0.3);
-
-
-    glTranslate(coinMesh.Center());
-    glRotatef(coinRotation, 1, 1, 1);
-    glTranslate(-coinMesh.Center());
-
-    //glRotatef(coinRotation, 1, 0, 0);
-    glColor3f( 255, 215, 0);
-    coinMesh.RenderNxV();
-
-
-    glPopMatrix();
-    coinRotation+=speedRotation;
+void Coin::InitCoin(float x, float z) {
+    positionOnX=x;
+    positionOnZ=z;
 }
 
-void Coin::ChangeState() {
+//todo
+void Coin::Render() {
+    if(!destroy){
+        glPushMatrix();
+        glTranslatef(positionOnX, positionOnY, positionOnZ);
 
+        glScalef(-0.25,0.25,-0.25);
+
+        glTranslate(coinMesh.Center());
+        glRotatef(coinRotation, 1, 1, 1);
+        glTranslate(-coinMesh.Center());
+
+        glColor3f( 255, 215, 0);
+        coinMesh.RenderNxV();
+
+        glPopMatrix();
+        coinRotation+=speedRotation;
+    }
+}
+
+int Coin::ChangeState(float x, float z) {
+    int res=0;
+    if(!destroy && positionOnX>x-rangeBike && positionOnX<x+rangeBike && positionOnZ>z-rangeBike && positionOnZ<z+rangeBike){
+        destroy=true;
+        res=1;
+    }
+    return res;
 }

@@ -8,12 +8,19 @@
 
 class Coin{
 public:
-    void Render(float orientation, float positionOnX, float positionOnY, float positionOnZ); // disegna la moneta a schermo
-    void ChangeState();
+    void InitCoin(float x, float z);
+    void Render(); // disegna la moneta a schermo
+    int ChangeState(float x, float z);
     Coin(){
         coinRotation=1;
+        positionOnY=0.5;
+        positionOnX, positionOnZ=0;
+        destroy=false;
     }
 
+    float positionOnX, positionOnY, positionOnZ;
     float coinRotation;
+    bool destroy;
     const float speedRotation = 7;
+    const float rangeBike = 1.5;
 };

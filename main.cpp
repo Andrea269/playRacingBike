@@ -23,6 +23,7 @@ Bike bike;
 Camera camera;
 Menu menu;
 Coin coin;
+int point=0;
 
 int viewportW=1000;
 int viewportH=1000;
@@ -49,7 +50,7 @@ void drawFloor(){
     glBegin(GL_QUADS);
     glColor3f(0.6, 0.6, 0.6); // colore uguale x tutti i quads
     glNormal3f(0,1,0);       // normale verticale uguale x tutti
-    for (int x=0; x<K; x++)
+    for (int x=0; x<K; x++){
         for (int z=0; z<K; z++) {
             float x0=-S + 2*(x+0)*S/K;
             float x1=-S + 2*(x+1)*S/K;
@@ -60,6 +61,7 @@ void drawFloor(){
             glVertex3d(x1, H, z1);
             glVertex3d(x0, H, z1);
         }
+    }
     glEnd();
 }
 
@@ -104,7 +106,7 @@ void rendering(SDL_Window *window){
 
     drawFloor();
     bike.Render();
-    coin.Render(bike.orientation, bike.positionOnX, bike.positionOnY, bike.positionOnZ);
+    coin.Render();
 
 
 
@@ -145,6 +147,8 @@ int main(int argc, char* argv[]){
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 
     menu.InitMenu(viewportW, viewportH);
+
+    coin.InitCoin(bike.positionOnX, bike.positionOnZ-3);
     rendering(window);
 
     bool cond=true;
@@ -221,6 +225,7 @@ int main(int argc, char* argv[]){
             }
         }else{
             bike.ChangeState();
+            point+=coin.ChangeState(bike.positionOnX, bike.positionOnZ);
             rendering(window);
         }
     }
