@@ -38,6 +38,10 @@ Mesh line15v((char *)"Track/TrackMesh/Line/Line15-V.obj");
 Mesh curve1t4((char *)"Track/TrackMesh/Curve/Curve1-4.obj");
 Mesh curve2t2((char *)"Track/TrackMesh/Curve/Curve2-2.obj");
 Mesh curve3t4((char *)"Track/TrackMesh/Curve/Curve3-4.obj");
+Mesh curve4t3((char *)"Track/TrackMesh/Curve/Curve4-3.obj");
+Mesh curve5t1((char *)"Track/TrackMesh/Curve/Curve5-1.obj");
+Mesh curve6t3((char *)"Track/TrackMesh/Curve/Curve6-3.obj");
+Mesh curve7t2((char *)"Track/TrackMesh/Curve/Curve7-2.obj");
 Mesh curve8t4((char *)"Track/TrackMesh/Curve/Curve8-4.obj");
 
 void Track::InitTrack(float x, float z) {
@@ -80,18 +84,27 @@ void Track::Render() {
     line10o.RenderNxV();
     line11o.RenderNxV();
 
+
+
+    SetupRoadTexture(curve5t1.bbmin, curve5t1.bbmax, 3);
+    curve5t1.RenderNxV();
+
+    SetupRoadTexture(curve2t2.bbmin, curve2t2.bbmax, 4);
+    curve2t2.RenderNxV();
+    SetupRoadTexture(curve7t2.bbmin, curve7t2.bbmax, 4);
+    curve7t2.RenderNxV();
+
+    SetupRoadTexture(curve4t3.bbmin, curve4t3.bbmax, 5);
+    curve4t3.RenderNxV();
+    SetupRoadTexture(curve6t3.bbmin, curve6t3.bbmax, 5);
+    curve6t3.RenderNxV();
+
     SetupRoadTexture(curve1t4.bbmin, curve1t4.bbmax, 6);
     curve1t4.RenderNxV();
     SetupRoadTexture(curve3t4.bbmin, curve3t4.bbmax, 6);
     curve3t4.RenderNxV();
     SetupRoadTexture(curve8t4.bbmin, curve8t4.bbmax, 6);
     curve8t4.RenderNxV();
-
-    SetupRoadTexture(curve2t2.bbmin, curve2t2.bbmax, 4);
-    curve2t2.RenderNxV();
-//    glTranslatef(positionOnX, positionOnY, positionOnZ+1.5);
-//   // SetupRoadTexture(trackMesh.bbmin, trackMesh.bbmax);
-//    trackMesh.RenderNxV();
 
     glPopMatrix();
 }
@@ -114,15 +127,4 @@ void Track::SetupRoadTexture(Point3 min, Point3 max, int numbertexture){
     float t[4]={0,0,sz,  - min.Z()*sz };
     glTexGenfv(GL_S, GL_OBJECT_PLANE, t);
     glTexGenfv(GL_T, GL_OBJECT_PLANE, s);
-
-
-
-/*    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
-    float sx=1/(max.X() - min.X());
-    float s[4]={max.X()*sx, 0,0, - min.X()*sx };
-    glTexGenfv(GL_T, GL_OBJECT_PLANE, s);
-
-
-
-*/
 }

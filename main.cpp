@@ -99,7 +99,7 @@ void rendering(SDL_Window *window){
     glViewport(0,0, viewportW, viewportH);
 
 
-    glClearColor(1,1,1,1);// colore sfondo
+    glClearColor(0,1,1,1);// colore sfondo
 
     // riempe tutto lo screen buffer di pixel color sfondo
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
