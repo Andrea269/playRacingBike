@@ -20,6 +20,7 @@
 #include "../Mesh/point3.h"
 #include "../Mesh/mesh.h"
 
+// todo creare monete nel file blender della pista in posti precisi
 
 Mesh coinMesh((char *)"Coin/Coin.obj");
 

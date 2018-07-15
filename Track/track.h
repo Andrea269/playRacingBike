@@ -21,5 +21,5 @@ public:
     float positionOnX, positionOnY, positionOnZ;
 //    vector pieceTrack;
 private:
-    void SetupRoadTexture(Point3 min, Point3 max);
+    void SetupRoadTexture(Point3 min, Point3 max, int numbertexture);
 };

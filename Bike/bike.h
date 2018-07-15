@@ -22,7 +22,7 @@ public:
     Bike(){
         positionOnX, positionOnY, positionOnZ=0.0;
         speedOnX, speedOnY, speedOnZ=0.0;
-        orientation=0.0;
+        orientation=180;
         steeringWheel=0.0;
         handlebars=0.0;
         wheelRotation=0.0;

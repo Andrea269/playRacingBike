@@ -46,6 +46,7 @@ void Bike::Render() const{//todo ruote oscillano SISTEMARE
     glTranslatef(positionOnX, positionOnY, positionOnZ);
     glRotatef(orientation, 0, 1, 0);
 
+
     glScalef(-0.03,0.03,-0.03);
 
 

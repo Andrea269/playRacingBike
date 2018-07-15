@@ -132,8 +132,8 @@ void rendering(SDL_Window *window){
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 127);
 
 
-    track.Render();
     bike.Render();
+    track.Render();
     coin.Render();
 
 
@@ -180,7 +180,17 @@ int main(int argc, char* argv[]){
     track.InitTrack(bike.positionOnX, bike.positionOnZ);
 
     if (!LoadTexture(0,(char *)"Texture/myImage.jpg")) return 0;
-    if (!LoadTexture(1,(char *)"Texture/Road22.png")) return 0;
+    if (!LoadTexture(1,(char *)"Texture/Line.png")) return 0;
+    if (!LoadTexture(2,(char *)"Texture/Line2.png")) return 0;
+    if (!LoadTexture(3,(char *)"Texture/Curve1.png")) return 0;
+    if (!LoadTexture(4,(char *)"Texture/Curve2.png")) return 0;
+    if (!LoadTexture(5,(char *)"Texture/Curve3.png")) return 0;
+    if (!LoadTexture(6,(char *)"Texture/Curve4.png")) return 0;
+    if (!LoadTexture(7,(char *)"Texture/Crossroad4.png")) return 0;
+//    if (!LoadTexture(8,(char *)"Texture/Crossroad3-1.png")) return 0;
+//    if (!LoadTexture(8,(char *)"Texture/Crossroad3-2.png")) return 0;
+//    if (!LoadTexture(8,(char *)"Texture/Crossroad3-3.png")) return 0;
+//    if (!LoadTexture(8,(char *)"Texture/Crossroad3-4.png")) return 0;
 
     bool cond=true;
     while(cond){
