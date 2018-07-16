@@ -5,6 +5,7 @@
 #define GRAFICA_COIN_H
 #endif //GRAFICA_COIN_H
 
+#include "../Mesh/point3.h"
 
 class Coin{
 public:
@@ -13,7 +14,7 @@ public:
     int ChangeState(float x, float z);
     Coin(){
         coinRotation=1;
-        positionOnY=0.5;
+        positionOnY=0.1;
         positionOnX, positionOnZ=0;
         destroy=false;
     }
@@ -23,4 +24,6 @@ public:
     bool destroy;
     const float speedRotation = 7;
     const float rangeBike = 1.5;
+private:
+    void SetupCoinTexture(Point3 min, Point3 max);
 };
