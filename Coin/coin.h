@@ -8,21 +8,23 @@
 
 class Coin{
 public:
-    void InitCoin(float x, float z);
+    void InitCoin();
     void Render(); // disegna la moneta a schermo
     int ChangeState(float x, float z);
     Coin(){
         coinRotation=1;
         positionOnY=0.1;
         positionOnX, positionOnZ=0;
-        destroy=false;
+        coinDestroy=0;
+        InitCoin();
     }
 
     float positionOnX, positionOnY, positionOnZ;
     float coinRotation;
-    bool destroy;
+    int coinDestroy;
     const float speedRotation = 7;
-    const float rangeBike = 1.5;
+    const float rangeBike = 0.1;
+    const float scale = 10;
 private:
     void SetupCoinTexture(float minZ, float maxZ, float minY, float maxY);
 };

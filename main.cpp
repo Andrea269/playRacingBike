@@ -176,7 +176,6 @@ int main(int argc, char* argv[]){
 
     menu.InitMenu(viewportW, viewportH);
 
-    coin.InitCoin(bike.positionOnX, bike.positionOnZ-3);
     track.InitTrack(bike.positionOnX, bike.positionOnZ);
 
     if (!LoadTexture(0,(char *)"Texture/myImage.jpg")) return 0;
@@ -264,7 +263,7 @@ int main(int argc, char* argv[]){
             }
         }else{
             bike.ChangeState();
-            point+=coin.ChangeState(bike.positionOnX, bike.positionOnZ);
+            point=coin.ChangeState(bike.positionOnX, bike.positionOnZ);
             rendering(window);
         }
     }

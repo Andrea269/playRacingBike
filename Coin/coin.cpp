@@ -21,71 +21,60 @@
 #include "../Mesh/mesh.h"
 
 // todo creare monete nel file blender della pista in posti precisi
-
+const int MAX_COINS=4;
 Mesh coin1((char *)"Coin/coin1.obj");
 Mesh coin2((char *)"Coin/coin2.obj");
 Mesh coin3((char *)"Coin/coin3.obj");
 Mesh coin4((char *)"Coin/coin4.obj");
+Mesh* coins[MAX_COINS];
+bool destroy[MAX_COINS];
 
-void Coin::InitCoin(float x, float z) {
-    positionOnX=x;
-    positionOnZ=z;
+void Coin::InitCoin() {
+    coins[0]=&coin4;
+    coins[1]=&coin1;
+    coins[2]=&coin2;
+    coins[3]=&coin3;
+    for (int i = 0; i < MAX_COINS; i++) {
+        destroy[i]=false;
+    }
 }
 
 void Coin::Render() {
-    if(!destroy){
-        glPushMatrix();
-        glTranslatef(positionOnX, positionOnY, positionOnZ);
+    glPushMatrix();
+    glTranslatef(positionOnX, positionOnY, positionOnZ);
 
-        glScalef(-10,10,-10);
-        glBindTexture(GL_TEXTURE_2D,0);
+    glScalef(-scale,scale,-scale);
+    glBindTexture(GL_TEXTURE_2D,0);
 
-        glPushMatrix();
-
-        SetupCoinTexture(coin1.bbmin.Z(), coin1.bbmax.Z(), coin1.bbmin.Y(), coin1.bbmax.Y());
-        glTranslate(coin1.Center());
-        glRotatef(coinRotation, 1, 1, 1);
-        glTranslate(-coin1.Center());
-        coin1.RenderNxV();
-        glPopMatrix();
-
-        glPushMatrix();
-        SetupCoinTexture(coin2.bbmin.Z(), coin2.bbmax.Z(), coin2.bbmin.Y(), coin2.bbmax.Y());
-        glTranslate(coin2.Center());
-        glRotatef(coinRotation, 1, 1, 1);
-        glTranslate(-coin2.Center());
-        coin2.RenderNxV();
-        glPopMatrix();
-
-        glPushMatrix();
-        SetupCoinTexture(coin3.bbmin.Z(), coin3.bbmax.Z(), coin3.bbmin.Y(), coin3.bbmax.Y());
-        glTranslate(coin3.Center());
-        glRotatef(coinRotation, 1, 1, 1);
-        glTranslate(-coin3.Center());
-        coin3.RenderNxV();
-        glPopMatrix();
-
-        glPushMatrix();
-        SetupCoinTexture(coin4.bbmin.Z(), coin4.bbmax.Z(), coin4.bbmin.Y(), coin4.bbmax.Y());
-        glTranslate(coin4.Center());
-        glRotatef(coinRotation, 1, 1, 1);
-        glTranslate(-coin4.Center());
-        coin4.RenderNxV();
-        glPopMatrix();
-
-
-        glPopMatrix();
-        coinRotation+=speedRotation;
+    for (int i = 0; i < MAX_COINS; i++) {
+        if(!destroy[i]){
+            glPushMatrix();
+            SetupCoinTexture(coins[i]->bbmin.Z(), coins[i]->bbmax.Z(), coins[i]->bbmin.Y(), coins[i]->bbmax.Y());
+            glTranslate(coins[i]->Center());
+            glRotatef(coinRotation, 1, 1, 1);
+            glTranslate(-coins[i]->Center());
+            coins[i]->RenderNxV();
+            glPopMatrix();
+        }
     }
+
+    glPopMatrix();
+    coinRotation+=speedRotation;
 }
 
-int Coin::ChangeState(float x, float z) {//todo modificare bbmin bbmax
-    int res=0;
-    if(!destroy && positionOnX>x-rangeBike && positionOnX<x+rangeBike && positionOnZ>z-rangeBike && positionOnZ<z+rangeBike){
-        destroy=true;
-        res=1;
+int Coin::ChangeState(float xBike, float zBike) {
+    float x=-xBike/scale;
+    float z=-zBike/scale;
+    for (int i = 0; i < MAX_COINS; i++) {
+        if(!destroy[i]){
+            if(coins[i]->Center().X()>x-rangeBike && coins[i]->Center().X()<x+rangeBike &&
+               coins[i]->Center().Z()>z-rangeBike && coins[i]->Center().Z()<z+rangeBike){
+                destroy[i]=true;
+                coinDestroy++;
+            }
+        }
     }
-    return res;
+    return coinDestroy;
 }
 
 void Coin::SetupCoinTexture(float minZ, float maxZ, float minY, float maxY){
