@@ -12,7 +12,10 @@
 #include <GL/glu.h>
 #endif
 
+#include <vector>
 
+#include "../Mesh/point3.h"
+#include "../Mesh/mesh.h"
 #include "track.h"
 
 
@@ -132,57 +135,57 @@ void Track::Render() {
 
     glScalef(-10,10,-10);
 
-    SetupRoadTexture(start.bbmin, start.bbmax, 7);
+    SetupRoadTexture(start.bbmin.X(), start.bbmax.X(), start.bbmin.Z(), start.bbmax.Z(), 7);
     start.RenderNxV();
 
-    SetupRoadTexture(line1v.bbmin, line1v.bbmax, 1);
+    SetupRoadTexture(line1v.bbmin.X(), line1v.bbmax.X(), line1v.bbmin.Z(), line1v.bbmax.Z(), 1);
     line1v.RenderNxV();
     line2v.RenderNxV();
     line3v.RenderNxV();
     line4v.RenderNxV();
-    SetupRoadTexture(line8v.bbmin, line8v.bbmax, 1);
+    SetupRoadTexture(line8v.bbmin.X(), line8v.bbmax.X(), line8v.bbmin.Z(), line8v.bbmax.Z(), 1);
     line8v.RenderNxV();
-    SetupRoadTexture(line12v.bbmin, line12v.bbmax, 1);
+    SetupRoadTexture(line12v.bbmin.X(), line12v.bbmax.X(), line12v.bbmin.Z(), line12v.bbmax.Z(), 1);
     line12v.RenderNxV();
     line13v.RenderNxV();
     line14v.RenderNxV();
     line15v.RenderNxV();
-    SetupRoadTexture(line25v.bbmin, line25v.bbmax, 1);
+    SetupRoadTexture(line25v.bbmin.X(), line25v.bbmax.X(), line25v.bbmin.Z(), line25v.bbmax.Z(), 1);
     line25v.RenderNxV();
     line26v.RenderNxV();
     line27v.RenderNxV();
-    SetupRoadTexture(line28v.bbmin, line28v.bbmax, 1);
+    SetupRoadTexture(line28v.bbmin.X(), line28v.bbmax.X(), line28v.bbmin.Z(), line28v.bbmax.Z(), 1);
     line28v.RenderNxV();
     line29v.RenderNxV();
     line30v.RenderNxV();
-    SetupRoadTexture(line32v.bbmin, line32v.bbmax, 1);
+    SetupRoadTexture(line32v.bbmin.X(), line32v.bbmax.X(), line32v.bbmin.Z(), line32v.bbmax.Z(), 1);
     line32v.RenderNxV();
     line33v.RenderNxV();
     line34v.RenderNxV();
     line35v.RenderNxV();
-    SetupRoadTexture(line36v.bbmin, line36v.bbmax, 1);
+    SetupRoadTexture(line36v.bbmin.X(), line36v.bbmax.X(), line36v.bbmin.Z(), line36v.bbmax.Z(), 1);
     line36v.RenderNxV();
     line37v.RenderNxV();
     line38v.RenderNxV();
     line39v.RenderNxV();
     line40v.RenderNxV();
-    SetupRoadTexture(line55v.bbmin, line55v.bbmax, 1);
+    SetupRoadTexture(line55v.bbmin.X(), line55v.bbmax.X(), line55v.bbmin.Z(), line55v.bbmax.Z(), 1);
     line55v.RenderNxV();
     line56v.RenderNxV();
-    SetupRoadTexture(line66v.bbmin, line66v.bbmax, 1);
+    SetupRoadTexture(line66v.bbmin.X(), line66v.bbmax.X(), line66v.bbmin.Z(), line66v.bbmax.Z(), 1);
     line66v.RenderNxV();
     line67v.RenderNxV();
     line68v.RenderNxV();
 
-    SetupRoadTexture(line5o.bbmin, line5o.bbmax, 2);
+    SetupRoadTexture(line5o.bbmin.X(), line5o.bbmax.X(), line5o.bbmin.Z(), line5o.bbmax.Z(), 2);
     line5o.RenderNxV();
     line6o.RenderNxV();
     line7o.RenderNxV();
-    SetupRoadTexture(line9o.bbmin, line9o.bbmax, 2);
+    SetupRoadTexture(line9o.bbmin.X(), line9o.bbmax.X(), line9o.bbmin.Z(), line9o.bbmax.Z(), 2);
     line9o.RenderNxV();
     line10o.RenderNxV();
     line11o.RenderNxV();
-    SetupRoadTexture(line16o.bbmin, line16o.bbmax, 2);
+    SetupRoadTexture(line16o.bbmin.X(), line16o.bbmax.X(), line16o.bbmin.Z(), line16o.bbmax.Z(), 2);
     line16o.RenderNxV();
     line17o.RenderNxV();
     line18o.RenderNxV();
@@ -192,9 +195,9 @@ void Track::Render() {
     line22o.RenderNxV();
     line23o.RenderNxV();
     line24o.RenderNxV();
-    SetupRoadTexture(line31o.bbmin, line31o.bbmax, 2);
+    SetupRoadTexture(line31o.bbmin.X(), line31o.bbmax.X(), line31o.bbmin.Z(), line31o.bbmax.Z(), 2);
     line31o.RenderNxV();
-    SetupRoadTexture(line41o.bbmin, line41o.bbmax, 2);
+    SetupRoadTexture(line41o.bbmin.X(), line41o.bbmax.X(), line41o.bbmin.Z(), line41o.bbmax.Z(), 2);
     line41o.RenderNxV();
     line42o.RenderNxV();
     line43o.RenderNxV();
@@ -209,7 +212,7 @@ void Track::Render() {
     line52o.RenderNxV();
     line53o.RenderNxV();
     line54o.RenderNxV();
-    SetupRoadTexture(line57o.bbmin, line57o.bbmax, 2);
+    SetupRoadTexture(line57o.bbmin.X(), line57o.bbmax.X(), line57o.bbmin.Z(), line57o.bbmax.Z(), 2);
     line57o.RenderNxV();
     line58o.RenderNxV();
     line59o.RenderNxV();
@@ -217,85 +220,85 @@ void Track::Render() {
     line61o.RenderNxV();
     line62o.RenderNxV();
     line63o.RenderNxV();
-    SetupRoadTexture(line64o.bbmin, line64o.bbmax, 2);
+    SetupRoadTexture(line64o.bbmin.X(), line64o.bbmax.X(), line64o.bbmin.Z(), line64o.bbmax.Z(), 2);
     line64o.RenderNxV();
-    SetupRoadTexture(line65o.bbmin, line65o.bbmax, 2);
+    SetupRoadTexture(line65o.bbmin.X(), line65o.bbmax.X(), line65o.bbmin.Z(), line65o.bbmax.Z(), 2);
     line65o.RenderNxV();
 
-    SetupRoadTexture(curve5t1.bbmin, curve5t1.bbmax, 3);
+    SetupRoadTexture(curve5t1.bbmin.X(), curve5t1.bbmax.X(), curve5t1.bbmin.Z(), curve5t1.bbmax.Z(), 3);
     curve5t1.RenderNxV();
-    SetupRoadTexture(curve12t1.bbmin, curve12t1.bbmax, 3);
+    SetupRoadTexture(curve12t1.bbmin.X(), curve12t1.bbmax.X(), curve12t1.bbmin.Z(), curve12t1.bbmax.Z(), 3);
     curve12t1.RenderNxV();
-    SetupRoadTexture(curve16t1.bbmin, curve16t1.bbmax, 3);
+    SetupRoadTexture(curve16t1.bbmin.X(), curve16t1.bbmax.X(), curve16t1.bbmin.Z(), curve16t1.bbmax.Z(), 3);
     curve16t1.RenderNxV();
-    SetupRoadTexture(curve19t1.bbmin, curve19t1.bbmax, 3);
+    SetupRoadTexture(curve19t1.bbmin.X(), curve19t1.bbmax.X(), curve19t1.bbmin.Z(), curve19t1.bbmax.Z(), 3);
     curve19t1.RenderNxV();
-    SetupRoadTexture(curve22t1.bbmin, curve22t1.bbmax, 3);
+    SetupRoadTexture(curve22t1.bbmin.X(), curve22t1.bbmax.X(), curve22t1.bbmin.Z(), curve22t1.bbmax.Z(), 3);
     curve22t1.RenderNxV();
-    SetupRoadTexture(curve28t1.bbmin, curve28t1.bbmax, 3);
+    SetupRoadTexture(curve28t1.bbmin.X(), curve28t1.bbmax.X(), curve28t1.bbmin.Z(), curve28t1.bbmax.Z(), 3);
     curve28t1.RenderNxV();
 
-    SetupRoadTexture(curve2t2.bbmin, curve2t2.bbmax, 4);
+    SetupRoadTexture(curve2t2.bbmin.X(), curve2t2.bbmax.X(), curve2t2.bbmin.Z(), curve2t2.bbmax.Z(), 4);
     curve2t2.RenderNxV();
-    SetupRoadTexture(curve7t2.bbmin, curve7t2.bbmax, 4);
+    SetupRoadTexture(curve7t2.bbmin.X(), curve7t2.bbmax.X(), curve7t2.bbmin.Z(), curve7t2.bbmax.Z(), 4);
     curve7t2.RenderNxV();
-    SetupRoadTexture(curve9t2.bbmin, curve9t2.bbmax, 4);
+    SetupRoadTexture(curve9t2.bbmin.X(), curve9t2.bbmax.X(), curve9t2.bbmin.Z(), curve9t2.bbmax.Z(), 4);
     curve9t2.RenderNxV();
-    SetupRoadTexture(curve15t2.bbmin, curve15t2.bbmax, 4);
+    SetupRoadTexture(curve15t2.bbmin.X(), curve15t2.bbmax.X(), curve15t2.bbmin.Z(), curve15t2.bbmax.Z(), 4);
     curve15t2.RenderNxV();
-    SetupRoadTexture(curve20t2.bbmin, curve20t2.bbmax, 4);
+    SetupRoadTexture(curve20t2.bbmin.X(), curve20t2.bbmax.X(), curve20t2.bbmin.Z(), curve20t2.bbmax.Z(), 4);
     curve20t2.RenderNxV();
-    SetupRoadTexture(curve25t2.bbmin, curve25t2.bbmax, 4);
+    SetupRoadTexture(curve25t2.bbmin.X(), curve25t2.bbmax.X(), curve25t2.bbmin.Z(), curve25t2.bbmax.Z(), 4);
     curve25t2.RenderNxV();
-    SetupRoadTexture(curve27t2.bbmin, curve27t2.bbmax, 4);
+    SetupRoadTexture(curve27t2.bbmin.X(), curve27t2.bbmax.X(), curve27t2.bbmin.Z(), curve27t2.bbmax.Z(), 4);
     curve27t2.RenderNxV();
 
-    SetupRoadTexture(curve4t3.bbmin, curve4t3.bbmax, 5);
+    SetupRoadTexture(curve4t3.bbmin.X(), curve4t3.bbmax.X(), curve4t3.bbmin.Z(), curve4t3.bbmax.Z(), 5);
     curve4t3.RenderNxV();
-    SetupRoadTexture(curve6t3.bbmin, curve6t3.bbmax, 5);
+    SetupRoadTexture(curve6t3.bbmin.X(), curve6t3.bbmax.X(), curve6t3.bbmin.Z(), curve6t3.bbmax.Z(), 5);
     curve6t3.RenderNxV();
-    SetupRoadTexture(curve11t3.bbmin, curve11t3.bbmax, 5);
+    SetupRoadTexture(curve11t3.bbmin.X(), curve11t3.bbmax.X(), curve11t3.bbmin.Z(), curve11t3.bbmax.Z(), 5);
     curve11t3.RenderNxV();
-    SetupRoadTexture(curve13t3.bbmin, curve13t3.bbmax, 5);
+    SetupRoadTexture(curve13t3.bbmin.X(), curve13t3.bbmax.X(), curve13t3.bbmin.Z(), curve13t3.bbmax.Z(), 5);
     curve13t3.RenderNxV();
-    SetupRoadTexture(curve17t3.bbmin, curve17t3.bbmax, 5);
+    SetupRoadTexture(curve17t3.bbmin.X(), curve17t3.bbmax.X(), curve17t3.bbmin.Z(), curve17t3.bbmax.Z(), 5);
     curve17t3.RenderNxV();
-    SetupRoadTexture(curve21t3.bbmin, curve21t3.bbmax, 5);
+    SetupRoadTexture(curve21t3.bbmin.X(), curve21t3.bbmax.X(), curve21t3.bbmin.Z(), curve21t3.bbmax.Z(), 5);
     curve21t3.RenderNxV();
-    SetupRoadTexture(curve23t3.bbmin, curve23t3.bbmax, 5);
+    SetupRoadTexture(curve23t3.bbmin.X(), curve23t3.bbmax.X(), curve23t3.bbmin.Z(), curve23t3.bbmax.Z(), 5);
     curve23t3.RenderNxV();
-    SetupRoadTexture(curve29t3.bbmin, curve29t3.bbmax, 5);
+    SetupRoadTexture(curve29t3.bbmin.X(), curve29t3.bbmax.X(), curve29t3.bbmin.Z(), curve29t3.bbmax.Z(), 5);
     curve29t3.RenderNxV();
 
-    SetupRoadTexture(curve1t4.bbmin, curve1t4.bbmax, 6);
+    SetupRoadTexture(curve1t4.bbmin.X(), curve1t4.bbmax.X(), curve1t4.bbmin.Z(), curve1t4.bbmax.Z(), 6);
     curve1t4.RenderNxV();
-    SetupRoadTexture(curve3t4.bbmin, curve3t4.bbmax, 6);
+    SetupRoadTexture(curve3t4.bbmin.X(), curve3t4.bbmax.X(), curve3t4.bbmin.Z(), curve3t4.bbmax.Z(), 6);
     curve3t4.RenderNxV();
-    SetupRoadTexture(curve8t4.bbmin, curve8t4.bbmax, 6);
+    SetupRoadTexture(curve8t4.bbmin.X(), curve8t4.bbmax.X(), curve8t4.bbmin.Z(), curve8t4.bbmax.Z(), 6);
     curve8t4.RenderNxV();
-    SetupRoadTexture(curve10t4.bbmin, curve10t4.bbmax, 6);
+    SetupRoadTexture(curve10t4.bbmin.X(), curve10t4.bbmax.X(), curve10t4.bbmin.Z(), curve10t4.bbmax.Z(), 6);
     curve10t4.RenderNxV();
-    SetupRoadTexture(curve14t4.bbmin, curve14t4.bbmax, 6);
+    SetupRoadTexture(curve14t4.bbmin.X(), curve14t4.bbmax.X(), curve14t4.bbmin.Z(), curve14t4.bbmax.Z(), 6);
     curve14t4.RenderNxV();
-    SetupRoadTexture(curve18t4.bbmin, curve18t4.bbmax, 6);
+    SetupRoadTexture(curve18t4.bbmin.X(), curve18t4.bbmax.X(), curve18t4.bbmin.Z(), curve18t4.bbmax.Z(), 6);
     curve18t4.RenderNxV();
-    SetupRoadTexture(curve24t4.bbmin, curve24t4.bbmax, 6);
+    SetupRoadTexture(curve24t4.bbmin.X(), curve24t4.bbmax.X(), curve24t4.bbmin.Z(), curve24t4.bbmax.Z(), 6);
     curve24t4.RenderNxV();
-    SetupRoadTexture(curve26t4.bbmin, curve26t4.bbmax, 6);
+    SetupRoadTexture(curve26t4.bbmin.X(), curve26t4.bbmax.X(), curve26t4.bbmin.Z(), curve26t4.bbmax.Z(), 6);
     curve26t4.RenderNxV();
 
-    SetupRoadTexture(cross3road1t1.bbmin, cross3road1t1.bbmax, 8);
+    SetupRoadTexture(cross3road1t1.bbmin.X(), cross3road1t1.bbmax.X(), cross3road1t1.bbmin.Z(), cross3road1t1.bbmax.Z(), 8);
     cross3road1t1.RenderNxV();
-    SetupRoadTexture(cross3road2t1.bbmin, cross3road2t1.bbmax, 8);
+    SetupRoadTexture(cross3road2t1.bbmin.X(), cross3road2t1.bbmax.X(), cross3road2t1.bbmin.Z(), cross3road2t1.bbmax.Z(), 8);
     cross3road2t1.RenderNxV();
-    SetupRoadTexture(cross3road3t1.bbmin, cross3road3t1.bbmax, 8);
+    SetupRoadTexture(cross3road3t1.bbmin.X(), cross3road3t1.bbmax.X(), cross3road3t1.bbmin.Z(), cross3road3t1.bbmax.Z(), 8);
     cross3road3t1.RenderNxV();
-    SetupRoadTexture(cross3road4t2.bbmin, cross3road4t2.bbmax, 9);
+    SetupRoadTexture(cross3road4t2.bbmin.X(), cross3road4t2.bbmax.X(), cross3road4t2.bbmin.Z(), cross3road4t2.bbmax.Z(), 9);
     cross3road4t2.RenderNxV();
     glPopMatrix();
 }
 
-void Track::SetupRoadTexture(Point3 min, Point3 max, int numbertexture){
+void Track::SetupRoadTexture(float minX, float maxX, float minZ, float maxZ, int numbertexture){
     glBindTexture(GL_TEXTURE_2D,numbertexture);
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_TEXTURE_GEN_S);
@@ -307,10 +310,10 @@ void Track::SetupRoadTexture(Point3 min, Point3 max, int numbertexture){
 
     glTexGeni(GL_S, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
     glTexGeni(GL_T, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
-    float sz=1.0/(max.Z() - min.Z());
-    float sx=1/(max.X() - min.X());
-    float s[4]={sx, 0,0, - min.X()*sx };
-    float t[4]={0,0,sz,  - min.Z()*sz };
+    float sz=1.0/(maxZ - minZ);
+    float sx=1/(maxX - minX);
+    float s[4]={sx, 0,0, - minX*sx };
+    float t[4]={0,0,sz,  - minZ*sz };
     glTexGenfv(GL_S, GL_OBJECT_PLANE, t);
     glTexGenfv(GL_T, GL_OBJECT_PLANE, s);
 }

@@ -17,6 +17,7 @@
 
 #include "coin.h"
 
+#include "../Mesh/point3.h"
 #include "../Mesh/mesh.h"
 
 // todo creare monete nel file blender della pista in posti precisi
@@ -40,7 +41,8 @@ void Coin::Render() {
         glBindTexture(GL_TEXTURE_2D,0);
 
         glPushMatrix();
-        SetupCoinTexture(coin1.bbmin, coin1.bbmax);
+
+        SetupCoinTexture(coin1.bbmin.Z(), coin1.bbmax.Z(), coin1.bbmin.Y(), coin1.bbmax.Y());
         glTranslate(coin1.Center());
         glRotatef(coinRotation, 1, 1, 1);
         glTranslate(-coin1.Center());
@@ -48,7 +50,7 @@ void Coin::Render() {
         glPopMatrix();
 
         glPushMatrix();
-        SetupCoinTexture(coin2.bbmin, coin2.bbmax);
+        SetupCoinTexture(coin2.bbmin.Z(), coin2.bbmax.Z(), coin2.bbmin.Y(), coin2.bbmax.Y());
         glTranslate(coin2.Center());
         glRotatef(coinRotation, 1, 1, 1);
         glTranslate(-coin2.Center());
@@ -56,7 +58,7 @@ void Coin::Render() {
         glPopMatrix();
 
         glPushMatrix();
-        SetupCoinTexture(coin3.bbmin, coin3.bbmax);
+        SetupCoinTexture(coin3.bbmin.Z(), coin3.bbmax.Z(), coin3.bbmin.Y(), coin3.bbmax.Y());
         glTranslate(coin3.Center());
         glRotatef(coinRotation, 1, 1, 1);
         glTranslate(-coin3.Center());
@@ -64,7 +66,7 @@ void Coin::Render() {
         glPopMatrix();
 
         glPushMatrix();
-        SetupCoinTexture(coin4.bbmin, coin4.bbmax);
+        SetupCoinTexture(coin4.bbmin.Z(), coin4.bbmax.Z(), coin4.bbmin.Y(), coin4.bbmax.Y());
         glTranslate(coin4.Center());
         glRotatef(coinRotation, 1, 1, 1);
         glTranslate(-coin4.Center());
@@ -77,7 +79,7 @@ void Coin::Render() {
     }
 }
 
-int Coin::ChangeState(float x, float z) {//todo modificare
+int Coin::ChangeState(float x, float z) {//todo modificare bbmin bbmax
     int res=0;
     if(!destroy && positionOnX>x-rangeBike && positionOnX<x+rangeBike && positionOnZ>z-rangeBike && positionOnZ<z+rangeBike){
         destroy=true;
@@ -86,7 +88,7 @@ int Coin::ChangeState(float x, float z) {//todo modificare
     return res;
 }
 
-void Coin::SetupCoinTexture(Point3 min, Point3 max){
+void Coin::SetupCoinTexture(float minZ, float maxZ, float minY, float maxY){
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_TEXTURE_GEN_S);
     glEnable(GL_TEXTURE_GEN_T);
@@ -96,10 +98,10 @@ void Coin::SetupCoinTexture(Point3 min, Point3 max){
     // in modo che la texture sia "attaccata" all'oggetto, e non "proiettata" su esso
     glTexGeni(GL_S, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
     glTexGeni(GL_T, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
-    float sz=1.0/(max.Z() - min.Z());
-    float ty=1.0/(max.Y() - min.Y());
-    float s[4]={0,0,sz,  - min.Z()*sz };
-    float t[4]={0,ty,0,  - min.Y()*ty };
+    float sz=1.0/(maxZ - minZ);
+    float ty=1.0/(maxY - minY);
+    float s[4]={0,0,sz,  - minZ*sz };
+    float t[4]={0,ty,0,  - minY*ty };
     glTexGenfv(GL_S, GL_OBJECT_PLANE, s);
     glTexGenfv(GL_T, GL_OBJECT_PLANE, t);
 }
