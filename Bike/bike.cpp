@@ -41,6 +41,7 @@ void EventBike::EventButton(int button, bool isPressed, int* comands){
     }
 }
 
+//todo disegnare ombra moto
 void Bike::Render() const{//todo ruote oscillano SISTEMARE
     glPushMatrix();
     glTranslatef(positionOnX, positionOnY, positionOnZ);

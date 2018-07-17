@@ -154,6 +154,7 @@ void Coin::InitCoin() {
     }
 }
 
+//todo disegnare ombra coin
 void Coin::Render() {
     glPushMatrix();
     glTranslatef(positionOnX, positionOnY, positionOnZ);

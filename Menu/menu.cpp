@@ -135,7 +135,8 @@ void Menu::DrowButton(){
 
 }
 
-void Menu::DrawMenu(int width, int height){
+//todo capire perchè il menù viene renderizzato male
+void Menu::DrawMenu(int width, int height, int totalPoint){//todo gestire la visualizzazione dei coin raccolti
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluOrtho2D(0, width, 0, height);

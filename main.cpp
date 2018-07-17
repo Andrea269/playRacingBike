@@ -104,7 +104,7 @@ void rendering(SDL_Window *window){
     // riempe tutto lo screen buffer di pixel color sfondo
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-    menu.DrawMenu(viewportW, viewportH);
+    menu.DrawMenu(viewportW, viewportH, point);
     glViewport(0, 0, viewportW * 4/5, viewportH);//setto la viewport della pista
 
     // settiamo la matrice di proiezione
@@ -132,10 +132,13 @@ void rendering(SDL_Window *window){
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 127);
 
 
+    //todo aggiungere faro moto con luce direzionale
     bike.Render();
     track.Render();
     coin.Render();
 
+    //todo disegnare sfondo pavimento oltre pista
+    //todo disegnare cielo
 
 
     glDisable(GL_DEPTH_TEST);
