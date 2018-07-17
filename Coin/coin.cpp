@@ -20,8 +20,7 @@
 #include "../Mesh/point3.h"
 #include "../Mesh/mesh.h"
 
-// todo creare monete nel file blender della pista in posti precisi
-const int MAX_COINS=10;//todo numero effettivo
+const int MAX_COINS=60;
 Mesh coin0((char *)"Coin/CoinMesh/coin0.obj");
 Mesh coin1((char *)"Coin/CoinMesh/coin1.obj");
 Mesh coin2((char *)"Coin/CoinMesh/coin2.obj");
@@ -32,7 +31,6 @@ Mesh coin6((char *)"Coin/CoinMesh/coin6.obj");
 Mesh coin7((char *)"Coin/CoinMesh/coin7.obj");
 Mesh coin8((char *)"Coin/CoinMesh/coin8.obj");
 Mesh coin9((char *)"Coin/CoinMesh/coin9.obj");
-/*
 Mesh coin10((char *)"Coin/CoinMesh/coin10.obj");
 Mesh coin11((char *)"Coin/CoinMesh/coin11.obj");
 Mesh coin12((char *)"Coin/CoinMesh/coin12.obj");
@@ -53,7 +51,39 @@ Mesh coin26((char *)"Coin/CoinMesh/coin26.obj");
 Mesh coin27((char *)"Coin/CoinMesh/coin27.obj");
 Mesh coin28((char *)"Coin/CoinMesh/coin28.obj");
 Mesh coin29((char *)"Coin/CoinMesh/coin29.obj");
-*/
+Mesh coin30((char *)"Coin/CoinMesh/coin30.obj");
+Mesh coin31((char *)"Coin/CoinMesh/coin31.obj");
+Mesh coin32((char *)"Coin/CoinMesh/coin32.obj");
+Mesh coin33((char *)"Coin/CoinMesh/coin33.obj");
+Mesh coin34((char *)"Coin/CoinMesh/coin34.obj");
+Mesh coin35((char *)"Coin/CoinMesh/coin35.obj");
+Mesh coin36((char *)"Coin/CoinMesh/coin36.obj");
+Mesh coin37((char *)"Coin/CoinMesh/coin37.obj");
+Mesh coin38((char *)"Coin/CoinMesh/coin38.obj");
+Mesh coin39((char *)"Coin/CoinMesh/coin39.obj");
+Mesh coin40((char *)"Coin/CoinMesh/coin40.obj");
+Mesh coin41((char *)"Coin/CoinMesh/coin41.obj");
+Mesh coin42((char *)"Coin/CoinMesh/coin42.obj");
+Mesh coin43((char *)"Coin/CoinMesh/coin43.obj");
+Mesh coin44((char *)"Coin/CoinMesh/coin44.obj");
+Mesh coin45((char *)"Coin/CoinMesh/coin45.obj");
+Mesh coin46((char *)"Coin/CoinMesh/coin46.obj");
+Mesh coin47((char *)"Coin/CoinMesh/coin47.obj");
+Mesh coin48((char *)"Coin/CoinMesh/coin48.obj");
+Mesh coin49((char *)"Coin/CoinMesh/coin49.obj");
+Mesh coin50((char *)"Coin/CoinMesh/coin50.obj");
+Mesh coin51((char *)"Coin/CoinMesh/coin51.obj");
+Mesh coin52((char *)"Coin/CoinMesh/coin52.obj");
+Mesh coin53((char *)"Coin/CoinMesh/coin53.obj");
+Mesh coin54((char *)"Coin/CoinMesh/coin54.obj");
+Mesh coin55((char *)"Coin/CoinMesh/coin55.obj");
+Mesh coin56((char *)"Coin/CoinMesh/coin56.obj");
+Mesh coin57((char *)"Coin/CoinMesh/coin57.obj");
+Mesh coin58((char *)"Coin/CoinMesh/coin58.obj");
+Mesh coin59((char *)"Coin/CoinMesh/coin59.obj");
+
+
+
 Mesh* coins[MAX_COINS];
 bool destroy[MAX_COINS];
 
@@ -68,7 +98,6 @@ void Coin::InitCoin() {
     coins[7]=&coin7;
     coins[8]=&coin8;
     coins[9]=&coin9;
-    /*
     coins[10]=&coin10;
     coins[11]=&coin11;
     coins[12]=&coin12;
@@ -89,7 +118,37 @@ void Coin::InitCoin() {
     coins[27]=&coin27;
     coins[28]=&coin28;
     coins[29]=&coin29;
-     */
+    coins[30]=&coin30;
+    coins[31]=&coin31;
+    coins[32]=&coin32;
+    coins[33]=&coin33;
+    coins[34]=&coin34;
+    coins[35]=&coin35;
+    coins[36]=&coin36;
+    coins[37]=&coin37;
+    coins[38]=&coin38;
+    coins[39]=&coin39;
+    coins[40]=&coin40;
+    coins[41]=&coin41;
+    coins[42]=&coin42;
+    coins[43]=&coin43;
+    coins[44]=&coin44;
+    coins[45]=&coin45;
+    coins[46]=&coin46;
+    coins[47]=&coin47;
+    coins[48]=&coin48;
+    coins[49]=&coin49;
+    coins[50]=&coin50;
+    coins[51]=&coin51;
+    coins[52]=&coin52;
+    coins[53]=&coin53;
+    coins[54]=&coin54;
+    coins[55]=&coin55;
+    coins[56]=&coin56;
+    coins[57]=&coin57;
+    coins[58]=&coin58;
+    coins[59]=&coin59;
+
     for (int i = 0; i < MAX_COINS; i++) {
         destroy[i]=false;
     }
