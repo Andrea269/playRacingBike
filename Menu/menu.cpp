@@ -18,7 +18,7 @@
 
 //inizializzo il menu
 void Menu::InitMenu(int width, int height){// todo impostare voci menu e elativa posizione
-    int startMenuW = (width*4/5) + indentMenu;
+    int startMenuW = (width*5/6) + indentMenu;
     heightMenu=height;
     itemsMenu[0].id = "Esci";
     itemsMenu[0].x = startMenuW;
@@ -153,10 +153,10 @@ void Menu::DrawMenu(int width, int height, int totalPoint){//todo gestire la vis
     //Background
     glColor3ub(200, 200, 200);
     glBegin(GL_QUADS);
-    glVertex2i(width * 4/5, 0);
+    glVertex2i(width * 5/6, 0);
     glVertex2i(width, 0);
     glVertex2i(width, height);
-    glVertex2i(width * 4/5, height);
+    glVertex2i(width * 5/6, height);
     glEnd();
 }
 

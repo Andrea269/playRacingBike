@@ -49,4 +49,7 @@ public:
     const float acceleration= 0.005;
     const float grip = 0.45;
     const float wheelSpoke = 0.8;
+private:
+    void RenderBike(bool isShadow) const;
+    void OnHeadlight(float x, float y, float z) const;
 };

@@ -37,6 +37,7 @@ int point=0;
 int viewportW=1000;
 int viewportH=1000;
 
+bool isOnHeadlight=false;
 bool showTrackMap=false;
 bool useWireframe=false;
 //float viewAlpha=20, viewBeta=40; // angoli che definiscono la vista
@@ -105,13 +106,13 @@ void rendering(SDL_Window *window){
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
     menu.DrawMenu(viewportW, viewportH, point);
-    glViewport(0, 0, viewportW * 4/5, viewportH);//setto la viewport della pista
+    glViewport(0, 0, viewportW *5/6, viewportH);//setto la viewport della pista
 
     // settiamo la matrice di proiezione
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
     gluPerspective( 80, //fovy,
-                    ((float)viewportW*4/5) / viewportH,//aspect Y/X,
+                    ((float)viewportW*5/6) / viewportH,//aspect Y/X,
                     0.25,//zNear,
                     100  //zFar
     );
@@ -132,7 +133,7 @@ void rendering(SDL_Window *window){
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 127);
 
 
-    //todo aggiungere faro moto con luce direzionale
+
     bike.Render();
     track.Render();
     coin.Render();
@@ -205,6 +206,9 @@ int main(int argc, char* argv[]){
                     switch (event.key.keysym.sym){
                         case SDLK_TAB://todo implementare funzione rendering mappa
                             showTrackMap=!showTrackMap;
+                            break;
+                        case SDLK_l:
+                            isOnHeadlight=!isOnHeadlight;
                             break;
                         case SDLK_F1:
                             camera.UpdateIndexCamera();

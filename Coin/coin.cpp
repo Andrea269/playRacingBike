@@ -154,7 +154,6 @@ void Coin::InitCoin() {
     }
 }
 
-//todo disegnare ombra coin
 void Coin::Render() {
     glPushMatrix();
     glTranslatef(positionOnX, positionOnY, positionOnZ);
@@ -165,6 +164,11 @@ void Coin::Render() {
     for (int i = 0; i < MAX_COINS; i++) {
         if(!destroy[i]){
             glPushMatrix();
+
+
+            //todo disegnare ombra coin
+
+
             SetupCoinTexture(coins[i]->bbmin.Z(), coins[i]->bbmax.Z(), coins[i]->bbmin.Y(), coins[i]->bbmax.Y());
             glTranslate(coins[i]->Center());
             glRotatef(coinRotation, 1, 1, 1);
