@@ -40,6 +40,7 @@ int viewportH=1000;
 bool isOnHeadlight=false;
 bool showTrackMap=false;
 bool useWireframe=false;
+bool isShadow=true;
 //float viewAlpha=20, viewBeta=40; // angoli che definiscono la vista
 
 void  SetCoordToPixel(){
@@ -133,6 +134,7 @@ void rendering(SDL_Window *window){
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 127);
 
 
+    glEnable(GL_LIGHTING);
 
     bike.Render();
     track.Render();
@@ -217,6 +219,7 @@ int main(int argc, char* argv[]){
                             useWireframe=!useWireframe;
                             break;
                         case SDLK_F3:
+                            isShadow=!isShadow;
                             break;
                         case SDLK_F4:
                             break;
@@ -291,6 +294,7 @@ int main(int argc, char* argv[]){
  * F1 --> Cambia telecamera; Esistono 5 telecamere diverse
  * SHIFT --> Camera retromarcia
  * F2 --> Cambia l'uso dei Wireframe
+ * F3 --> Scegli se visualizzare o meno l'ombra degli oggetti
  *
  *
  *

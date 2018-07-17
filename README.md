@@ -12,3 +12,4 @@ Game realization: playRacingBike.
 * F1 -> Change camera; There are 5 different cameras
 * SHIFT -> Reverse gear
 * F2 -> Change the use of Wireframe
+* F3 --> Scegli se visualizzare o meno l'ombra degli oggetti

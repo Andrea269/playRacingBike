@@ -33,6 +33,7 @@ Mesh knobs((char *)"Bike/BikeMesh/KnobsBike.obj");
 Mesh brakes((char *)"Bike/BikeMesh/BrakesBike.obj");
 
 extern bool isOnHeadlight;
+extern bool isShadow;
 
 void EventBike::EventButton(int button, bool isPressed, int* comands){
     for (int i=0; i<NBUTTON; i++){
@@ -53,14 +54,16 @@ void Bike::Render() const{//todo ruote oscillano SISTEMARE
     }
 
     RenderBike(false);
-
-    //RenderBike(true); todo
-
+    if(isShadow){
+        RenderBike(true);
+    }
 
     glPopMatrix();
 }
 
-void Bike::OnHeadlight(float x, float y, float z) const{//todo implementare faro moto con luce direzionale
+void Bike::OnHeadlight(float x, float y, float z) const{
+
+    //todo implementare faro moto con luce direzionale
 
 
 /*
@@ -96,8 +99,17 @@ void Bike::OnHeadlight(float x, float y, float z) const{//todo implementare faro
 */
 }
 
-void Bike::RenderBike(bool isShadow) const{//todo modificare per disegnare anche l'ombra della moto ciè senza colori e proiettata a terra
+void Bike::RenderBike(bool isShadow) const{
 
+    glPushMatrix();
+    if(isShadow){
+        glColor3f(0.4,0.4,0.4); // colore fisso
+        glTranslatef(0,0.06,0); // alzo l'ombra di un epsilon per evitare z-fighting con il pavimento
+        glScalef(1.01,0,1.01);  // appiattisco sulla Y, ingrandisco dell'1% sulla Z e sulla X
+        glDisable(GL_LIGHTING); // niente lighing per l'ombra
+    }else{
+        glEnable(GL_LIGHTING);
+    }
     glScalef(-0.03,0.03,-0.03);
     glTranslate(  bodyBike.Center() );
     glRotatef(steeringWheel, 0, 0, 1);//inclinazione moto per svolta destra o sinistra
@@ -106,18 +118,26 @@ void Bike::RenderBike(bool isShadow) const{//todo modificare per disegnare anche
 
     glTranslatef(0, -backWheel.bbmin.Y(), 0);
 
-    glColor3f(0, 0, 1);
+    if(!isShadow){
+        glColor3f(0, 0, 1);
+    }
     bodyBike.RenderNxV();
-    glColor3f(0, 0, 0);
+    if(!isShadow){
+        glColor3f(0, 0, 0);
+    }
     seat.RenderNxV();
 
     glPushMatrix();
     glTranslate(  backWheel.Center() );
     glRotatef(-wheelRotation, 1, 0, 0);
     glTranslate( -backWheel.Center() );
-    glColor3f(0.2, 0.2, 0.2);
+    if(!isShadow){
+        glColor3f(0.2, 0.2, 0.2);
+    }
     backWheel.RenderNxF();
-    glColor3f(0.9, 0.9, 0.9);
+    if(!isShadow){
+        glColor3f(0.9, 0.9, 0.9);
+    }
     backWheelRim.RenderNxV();
     glPopMatrix();
 
@@ -130,20 +150,33 @@ void Bike::RenderBike(bool isShadow) const{//todo modificare per disegnare anche
 
     cylinder.RenderNxV();
     brakes.RenderNxV();
-    glColor3f(0, 0, 0);
+    if(!isShadow){
+        glColor3f(0, 0, 0);
+    }
     knobs.RenderNxV();
-    glColor3f(1, 1, 1);
+    if(!isShadow){
+        glColor3f(1, 1, 1);
+    }
     glass.RenderNxV();
 
     glPushMatrix();
     glTranslate(  frontWheel.Center() );
     glRotatef(-wheelRotation, 1, 0, 0);
     glTranslate( -frontWheel.Center() );
-    glColor3f(0.2, 0.2, 0.2);
+    if(!isShadow){
+        glColor3f(0.2, 0.2, 0.2);
+    }
     frontWheel.RenderNxF();
-    glColor3f(0.9, 0.9, 0.9);
+    if(!isShadow){
+        glColor3f(0.9, 0.9, 0.9);
+    }
     frontWheelRim.RenderNxV();
     glPopMatrix();
+    glPopMatrix();
+    if(isShadow){
+        glEnable(GL_LIGHTING);
+        glColor3f(1,1,1); // colore fisso
+    }
     glPopMatrix();
 
 }
