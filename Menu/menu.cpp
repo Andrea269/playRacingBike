@@ -17,7 +17,7 @@
 #include "menu.h"
 
 //inizializzo il menu
-void Menu::InitMenu(int width, int height){// todo impostare voci menu e elativa posizione
+void Menu::InitMenu(int width, int height){// todo impostare voci menu e relativa posizione
     int startMenuW = (width*5/6) + indentMenu;
     heightMenu=height;
     itemsMenu[0].id = "Esci";

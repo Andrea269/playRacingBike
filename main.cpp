@@ -198,7 +198,7 @@ int main(int argc, char* argv[]){
     bool cond=true;
     while(cond){
         SDL_Event event;
-        if (SDL_PollEvent(&event)) {
+        if (SDL_PollEvent(&event)) {//todo joypad
             switch (event.type) {
                 case SDL_KEYDOWN:
                     bike.eventBike.EventButton(event.key.keysym.sym, true, comands);
@@ -289,10 +289,11 @@ int main(int argc, char* argv[]){
  * W --> Accellera
  * S --> Decellera sino a retromarcia
  * A --> Svolta a sinistra
- * D -->  Svolta a destra
+ * D --> Svolta a destra
  *
- * F1 --> Cambia telecamera; Esistono 5 telecamere diverse
+ * L --> Accende faro moto
  * SHIFT --> Camera retromarcia
+ * F1 --> Cambia telecamera; Esistono 5 telecamere diverse
  * F2 --> Cambia l'uso dei Wireframe
  * F3 --> Scegli se visualizzare o meno l'ombra degli oggetti
  *

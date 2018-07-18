@@ -20,9 +20,6 @@
 #include "../Mesh/point3.h"
 #include "../Mesh/mesh.h"
 
-extern bool isShadow;
-
-const int MAX_COINS=60;
 Mesh coin0((char *)"Coin/CoinMesh/coin0.obj");
 Mesh coin1((char *)"Coin/CoinMesh/coin1.obj");
 Mesh coin2((char *)"Coin/CoinMesh/coin2.obj");
@@ -84,10 +81,11 @@ Mesh coin57((char *)"Coin/CoinMesh/coin57.obj");
 Mesh coin58((char *)"Coin/CoinMesh/coin58.obj");
 Mesh coin59((char *)"Coin/CoinMesh/coin59.obj");
 
-
-
+const int MAX_COINS=60;
 Mesh* coins[MAX_COINS];
 bool destroy[MAX_COINS];
+
+extern bool isShadow;
 
 void Coin::InitCoin() {
     coins[0]=&coin0;
@@ -175,10 +173,10 @@ void Coin::Render() {
             coins[i]->RenderNxV();
             glPopMatrix();
 
-            if(isShadow){
+            if(isShadow){//todo l'ombra non segue l'oggetto
                 glPushMatrix();
                 glDisable(GL_TEXTURE_2D);
-                glColor3f(0.4,0.4,0.4); // colore fisso
+                glColor3f(0.4,0.4,0.4); // colore ombra
                 glScalef(1.01,0,1.01);  // appiattisco sulla Y, ingrandisco dell'1% sulla Z e sulla X
                 glDisable(GL_LIGHTING); // niente lighing per l'ombra
                 coins[i]->RenderNxV();

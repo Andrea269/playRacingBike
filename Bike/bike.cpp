@@ -18,8 +18,6 @@
 #include "../Mesh/point3.h"
 #include "../Mesh/mesh.h"
 
-//todo radrizzare da blander la moto e alzare ruota avanti
-
 Mesh bodyBike((char *)"Bike/BikeMesh/BodyBike.obj");
 Mesh seat((char *)"Bike/BikeMesh/SeatBike.obj");
 Mesh glass((char *)"Bike/BikeMesh/GlassBike.obj");
@@ -31,6 +29,7 @@ Mesh backWheelRim((char *)"Bike/BikeMesh/BackWheelRimBike.obj");
 Mesh cylinder((char *)"Bike/BikeMesh/CylinderBike.obj");
 Mesh knobs((char *)"Bike/BikeMesh/KnobsBike.obj");
 Mesh brakes((char *)"Bike/BikeMesh/BrakesBike.obj");
+Mesh inclinationReference((char *)"Bike/BikeMesh/InclinationReference.obj");
 
 extern bool isOnHeadlight;
 extern bool isShadow;
@@ -110,13 +109,14 @@ void Bike::RenderBike(bool isShadow) const{
     }else{
         glEnable(GL_LIGHTING);
     }
-    glScalef(-0.03,0.03,-0.03);
-    glTranslate(  bodyBike.Center() );
+    glScalef(-0.4,0.4,-0.4);
+//    float xxx=(backWheel.bbmax.Z()-backWheel.bbmin.Z())/2;
+    glTranslate(  inclinationReference.Center() );
     glRotatef(steeringWheel, 0, 0, 1);//inclinazione moto per svolta destra o sinistra
-    glTranslate(  -bodyBike.Center() );
+    glTranslate(  -inclinationReference.Center() );
 
 
-    glTranslatef(0, -backWheel.bbmin.Y(), 0);
+    //glTranslatef(0, -backWheel.bbmin.Y(), 0);
 
     if(!isShadow){
         glColor3f(0, 0, 1);
