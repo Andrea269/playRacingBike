@@ -20,13 +20,32 @@
 void Menu::InitMenu(int width, int height){// todo impostare voci menu e relativa posizione
     int startMenuW = (width*5/6) + indentMenu;
     heightMenu=height;
-    itemsMenu[0].id = "Esci";
+    itemsMenu[0].id = "Punteggio: ";
     itemsMenu[0].x = startMenuW;
-    itemsMenu[0].y = (height/7)-50;
-    itemsMenu[0].w = 50;
+    itemsMenu[0].y = height-50;
+    itemsMenu[0].w = 150;
     itemsMenu[0].h = 30;
 
+
+    itemsMenu[1].id = "Esci";
+    itemsMenu[1].x = startMenuW;
+    itemsMenu[1].y = (height/7)-50;
+    itemsMenu[1].w = 50;
+    itemsMenu[1].h = 30;
 /*
+
+ Punti raccolti
+
+ Attiva e disattiva faro
+ Attiva e disattiva ombre
+ Attiva e disattiva wireframe
+ cambia camera
+    + - distanza
+ visualizza mappa
+ esci
+
+
+
     menu[0].id = "Esci";
     menu[0].x = startMenuW;
     menu[0].y = 15;
@@ -65,11 +84,16 @@ void Menu::InitMenu(int width, int height){// todo impostare voci menu e relativ
 */
 }
 
-void Menu::DrowButton(){
+void Menu::DrowButton(int totalPoint){
     structMenu item;
     for (int i = 0; i < (sizeof(itemsMenu)/ sizeof(itemsMenu[0])); ++i) {
         item=itemsMenu[i];
-        char* id=(char *)(item.id).c_str();
+        char* id;
+        if(i==0){
+            id=(char *)(item.id+("33")).c_str();//todo punteggio
+        }else{
+            id=(char *)(item.id).c_str();
+        }
         int x=item.x;
         int y=item.y;
         int w=item.w;
@@ -148,7 +172,7 @@ void Menu::DrawMenu(int width, int height, int totalPoint){//todo gestire la vis
         exit (1);
     }
 
-    DrowButton();
+    DrowButton(totalPoint);
 
     //Background
     glColor3ub(200, 200, 200);

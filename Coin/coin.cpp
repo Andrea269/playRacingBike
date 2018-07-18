@@ -173,7 +173,7 @@ void Coin::Render() {
             coins[i]->RenderNxV();
             glPopMatrix();
 
-            if(isShadow){//todo l'ombra non segue l'oggetto
+            if(isShadow){
                 glPushMatrix();
                 glDisable(GL_TEXTURE_2D);
                 glColor3f(0.4,0.4,0.4); // colore ombra

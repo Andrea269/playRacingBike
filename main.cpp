@@ -37,7 +37,7 @@ int point=0;
 int viewportW=1000;
 int viewportH=1000;
 
-bool isOnHeadlight=true;
+bool isOnHeadlight=false;
 bool showTrackMap=false;
 bool useWireframe=false;
 bool isShadow=false;
@@ -94,13 +94,108 @@ bool LoadTexture(int textbind,char *filename){
     return true;
 }
 
+void drawSphere(double r, int lats, int longs) {
+    int i, j;
+    for(i = 0; i <= lats; i++) {
+        double lat0 = M_PI * (-0.5 + (double) (i - 1) / lats);
+        double z0  = sin(lat0);
+        double zr0 =  cos(lat0);
+
+        double lat1 = M_PI * (-0.5 + (double) i / lats);
+        double z1 = sin(lat1);
+        double zr1 = cos(lat1);
+
+        glBegin(GL_QUAD_STRIP);
+        for(j = 0; j <= longs; j++) {
+            double lng = 2 * M_PI * (double) (j - 1) / longs;
+            double x = cos(lng);
+            double y = sin(lng);
+
+//le normali servono per l'EnvMap
+            glNormal3f(x * zr0, y * zr0, z0);
+            glVertex3f(r * x * zr0, r * y * zr0, r * z0);
+            glNormal3f(x * zr1, y * zr1, z1);
+            glVertex3f(r * x * zr1, r * y * zr1, r * z1);
+        }
+        glEnd();
+    }
+}
+
+void drawSky(){
+    if (useWireframe) {
+        glDisable(GL_TEXTURE_2D);
+        glColor3f(0,0,0);
+        glDisable(GL_LIGHTING);
+        glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+        drawSphere(250.0, 20, 20);
+        glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+        glColor3f(1,1,1);
+        glEnable(GL_LIGHTING);
+    }
+    else
+    {
+        glBindTexture(GL_TEXTURE_2D,11);
+        glEnable(GL_TEXTURE_2D);
+        glEnable(GL_TEXTURE_GEN_S);
+        glEnable(GL_TEXTURE_GEN_T);
+        glTexGeni(GL_S, GL_TEXTURE_GEN_MODE , GL_SPHERE_MAP); // Env map
+        glTexGeni(GL_T, GL_TEXTURE_GEN_MODE , GL_SPHERE_MAP);
+        //glColor3f(1,1,1);
+        glDisable(GL_LIGHTING);
+
+        //   drawCubeFill();
+        drawSphere(250.0, 20, 20);
+
+        glDisable(GL_TEXTURE_GEN_S);
+        glDisable(GL_TEXTURE_GEN_T);
+        glDisable(GL_TEXTURE_2D);
+        glEnable(GL_LIGHTING);
+    }
+}
+
+void drawFloor(){
+    const float S=250; // size
+    const float H=-0.2;   // altezza
+    const int K=70; //disegna K x K quads
+
+    glBindTexture(GL_TEXTURE_2D, 12);
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_GEN_S);
+    glEnable(GL_TEXTURE_GEN_T);
+    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
+    glTexGeni(GL_T, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
+    float sz=1.0/( 2*S/K);
+    float sx=1/( 2*S/K);
+    float s[4]={sx, 0,0, 0};
+    float t[4]={0,0,sz, 0};
+    glTexGenfv(GL_S, GL_OBJECT_PLANE, t);
+    glTexGenfv(GL_T, GL_OBJECT_PLANE, s);
+
+    glBegin(GL_QUADS);
+    glNormal3f(0,1,0);// normale verticale uguale x tutti
+    for (int x=0; x<K; x++){
+        for (int z=0; z<K; z++) {
+            float x0=-S + 2*(x+0)*S/K;
+            float x1=-S + 2*(x+1)*S/K;
+            float z0=-S + 2*(z+0)*S/K;
+            float z1=-S + 2*(z+1)*S/K;
+            glVertex3d(x0, H, z0);
+            glVertex3d(x1, H, z0);
+            glVertex3d(x1, H, z1);
+            glVertex3d(x0, H, z1);
+        }
+    }
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
+}
+
 void rendering(SDL_Window *window){
 
 
     glViewport(0,0, viewportW, viewportH);
 
 
-    glClearColor(0,1,1,1);// colore sfondo
+    glClearColor(1,1,1,1);// colore sfondo
 
     // riempe tutto lo screen buffer di pixel color sfondo
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
@@ -111,10 +206,10 @@ void rendering(SDL_Window *window){
     // settiamo la matrice di proiezione
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
-    gluPerspective( 80, //fovy,
+    gluPerspective( 70, //fovy,
                     ((float)viewportW*5/6) / viewportH,//aspect Y/X,
                     0.25,//zNear,
-                    100  //zFar
+                    1000  //zFar
     );
 
     glMatrixMode( GL_MODELVIEW );
@@ -135,13 +230,12 @@ void rendering(SDL_Window *window){
 
     glEnable(GL_LIGHTING);
 
+    drawSky();
+    drawFloor();
+
     bike.Render();
     track.Render();
     coin.Render();
-
-    //todo disegnare sfondo pavimento oltre pista
-    //todo disegnare cielo
-
 
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_LIGHTING);
@@ -179,6 +273,15 @@ int main(int argc, char* argv[]){
     glEnable(GL_COLOR_MATERIAL);
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 
+
+
+    glEnable(GL_POLYGON_OFFSET_FILL); // caro openGL sposta i
+    // frammenti generati dalla
+    // rasterizzazione poligoni
+    glPolygonOffset(1,1);
+
+
+
     menu.InitMenu(viewportW, viewportH);
 
     track.InitTrack(bike.positionOnX, bike.positionOnZ);
@@ -193,6 +296,8 @@ int main(int argc, char* argv[]){
     if (!LoadTexture(7,(char *)"Texture/Cross4road.png")) return 0;
     if (!LoadTexture(8,(char *)"Texture/Cross3road1.png")) return 0;
     if (!LoadTexture(9,(char *)"Texture/Cross3road2.png")) return 0;
+    if (!LoadTexture(11,(char *)"Texture/sky.jpg")) return 0;
+    if (!LoadTexture(12,(char *)"Texture/greenLawn.jpg")) return 0;
 
     bool cond=true;
     while(cond){

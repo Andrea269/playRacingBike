@@ -23,7 +23,7 @@ public:
     };
     int indentMenu;
     int heightMenu;
-    structMenu itemsMenu[1];//todo inserire numero voci menu
+    structMenu itemsMenu[2];//todo inserire numero voci menu
 private:
-    void DrowButton();
+    void DrowButton(int totalPoint);
 };
