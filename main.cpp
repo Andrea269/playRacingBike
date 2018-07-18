@@ -41,7 +41,6 @@ bool isOnHeadlight=true;
 bool showTrackMap=false;
 bool useWireframe=false;
 bool isShadow=false;
-//float viewAlpha=20, viewBeta=40; // angoli che definiscono la vista
 
 void  SetCoordToPixel(){
     glMatrixMode(GL_PROJECTION);

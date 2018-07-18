@@ -14,7 +14,7 @@ public:
     void UpdateEyeDistance(bool greater0, bool lower0);
     void UpdateView(float x, float y);
     Camera(){
-        indexCamera=4;//todo 0
+        indexCamera=0;
         oppositeView=false;
         eyeDistance=5;
         viewAlpha=20, viewBeta=40;

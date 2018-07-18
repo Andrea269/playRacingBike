@@ -60,8 +60,6 @@ void Bike::Render() const{//todo ruote oscillano SISTEMARE
 
 void Bike::OnHeadlight(float x, float y, float z, int intensityLight) const{
 
-    //todo implementare faro moto con luce direzionale
-
     glEnable(intensityLight);
 
     float col0[4]= {0.8,0.8,0.0,  1};
