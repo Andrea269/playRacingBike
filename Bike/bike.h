@@ -51,5 +51,5 @@ public:
     const float wheelSpoke = 0.8;
 private:
     void RenderBike(bool isShadow) const;
-    void OnHeadlight(float x, float y, float z) const;
+    void OnHeadlight(float x, float y, float z, int intensityLight) const;
 };

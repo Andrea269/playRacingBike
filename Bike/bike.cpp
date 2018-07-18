@@ -48,9 +48,7 @@ void Bike::Render() const{//todo ruote oscillano SISTEMARE
     glTranslatef(positionOnX, positionOnY, positionOnZ);
     glRotatef(orientation, 0, 1, 0);
 
-    if(isOnHeadlight){
-        OnHeadlight(0, 0, 0);
-    }
+
 
     RenderBike(false);
     if(isShadow){
@@ -60,42 +58,30 @@ void Bike::Render() const{//todo ruote oscillano SISTEMARE
     glPopMatrix();
 }
 
-void Bike::OnHeadlight(float x, float y, float z) const{
+void Bike::OnHeadlight(float x, float y, float z, int intensityLight) const{
 
     //todo implementare faro moto con luce direzionale
 
+    glEnable(intensityLight);
 
-/*
+    float col0[4]= {0.8,0.8,0.0,  1};
+    glLightfv(intensityLight, GL_DIFFUSE, col0);
 
+    float col1[4]= {0.5,0.5,0.0,  1};
+    glLightfv(intensityLight, GL_AMBIENT, col1);
 
-//(float x, float y, float z, int lightN, bool useHeadlight)
-        int usedLight=GL_LIGHT1 + lightN;
+    float tmpPos[4] = {x,y,z,  1}; // ultima comp=1 => luce posizionale
+    glLightfv(intensityLight, GL_POSITION, tmpPos );
 
-        if(useHeadlight)
-        {
-            glEnable(usedLight);
+    float tmpDir[4] = {0,0,1,  0}; // ultima comp=1 => luce posizionale
+    glLightfv(intensityLight, GL_SPOT_DIRECTION, tmpDir );
 
-            float col0[4]= {0.8,0.8,0.0,  1};
-            glLightfv(usedLight, GL_DIFFUSE, col0);
+    glLightf (intensityLight, GL_SPOT_CUTOFF, 30);
+    glLightf (intensityLight, GL_SPOT_EXPONENT,5);
 
-            float col1[4]= {0.5,0.5,0.0,  1};
-            glLightfv(usedLight, GL_AMBIENT, col1);
+    glLightf(intensityLight,GL_CONSTANT_ATTENUATION,0);
+    glLightf(intensityLight,GL_LINEAR_ATTENUATION,1);
 
-            float tmpPos[4] = {x,y,z,  1}; // ultima comp=1 => luce posizionale
-            glLightfv(usedLight, GL_POSITION, tmpPos );
-
-            float tmpDir[4] = {0,0,-1,  0}; // ultima comp=1 => luce posizionale
-            glLightfv(usedLight, GL_SPOT_DIRECTION, tmpDir );
-
-            glLightf (usedLight, GL_SPOT_CUTOFF, 30);
-            glLightf (usedLight, GL_SPOT_EXPONENT,5);
-
-            glLightf(usedLight,GL_CONSTANT_ATTENUATION,0);
-            glLightf(usedLight,GL_LINEAR_ATTENUATION,1);
-        }
-        else
-            glDisable(usedLight);
-*/
 }
 
 void Bike::RenderBike(bool isShadow) const{
@@ -114,8 +100,14 @@ void Bike::RenderBike(bool isShadow) const{
     glTranslate(  inclinationReference.Center() );
     glRotatef(steeringWheel, 0, 0, 1);//inclinazione moto per svolta destra o sinistra
     glTranslate(  -inclinationReference.Center() );
+    if(!isShadow){
 
-
+        if(isOnHeadlight){
+            OnHeadlight(0, 2.5, 1.3, GL_LIGHT1 + 1);
+        }else {
+            glDisable(GL_LIGHT1 + 1);
+        }
+    }
     //glTranslatef(0, -backWheel.bbmin.Y(), 0);
 
     if(!isShadow){

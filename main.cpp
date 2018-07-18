@@ -37,10 +37,10 @@ int point=0;
 int viewportW=1000;
 int viewportH=1000;
 
-bool isOnHeadlight=false;
+bool isOnHeadlight=true;
 bool showTrackMap=false;
 bool useWireframe=false;
-bool isShadow=true;
+bool isShadow=false;
 //float viewAlpha=20, viewBeta=40; // angoli che definiscono la vista
 
 void  SetCoordToPixel(){
