@@ -18,12 +18,12 @@
 //inizializzo i dati delle camere
 void Camera::InitCamera(){
     //camera posizionata dietro la moto
-    cameras[0].distance= 2.7;
+    cameras[0].distance= 3.1;
     cameras[0].height= 1;
     cameras[0].plusAngle= 1;
     cameras[0].plusEY= 1;
     //camera posizionata d'avanti alla moto
-    cameras[1].distance= -3;
+    cameras[1].distance= -3.1;
     cameras[1].height= 1;
     cameras[1].plusAngle= -1;
     cameras[1].plusEY= 1;
