@@ -209,7 +209,7 @@ void rendering(SDL_Window *window){
     gluPerspective( 70, //fovy,
                     ((float)viewportW*5/6) / viewportH,//aspect Y/X,
                     0.25,//zNear,
-                    1000  //zFar
+                    500  //zFar
     );
 
     glMatrixMode( GL_MODELVIEW );
@@ -252,7 +252,40 @@ void rendering(SDL_Window *window){
     SDL_GL_SwapWindow(window);
 }
 
+void initObj(){
+    menu.InitMenu(viewportW, viewportH);
+
+    track.InitTrack(bike.positionOnX, bike.positionOnZ);
+
+    if (!LoadTexture(0,(char *)"Texture/myImage.jpg")){SDL_Quit();}
+    if (!LoadTexture(1,(char *)"Texture/Line-V.png")){SDL_Quit();}
+    if (!LoadTexture(2,(char *)"Texture/Line-O.png")){SDL_Quit();}
+    if (!LoadTexture(3,(char *)"Texture/Curve1.png")){SDL_Quit();}
+    if (!LoadTexture(4,(char *)"Texture/Curve2.png")){SDL_Quit();}
+    if (!LoadTexture(5,(char *)"Texture/Curve3.png")){SDL_Quit();}
+    if (!LoadTexture(6,(char *)"Texture/Curve4.png")){SDL_Quit();}
+    if (!LoadTexture(7,(char *)"Texture/Cross4road.png")){SDL_Quit();}
+    if (!LoadTexture(8,(char *)"Texture/Cross3road1.png")){SDL_Quit();}
+    if (!LoadTexture(9,(char *)"Texture/Cross3road2.png")){SDL_Quit();}
+    if (!LoadTexture(11,(char *)"Texture/sky.jpg")){SDL_Quit();}
+    if (!LoadTexture(12,(char *)"Texture/greenLawn.jpg")){SDL_Quit();}
+}
+
 int main(int argc, char* argv[]){
+
+    /*
+    todo dopo un pò esce segmentation fault (core dumped) anche da fermi-->dopo i 40s dall'avvio
+
+    Commentando le seguenti funzioni non cambia il risultato
+    drawSky();
+    drawFloor();
+
+    bike.Render();
+    track.Render();
+    coin.Render();
+
+
+    */
     static int comands[NBUTTON] = {SDLK_w, SDLK_s, SDLK_a, SDLK_d};
 
     SDL_Init( SDL_INIT_VIDEO );
@@ -280,24 +313,7 @@ int main(int argc, char* argv[]){
     // rasterizzazione poligoni
     glPolygonOffset(1,1);
 
-
-
-    menu.InitMenu(viewportW, viewportH);
-
-    track.InitTrack(bike.positionOnX, bike.positionOnZ);
-
-    if (!LoadTexture(0,(char *)"Texture/myImage.jpg")) return 0;
-    if (!LoadTexture(1,(char *)"Texture/Line-V.png")) return 0;
-    if (!LoadTexture(2,(char *)"Texture/Line-O.png")) return 0;
-    if (!LoadTexture(3,(char *)"Texture/Curve1.png")) return 0;
-    if (!LoadTexture(4,(char *)"Texture/Curve2.png")) return 0;
-    if (!LoadTexture(5,(char *)"Texture/Curve3.png")) return 0;
-    if (!LoadTexture(6,(char *)"Texture/Curve4.png")) return 0;
-    if (!LoadTexture(7,(char *)"Texture/Cross4road.png")) return 0;
-    if (!LoadTexture(8,(char *)"Texture/Cross3road1.png")) return 0;
-    if (!LoadTexture(9,(char *)"Texture/Cross3road2.png")) return 0;
-    if (!LoadTexture(11,(char *)"Texture/sky.jpg")) return 0;
-    if (!LoadTexture(12,(char *)"Texture/greenLawn.jpg")) return 0;
+    initObj();
 
     bool cond=true;
     while(cond){
