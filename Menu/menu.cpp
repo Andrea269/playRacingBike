@@ -17,7 +17,7 @@
 #include "menu.h"
 
 //inizializzo il menu
-void Menu::InitMenu(int width, int height){// todo impostare voci menu e relativa posizione
+void Menu::InitMenu(int width, int height){
     int startMenuW = (width*5/6) + indentMenu;
     heightMenu=height;
     itemsMenu[0].id = "Punteggio: ";
@@ -26,71 +26,51 @@ void Menu::InitMenu(int width, int height){// todo impostare voci menu e relativ
     itemsMenu[0].w = 150;
     itemsMenu[0].h = 30;
 
-
-    itemsMenu[1].id = "Esci";
+    itemsMenu[1].id = "On/Off Faro moto";
     itemsMenu[1].x = startMenuW;
-    itemsMenu[1].y = (height/7)-50;
-    itemsMenu[1].w = 50;
+    itemsMenu[1].y = ((height/7)*6)-50;
+    itemsMenu[1].w = 150;
     itemsMenu[1].h = 30;
-/*
 
- Punti raccolti
+    itemsMenu[2].id = "On/Off Ombra";
+    itemsMenu[2].x = startMenuW;
+    itemsMenu[2].y = ((height/7)*5)-50;
+    itemsMenu[2].w = 150;
+    itemsMenu[2].h = 30;
 
- Attiva e disattiva faro
- Attiva e disattiva ombre
- Attiva e disattiva wireframe
- cambia camera
-    + - distanza
- visualizza mappa
- esci
+    itemsMenu[3].id = "On/Off Wireframe";
+    itemsMenu[3].x = startMenuW;
+    itemsMenu[3].y = ((height/7)*4)-50;
+    itemsMenu[3].w = 150;
+    itemsMenu[3].h = 30;
 
+    itemsMenu[4].id = "Cambia camera";
+    itemsMenu[4].x = startMenuW;
+    itemsMenu[4].y = ((height/7)*3)-50;
+    itemsMenu[4].w = 150;
+    itemsMenu[4].h = 30;
 
+    itemsMenu[5].id = "Mappa";
+    itemsMenu[5].x = startMenuW;
+    itemsMenu[5].y = ((height/7)*2)-50;
+    itemsMenu[5].w = 70;
+    itemsMenu[5].h = 30;
 
-    menu[0].id = "Esci";
-    menu[0].x = startMenuW;
-    menu[0].y = 15;
-    menu[0].w = 34;
-    menu[0].h = 30;
-
-    menu[1].id = "TEXTURE";
-    menu[1].x = startMenuW;
-    menu[1].y = height - 200;
-    menu[1].w = 84;
-    menu[1].h = 24;
-
-    menu[2].id = "WIREFRAME";
-    menu[2].x = startMenuW;
-    menu[2].y = height - 250;
-    menu[2].w = 110;
-    menu[2].h = 24;
-
-    menu[3].id = "Zoom [ + ]";
-    menu[3].x = startMenuW;
-    menu[3].y = height - 300;
-    menu[3].w = 110;
-    menu[3].h = 24;
-
-    menu[4].id = "Zoom [ - ]";
-    menu[4].x = startMenuW;
-    menu[4].y = height - 330;
-    menu[4].w = 110;
-    menu[4].h = 24;
-
-    menu[5].id = "LIGHT(Plane)";
-    menu[5].x = startMenuW;
-    menu[5].y = height - 150;
-    menu[5].w = 110;
-    menu[5].h = 24;
-*/
+    itemsMenu[6].id = "Esci";
+    itemsMenu[6].x = startMenuW;
+    itemsMenu[6].y = (height/7)-50;
+    itemsMenu[6].w = 50;
+    itemsMenu[6].h = 30;
 }
 
-void Menu::DrowButton(int totalPoint){
+
+void Menu::DrowButton(string totalPoint){
     structMenu item;
     for (int i = 0; i < (sizeof(itemsMenu)/ sizeof(itemsMenu[0])); ++i) {
         item=itemsMenu[i];
         char* id;
         if(i==0){
-            id=(char *)(item.id+("33")).c_str();//todo punteggio
+            id=(char *)(item.id+totalPoint).c_str();
         }else{
             id=(char *)(item.id).c_str();
         }
@@ -159,8 +139,7 @@ void Menu::DrowButton(int totalPoint){
 
 }
 
-//todo capire perchè il menù viene renderizzato male
-void Menu::DrawMenu(int width, int height, int totalPoint){//todo gestire la visualizzazione dei coin raccolti
+void Menu::DrawMenu(int width, int height, int totalPoint){
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluOrtho2D(0, width, 0, height);
@@ -172,7 +151,8 @@ void Menu::DrawMenu(int width, int height, int totalPoint){//todo gestire la vis
         exit (1);
     }
 
-    DrowButton(totalPoint);
+    string pointString = to_string(totalPoint);
+    DrowButton(pointString);
 
     //Background
     glColor3ub(200, 200, 200);

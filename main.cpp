@@ -272,20 +272,6 @@ void initObj(){
 }
 
 int main(int argc, char* argv[]){
-
-    /*
-    todo dopo un pò esce segmentation fault (core dumped) anche da fermi-->dopo i 40s dall'avvio
-
-    Commentando le seguenti funzioni non cambia il risultato
-    drawSky();
-    drawFloor();
-
-    bike.Render();
-    track.Render();
-    coin.Render();
-
-
-    */
     static int comands[NBUTTON] = {SDLK_w, SDLK_s, SDLK_a, SDLK_d};
 
     SDL_Init( SDL_INIT_VIDEO );
@@ -373,8 +359,23 @@ int main(int argc, char* argv[]){
                     }
                     break;
                 case SDL_MOUSEBUTTONDOWN:
-                    switch (menu.ButtonPress(event.button.x, event.button.y)){//todo altre voci menu
-                        case 0://esci
+                    switch (menu.ButtonPress(event.button.x, event.button.y)){
+                        case 1:
+                            isOnHeadlight=!isOnHeadlight;
+                            break;
+                        case 2:
+                            isShadow=!isShadow;
+                            break;
+                        case 3:
+                            useWireframe=!useWireframe;
+                            break;
+                        case 4:
+                            camera.UpdateIndexCamera();
+                            break;
+                        case 5:
+                            showTrackMap=!showTrackMap;
+                            break;
+                        case 6://esci
                             cond= false;
                             break;
                     }

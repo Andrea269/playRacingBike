@@ -296,6 +296,10 @@ void Track::Render() {
     SetupRoadTexture(cross3road4t2.bbmin.X(), cross3road4t2.bbmax.X(), cross3road4t2.bbmin.Z(), cross3road4t2.bbmax.Z(), 9);
     cross3road4t2.RenderNxV();
     glPopMatrix();
+    glDisable(GL_TEXTURE_GEN_S);
+    glDisable(GL_TEXTURE_GEN_T);
+    glDisable(GL_TEXTURE_2D);
+    glEnable(GL_LIGHTING);
 }
 
 void Track::SetupRoadTexture(float minX, float maxX, float minZ, float maxZ, int numbertexture){

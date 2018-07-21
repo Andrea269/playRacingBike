@@ -184,7 +184,9 @@ void Coin::Render() {
                 glColor3f(1,1,1); // colore fisso
                 glPopMatrix();
             }
-
+            glDisable(GL_TEXTURE_GEN_S);
+            glDisable(GL_TEXTURE_GEN_T);
+            glDisable(GL_TEXTURE_2D);
             glPopMatrix();
         }
     }

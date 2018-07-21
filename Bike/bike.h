@@ -46,7 +46,7 @@ public:
     const float frictionOnX= 0.8;
     const float frictionOnY= 1.0;
     const float frictionOnZ= 0.999;
-    const float acceleration= 0.005;
+    const float acceleration= 0.002;
     const float grip = 0.45;
     const float wheelSpoke = 0.8;
 private:
