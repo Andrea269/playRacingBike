@@ -9,12 +9,14 @@
 using namespace std;
 class Menu{
 public:
+    void Init();
     void InitMenu(int width, int height);
     void DrawMenu(int width, int height, int totalPoint);
     int ButtonPress(int cordX, int cordY);
 
     Menu(){
         indentMenu=10;
+        Init();
     }
 
     struct structMenu{

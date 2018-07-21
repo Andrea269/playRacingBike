@@ -15,6 +15,17 @@
 #endif
 
 #include "menu.h"
+TTF_Font *fontText;
+SDL_Color colorTemp;
+
+void Menu::Init(){
+    if (! TTF_WasInit () && TTF_Init () == - 1) {
+        printf ("TTF_Init:% s \n", TTF_GetError ());
+        exit (1);
+    }
+    fontText=TTF_OpenFont("Roboto-Light.ttf", 20);
+    colorTemp = {0,0,0,0};
+}
 
 //inizializzo il menu
 void Menu::InitMenu(int width, int height){
@@ -63,32 +74,36 @@ void Menu::InitMenu(int width, int height){
     itemsMenu[6].h = 30;
 }
 
-
 void Menu::DrowButton(string totalPoint){
     structMenu item;
+    char* id;
+    int x,y,w,h;
+    int *wx;
+    int *hx;
+
+    SDL_Surface *renderText;
+    SDL_Surface *intermediary;
+    //setto il font del testo
+
     for (int i = 0; i < (sizeof(itemsMenu)/ sizeof(itemsMenu[0])); ++i) {
         item=itemsMenu[i];
-        char* id;
         if(i==0){
             id=(char *)(item.id+totalPoint).c_str();
         }else{
             id=(char *)(item.id).c_str();
         }
-        int x=item.x;
-        int y=item.y;
-        int w=item.w;
-        int h=item.h;
+        x=item.x;
+        y=item.y;
+        w=item.w;
+        h=item.h;
 
-        //setto il font del testo
-        TTF_Font *fontText=TTF_OpenFont("Roboto-Light.ttf", 20);
-        SDL_Color colorTemp = {0,0,0,0};
         //Viene utilizzato SDL_TTF per il render del testo del bottone codificandolo secondo il font scelto
-        SDL_Surface *renderText=TTF_RenderText_Blended(fontText, id, colorTemp);
-        int *wx = &renderText->w;
-        int *hx = &renderText->h;
+        renderText=TTF_RenderText_Blended(fontText, id, colorTemp);
+        wx = &renderText->w;
+        hx = &renderText->h;
 
         //Creo una maschewra RGB per il testo
-        SDL_Surface *intermediary = SDL_CreateRGBSurface(3, *wx, *hx, 32, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
+        intermediary = SDL_CreateRGBSurface(3, *wx, *hx, 32, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
         SDL_BlitSurface(renderText, 0, intermediary, 0);
 
         // Tell GL about our new texture
@@ -125,7 +140,6 @@ void Menu::DrowButton(string totalPoint){
         glDisable(GL_TEXTURE_2D);
         glDisable(GL_BLEND);
 
-
         //bordo bottone
         glColor3ub(0,0,0);
         glBegin(GL_QUADS);
@@ -135,8 +149,6 @@ void Menu::DrowButton(string totalPoint){
         glVertex2i(x-1,y+h+1);
         glEnd();
     }
-
-
 }
 
 void Menu::DrawMenu(int width, int height, int totalPoint){
@@ -146,10 +158,6 @@ void Menu::DrawMenu(int width, int height, int totalPoint){
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    if (! TTF_WasInit () && TTF_Init () == - 1) {
-        printf ("TTF_Init:% s \n", TTF_GetError ());
-        exit (1);
-    }
 
     string pointString = to_string(totalPoint);
     DrowButton(pointString);

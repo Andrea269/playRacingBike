@@ -33,6 +33,7 @@ Menu menu;
 Coin coin;
 Track track;
 int point=0;
+//todo aggiungere scelta di tempo massimo raccolta coin o girare liberamente
 
 int viewportW=1000;
 int viewportH=1000;
@@ -41,6 +42,7 @@ bool isOnHeadlight=false;
 bool showTrackMap=false;
 bool useWireframe=false;
 bool isShadow=false;
+bool isPause=false;
 
 void  SetCoordToPixel(){
     glMatrixMode(GL_PROJECTION);
@@ -317,6 +319,9 @@ int main(int argc, char* argv[]){
                             break;
                         case SDLK_l:
                             isOnHeadlight=!isOnHeadlight;
+                            break;
+                        case SDLK_p://todo PAUSA
+                            isPause=!isPause;
                             break;
                         case SDLK_F1:
                             camera.UpdateIndexCamera();
