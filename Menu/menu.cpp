@@ -72,9 +72,15 @@ void Menu::InitMenu(int width, int height){
     itemsMenu[6].y = (height/7)-50;
     itemsMenu[6].w = 50;
     itemsMenu[6].h = 30;
+
+    itemsMenu[7].id = "PAUSA";
+    itemsMenu[7].x = startMenuW/2;
+    itemsMenu[7].y = height*3/5;
+    itemsMenu[7].w = 100;
+    itemsMenu[7].h = 70;
 }
 
-void Menu::DrowButton(string totalPoint){
+void Menu::DrowButton(int totalPoint){
     structMenu item;
     char* id;
     int x,y,w,h;
@@ -84,11 +90,17 @@ void Menu::DrowButton(string totalPoint){
     SDL_Surface *renderText;
     SDL_Surface *intermediary;
     //setto il font del testo
+    int initI=0;
+    int limitElement=-1;
+    if(totalPoint==-1){
+        initI=(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-1;
+        limitElement=0;
+    }
 
-    for (int i = 0; i < (sizeof(itemsMenu)/ sizeof(itemsMenu[0])); ++i) {
+    for (int i = initI; i < (sizeof(itemsMenu)/ sizeof(itemsMenu[0]))+limitElement; ++i) {
         item=itemsMenu[i];
         if(i==0){
-            id=(char *)(item.id+totalPoint).c_str();
+            id=(char *)(item.id+to_string(totalPoint)).c_str();
         }else{
             id=(char *)(item.id).c_str();
         }
@@ -141,13 +153,15 @@ void Menu::DrowButton(string totalPoint){
         glDisable(GL_BLEND);
 
         //bordo bottone
-        glColor3ub(0,0,0);
-        glBegin(GL_QUADS);
-        glVertex2i(x-1,y-1);
-        glVertex2i(x+w+1, y-1);
-        glVertex2i(x+w+1, y+h+1);
-        glVertex2i(x-1,y+h+1);
-        glEnd();
+        if(!i==(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-1){
+            glColor3ub(0,0,0);
+            glBegin(GL_QUADS);
+            glVertex2i(x-1,y-1);
+            glVertex2i(x+w+1, y-1);
+            glVertex2i(x+w+1, y+h+1);
+            glVertex2i(x-1,y+h+1);
+            glEnd();
+        }
     }
 }
 
@@ -159,8 +173,7 @@ void Menu::DrawMenu(int width, int height, int totalPoint){
     glLoadIdentity();
 
 
-    string pointString = to_string(totalPoint);
-    DrowButton(pointString);
+    DrowButton(totalPoint);
 
     //Background
     glColor3ub(200, 200, 200);
@@ -173,7 +186,7 @@ void Menu::DrawMenu(int width, int height, int totalPoint){
 }
 
 int Menu::ButtonPress(int cordX, int cordY){
-    int ret= sizeof(itemsMenu)/ sizeof(itemsMenu[0]);
+    int ret= sizeof(itemsMenu)/ sizeof(itemsMenu[0])-1;
     int i = 0;
     structMenu item;
     while(i < ret){
@@ -184,4 +197,14 @@ int Menu::ButtonPress(int cordX, int cordY){
         i++;
     }
     return ret;
+}
+
+void Menu::DrawPause(int width, int height){
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(0, width, 0, height);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    DrowButton(-1);
 }

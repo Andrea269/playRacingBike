@@ -164,26 +164,26 @@ void Coin::Render() {
     for (int i = 0; i < MAX_COINS; i++) {
         if(!destroy[i]){
             glPushMatrix();
+
+            glPushMatrix();
             glTranslate(coins[i]->Center());
             glRotatef(coinRotation, 0, 1, 0);
             glTranslate(-coins[i]->Center());
-
-            glPushMatrix();
             SetupCoinTexture(coins[i]->bbmin.Z(), coins[i]->bbmax.Z(), coins[i]->bbmin.Y(), coins[i]->bbmax.Y());
             coins[i]->RenderNxV();
             glPopMatrix();
 
-            if(isShadow){
-                glPushMatrix();
-                glDisable(GL_TEXTURE_2D);
-                glColor3f(0.4,0.4,0.4); // colore ombra
-                glScalef(1.01,0,1.01);  // appiattisco sulla Y, ingrandisco dell'1% sulla Z e sulla X
-                glDisable(GL_LIGHTING); // niente lighing per l'ombra
-                coins[i]->RenderNxV();
-                glEnable(GL_LIGHTING);
-                glColor3f(1,1,1); // colore fisso
-                glPopMatrix();
-            }
+//            if(isShadow){//todo l'ombra non va bene
+//                glPushMatrix();
+//                glDisable(GL_TEXTURE_2D);
+//                glColor3f(0.4,0.4,0.4); // colore ombra
+//                glScalef(1.01,0,1.01);  // appiattisco sulla Y, ingrandisco dell'1% sulla Z e sulla X
+//                glDisable(GL_LIGHTING); // niente lighing per l'ombra
+//                coins[i]->RenderNxV();
+//                glEnable(GL_LIGHTING);
+//                glColor3f(1,1,1); // colore fisso
+//                glPopMatrix();
+//            }
             glDisable(GL_TEXTURE_GEN_S);
             glDisable(GL_TEXTURE_GEN_T);
             glDisable(GL_TEXTURE_2D);

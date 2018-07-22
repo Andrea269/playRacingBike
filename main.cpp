@@ -39,10 +39,11 @@ int viewportW=1000;
 int viewportH=1000;
 
 bool isOnHeadlight=false;
-bool showTrackMap=false;
+bool showTrackMap=true;//todo false
 bool useWireframe=false;
 bool isShadow=false;
 bool isPause=false;
+float worldLimit=250;
 
 void  SetCoordToPixel(){
     glMatrixMode(GL_PROJECTION);
@@ -129,7 +130,7 @@ void drawSky(){
         glColor3f(0,0,0);
         glDisable(GL_LIGHTING);
         glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-        drawSphere(250.0, 20, 20);
+        drawSphere(worldLimit, 20, 20);
         glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
         glColor3f(1,1,1);
         glEnable(GL_LIGHTING);
@@ -146,7 +147,7 @@ void drawSky(){
         glDisable(GL_LIGHTING);
 
         //   drawCubeFill();
-        drawSphere(250.0, 20, 20);
+        drawSphere(worldLimit, 20, 20);
 
         glDisable(GL_TEXTURE_GEN_S);
         glDisable(GL_TEXTURE_GEN_T);
@@ -156,7 +157,7 @@ void drawSky(){
 }
 
 void drawFloor(){
-    const float S=250; // size
+    const float S=worldLimit; // size
     const float H=-0.2;   // altezza
     const int K=70; //disegna K x K quads
 
@@ -191,19 +192,79 @@ void drawFloor(){
     glDisable(GL_TEXTURE_2D);
 }
 
+void drawMap(){//todo implementare texture strada e relativa posizione moto
+    int originX=0;
+    int originY=viewportH;
+    int maxX=viewportW*2/7;
+    int maxY=viewportH*5/7;
+
+//    int pointX=maxX-10;
+//    int pointY=maxY+10;
+    int pointX=(maxX/2)+(bike.positionOnX*viewportW/2000);
+    int pointY=(maxY+((originY-maxY)/2))+(bike.positionOnZ*viewportH/2000);
+
+
+
+    glColor3f(1, 0, 0);
+    glPointSize(7);
+    glBegin(GL_POINTS);
+    glVertex2d(pointX, pointY);
+    glEnd();
+//    glBegin(GL_QUADS);
+//    glVertex2d(pointX-10, pointY+10);
+//    glVertex2d(pointX+10, pointY+10);
+//    glVertex2d(pointX+10, pointY-10);
+//    glVertex2d(pointX-10, pointY-10);
+//    glEnd();
+
+//    glBindTexture(GL_TEXTURE_2D, 13);
+//    glEnable(GL_TEXTURE_2D);
+
+
+//    glEnable(GL_TEXTURE_GEN_S);
+//    glEnable(GL_TEXTURE_GEN_T);
+//    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
+//    glTexGeni(GL_T, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
+//    float sx=1.0/( 2*maxX);
+//    float sy=1/(2*(originY- maxY));
+//    float s[3]={sx, 0, 0};
+//    float t[3]={0,sy, 0};
+//    glTexGenfv(GL_S, GL_OBJECT_PLANE, t);
+//    glTexGenfv(GL_T, GL_OBJECT_PLANE, s);
+
+
+//    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+//    glTexImage2D(GL_TEXTURE_2D, 0, 3, 4, 4, 0,
+//                 GL_RGB, GL_UNSIGNED_BYTE, texture);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+//    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+
+    glColor3f(0.6, 0.6, 0.6);
+    glBegin(GL_QUADS);
+    glVertex2d(originX, originY);
+    glVertex2d(maxX, originY);
+    glVertex2d(maxX, maxY);
+    glVertex2d(originX, maxY);
+    glEnd();
+//    glDisable(GL_TEXTURE_2D);
+}
+
 void rendering(SDL_Window *window){
-
-
     glViewport(0,0, viewportW, viewportH);
-
-
-    glClearColor(1,1,1,1);// colore sfondo
+    glClearColor(1,1,1,1);// colore sfondo bianco
 
     // riempe tutto lo screen buffer di pixel color sfondo
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
     menu.DrawMenu(viewportW, viewportH, point);
     glViewport(0, 0, viewportW *5/6, viewportH);//setto la viewport della pista
+
+    if(showTrackMap){
+        drawMap();
+    }
+    glColor3f(1, 1, 1);//setto il colore bianco di default
 
     // settiamo la matrice di proiezione
     glMatrixMode( GL_PROJECTION );
@@ -239,9 +300,12 @@ void rendering(SDL_Window *window){
     track.Render();
     coin.Render();
 
+    if(isPause){
+        menu.DrawPause(viewportW, viewportH);
+    }
+
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_LIGHTING);
-
 
     SetCoordToPixel();
     glEnd();
@@ -271,6 +335,7 @@ void initObj(){
     if (!LoadTexture(9,(char *)"Texture/Cross3road2.png")){SDL_Quit();}
     if (!LoadTexture(11,(char *)"Texture/sky.jpg")){SDL_Quit();}
     if (!LoadTexture(12,(char *)"Texture/greenLawn.jpg")){SDL_Quit();}
+    if (!LoadTexture(13,(char *)"Texture/TrackTotal.png")){SDL_Quit();}
 }
 
 int main(int argc, char* argv[]){
@@ -306,104 +371,136 @@ int main(int argc, char* argv[]){
     bool cond=true;
     while(cond){
         SDL_Event event;
-        if (SDL_PollEvent(&event)) {//todo joypad
-            switch (event.type) {
-                case SDL_KEYDOWN:
-                    bike.eventBike.EventButton(event.key.keysym.sym, true, comands);
-                    if(event.key.keysym.sym==SDLK_RSHIFT | event.key.keysym.sym==SDLK_LSHIFT){
-                        camera.EventShift(true);
-                    }
-                    switch (event.key.keysym.sym){
-                        case SDLK_TAB://todo implementare funzione rendering mappa
-                            showTrackMap=!showTrackMap;
-                            break;
-                        case SDLK_l:
-                            isOnHeadlight=!isOnHeadlight;
-                            break;
-                        case SDLK_p://todo PAUSA
-                            isPause=!isPause;
-                            break;
-                        case SDLK_F1:
-                            camera.UpdateIndexCamera();
-                            break;
-                        case SDLK_F2:
-                            useWireframe=!useWireframe;
-                            break;
-                        case SDLK_F3:
-                            isShadow=!isShadow;
-                            break;
-                        case SDLK_F4:
-                            break;
-                        case SDLK_F5:
-                            break;
-                    }
-                    break;
-                case SDL_KEYUP:
-                    bike.eventBike.EventButton(event.key.keysym.sym, false, comands);
-                    if(event.key.keysym.sym==SDLK_RSHIFT | event.key.keysym.sym==SDLK_LSHIFT){
-                        camera.EventShift(false);
-                    }
-                    break;
-                case SDL_WINDOWEVENT:// dobbiamo ridisegnare la finestra
-                    if (event.window.event==SDL_WINDOWEVENT_EXPOSED){
-                        rendering(window);
-                    }else{
-                        idWindow = SDL_GetWindowID(window);
-                        if (event.window.windowID == idWindow)  {
-                            switch (event.window.event)  {
-                                case SDL_WINDOWEVENT_SIZE_CHANGED:  {
-                                    viewportW = event.window.data1;
-                                    viewportH = event.window.data2;
-                                    glViewport(0,0,viewportW,viewportH);
-                                    menu.InitMenu(viewportW, viewportH);
-                                    rendering(window);
-                                    break;
+        if(!isPause){
+            if (SDL_PollEvent(&event)) {//todo joypad
+                switch (event.type) {
+                    case SDL_KEYDOWN:
+                        bike.eventBike.EventButton(event.key.keysym.sym, true, comands);
+                        if(event.key.keysym.sym==SDLK_RSHIFT | event.key.keysym.sym==SDLK_LSHIFT){
+                            camera.EventShift(true);
+                        }
+                        switch (event.key.keysym.sym){
+                            case SDLK_TAB://On/Off visualizza mappa
+                                showTrackMap=!showTrackMap;
+                                break;
+                            case SDLK_l://On/Off faro moto
+                                isOnHeadlight=!isOnHeadlight;
+                                break;
+                            case SDLK_p:
+                                isPause=!isPause;
+                                rendering(window);
+                                break;
+                            case SDLK_F1://cambia camera
+                                camera.UpdateIndexCamera();
+                                break;
+                            case SDLK_F2://On/Off visualizza wireframe
+                                useWireframe=!useWireframe;
+                                break;
+                            case SDLK_F3://On/Off visualizza ombre
+                                isShadow=!isShadow;
+                                break;
+                        }
+                        break;
+                    case SDL_KEYUP:
+                        bike.eventBike.EventButton(event.key.keysym.sym, false, comands);
+                        if(event.key.keysym.sym==SDLK_RSHIFT | event.key.keysym.sym==SDLK_LSHIFT){
+                            camera.EventShift(false);
+                        }
+                        break;
+                    case SDL_MOUSEBUTTONDOWN:
+                        switch (menu.ButtonPress(event.button.x, event.button.y)){
+                            case 1://On/Off faro moto
+                                isOnHeadlight=!isOnHeadlight;
+                                break;
+                            case 2://On/Off visualizza ombre
+                                isShadow=!isShadow;
+                                break;
+                            case 3://On/Off visualizza wireframe
+                                useWireframe=!useWireframe;
+                                break;
+                            case 4://cambia camera
+                                camera.UpdateIndexCamera();
+                                break;
+                            case 5://On/Off visualizza mappa
+                                showTrackMap=!showTrackMap;
+                                break;
+                            case 6://esci
+                                cond= false;
+                                break;
+                        }
+                        break;
+                    case SDL_MOUSEMOTION:
+                        if (event.motion.state & SDL_BUTTON(1)){
+                            camera.UpdateView(event.motion.xrel, event.motion.yrel);
+                        }
+                        break;
+                    case SDL_MOUSEWHEEL:
+                        camera.UpdateEyeDistance(event.wheel.y > 0, event.wheel.y < 0);
+                        break;
+                    case SDL_WINDOWEVENT:// dobbiamo ridisegnare la finestra
+                        if (event.window.event==SDL_WINDOWEVENT_EXPOSED){
+                            rendering(window);
+                        }else{
+                            idWindow = SDL_GetWindowID(window);
+                            if (event.window.windowID == idWindow)  {
+                                switch (event.window.event)  {
+                                    case SDL_WINDOWEVENT_SIZE_CHANGED:  {
+                                        viewportW = event.window.data1;
+                                        viewportH = event.window.data2;
+                                        glViewport(0,0,viewportW,viewportH);
+                                        menu.InitMenu(viewportW, viewportH);
+                                        rendering(window);
+                                        break;
+                                    }
                                 }
                             }
                         }
-                    }
-                    break;
-                case SDL_MOUSEBUTTONDOWN:
-                    switch (menu.ButtonPress(event.button.x, event.button.y)){
-                        case 1:
-                            isOnHeadlight=!isOnHeadlight;
-                            break;
-                        case 2:
-                            isShadow=!isShadow;
-                            break;
-                        case 3:
-                            useWireframe=!useWireframe;
-                            break;
-                        case 4:
-                            camera.UpdateIndexCamera();
-                            break;
-                        case 5:
-                            showTrackMap=!showTrackMap;
-                            break;
-                        case 6://esci
-                            cond= false;
-                            break;
-                    }
-                    break;
-                case SDL_MOUSEMOTION:
-                    if (event.motion.state & SDL_BUTTON(1)){
-                        camera.UpdateView(event.motion.xrel, event.motion.yrel);
-                    }
-                    break;
-                case SDL_MOUSEWHEEL:
-                    camera.UpdateEyeDistance(event.wheel.y > 0, event.wheel.y < 0);
-                    break;
-                case SDL_QUIT:
-                    cond=false;
-                    break;
+                        break;
+                    case SDL_QUIT:
+                        cond=false;
+                        break;
+
+                }
+            }else{
+                bike.ChangeState();
+                point=coin.ChangeState(bike.positionOnX, bike.positionOnZ);
+                rendering(window);
             }
         }else{
-            bike.ChangeState();
-            point=coin.ChangeState(bike.positionOnX, bike.positionOnZ);
-            rendering(window);
+            if (SDL_PollEvent(&event)) {
+                switch (event.type) {
+                    case SDL_KEYDOWN:
+                        if(event.key.keysym.sym==SDLK_p){
+                            isPause=!isPause;
+                            rendering(window);
+                        }
+                        break;
+                    case SDL_WINDOWEVENT:// dobbiamo ridisegnare la finestra
+                        if (event.window.event==SDL_WINDOWEVENT_EXPOSED){
+                            rendering(window);
+                        }else{
+                            idWindow = SDL_GetWindowID(window);
+                            if (event.window.windowID == idWindow)  {
+                                switch (event.window.event)  {
+                                    case SDL_WINDOWEVENT_SIZE_CHANGED:  {
+                                        viewportW = event.window.data1;
+                                        viewportH = event.window.data2;
+                                        glViewport(0,0,viewportW,viewportH);
+                                        menu.InitMenu(viewportW, viewportH);
+                                        rendering(window);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    case SDL_QUIT:
+                        cond=false;
+                        break;
+                }
+            }
         }
     }
-
     SDL_GL_DeleteContext(sdlContext);
     SDL_DestroyWindow(window);
     SDL_Quit ();
@@ -417,8 +514,10 @@ int main(int argc, char* argv[]){
  * A --> Svolta a sinistra
  * D --> Svolta a destra
  *
+ * P --> mette il gioco in pausa
  * L --> Accende faro moto
  * SHIFT --> Camera retromarcia
+ * TAB --> Visualizza mappa
  * F1 --> Cambia telecamera; Esistono 5 telecamere diverse
  * F2 --> Cambia l'uso dei Wireframe
  * F3 --> Scegli se visualizzare o meno l'ombra degli oggetti

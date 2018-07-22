@@ -33,6 +33,7 @@ Mesh inclinationReference((char *)"Bike/BikeMesh/InclinationReference.obj");
 
 extern bool isOnHeadlight;
 extern bool isShadow;
+extern float worldLimit;
 
 void EventBike::EventButton(int button, bool isPressed, int* comands){
     for (int i=0; i<NBUTTON; i++){
@@ -172,6 +173,7 @@ void Bike::RenderBike(bool isShadow) const{
 }
 
 void Bike::ChangeState(){
+    float limitBike=(pow(positionOnX,2))+(pow(positionOnZ,2));
     // da velocità frame mondo a velocità frame moto
     float angleOrientation=orientation*M_PI/180.0;
     float cosOrietation = cos(angleOrientation);
@@ -213,6 +215,21 @@ void Bike::ChangeState(){
     wheelRotation+=(360.0*speedOnZBike)/(2.0*M_PI*wheelSpoke);//aggiorno velocita rotazione ruote
     speedOnX = cosOrietation*speedOnXBike + sinOrietation*speedOnZBike;//aggiorno velocità moto sull'asse X in relazione all'ambiente
     speedOnZ = cosOrietation*speedOnZBike - sinOrietation*speedOnXBike;//aggiorno velocità moto sull'asse Z in relazione all'ambiente
-    positionOnX+=speedOnX;//aggiorno posizione moto sull'asse X
-    positionOnZ+=speedOnZ;//aggiorno posizione moto sull'asse Z
+
+    //se la posizione della moto oltrepassa i limiti del mondo non permetto l'aggiornamento della posizione
+    if(limitBike<pow(worldLimit-2,2)){
+        positionOnX+=speedOnX;//aggiorno posizione moto sull'asse X
+        positionOnZ+=speedOnZ;//aggiorno posizione moto sull'asse X
+    }else{
+        if(positionOnX<0){
+            positionOnX+=0.1;
+        }else{
+            positionOnX-=0.1;
+        }
+        if(positionOnZ<0){
+            positionOnZ+=0.1;
+        }else{
+            positionOnZ-=0.1;
+        }
+    }
 }
