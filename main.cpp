@@ -341,7 +341,9 @@ void initObj(){
 int main(int argc, char* argv[]){
     static int comands[NBUTTON] = {SDLK_w, SDLK_s, SDLK_a, SDLK_d};
 
-    SDL_Init( SDL_INIT_VIDEO );
+    SDL_Init( SDL_INIT_VIDEO | SDL_INIT_JOYSTICK);
+    SDL_JoystickEventState(SDL_ENABLE);
+    SDL_Joystick *joystick = SDL_JoystickOpen(0);
     Uint32 idWindow;
 
     SDL_GL_SetAttribute( SDL_GL_DEPTH_SIZE, 16 );
@@ -372,7 +374,7 @@ int main(int argc, char* argv[]){
     while(cond){
         SDL_Event event;
         if(!isPause){
-            if (SDL_PollEvent(&event)) {//todo joypad
+            if (SDL_PollEvent(&event)) {
                 switch (event.type) {
                     case SDL_KEYDOWN:
                         bike.eventBike.EventButton(event.key.keysym.sym, true, comands);
@@ -437,6 +439,68 @@ int main(int argc, char* argv[]){
                     case SDL_MOUSEWHEEL:
                         camera.UpdateEyeDistance(event.wheel.y > 0, event.wheel.y < 0);
                         break;
+                    case SDL_JOYAXISMOTION:
+                        if(event.jaxis.axis==0){
+                            if(event.jaxis.value>3200){
+                                bike.eventBike.EventButton(SDLK_d, true, comands);
+                                bike.eventBike.EventButton(SDLK_a, false, comands);
+                            }
+                            if(event.jaxis.value<-3200){
+                                bike.eventBike.EventButton(SDLK_a, true, comands);
+                                bike.eventBike.EventButton(SDLK_d, false, comands);
+                            }
+                            if(event.jaxis.value<=3200 && event.jaxis.value>=-3200 ){
+                                bike.eventBike.EventButton(SDLK_a, false, comands);
+                                bike.eventBike.EventButton(SDLK_d, false, comands);
+                            }
+                        }
+                        break;
+                    case SDL_JOYBUTTONDOWN:
+                        switch (event.jbutton.button){
+                            case 0://Triangolo-->
+                                bike.eventBike.EventButton(SDLK_w, true, comands);
+                                break;
+                            case 1://Cerchio-->On/Off faro moto
+                                isOnHeadlight=!isOnHeadlight;
+                                break;
+                            case 2://X-->
+                                bike.eventBike.EventButton(SDLK_s, true, comands);
+                                break;
+                            case 3://Quadrato-->On/Off visualizza mappa
+                                showTrackMap=!showTrackMap;
+                                break;
+                            case 4://L2-->On/Off visualizza wireframe
+                                useWireframe=!useWireframe;
+                                break;
+                            case 5://R2-->Camera retromarcia
+                                camera.EventShift(true);
+                                break;
+                            case 6://L1-->On/Off visualizza ombre
+                                isShadow=!isShadow;
+                                break;
+                            case 7://R1-->cambia camera
+                                camera.UpdateIndexCamera();
+                                break;
+                            case 8://SELECT-->esci
+                                cond= false;
+                                break;
+                            case 9://START-->pausa
+                                isPause=!isPause;
+                                rendering(window);
+                                break;
+                        }
+                        break;
+                    case SDL_JOYBUTTONUP:
+                        if(event.jbutton.button==0){
+                            bike.eventBike.EventButton(SDLK_w, false, comands);
+                        }
+                        if(event.jbutton.button==1){
+                            bike.eventBike.EventButton(SDLK_s, false, comands);
+                        }
+                        if(event.jbutton.button==5){
+                            camera.EventShift(false);
+                        }
+                        break;
                     case SDL_WINDOWEVENT:// dobbiamo ridisegnare la finestra
                         if (event.window.event==SDL_WINDOWEVENT_EXPOSED){
                             rendering(window);
@@ -459,7 +523,6 @@ int main(int argc, char* argv[]){
                     case SDL_QUIT:
                         cond=false;
                         break;
-
                 }
             }else{
                 bike.ChangeState();
@@ -471,6 +534,15 @@ int main(int argc, char* argv[]){
                 switch (event.type) {
                     case SDL_KEYDOWN:
                         if(event.key.keysym.sym==SDLK_p){
+                            isPause=!isPause;
+                            rendering(window);
+                        }
+                        break;
+                    case SDL_JOYBUTTONDOWN:
+                        if(event.jbutton.button==8){
+                            cond= false;
+                        }
+                        if(event.jbutton.button==9){
                             isPause=!isPause;
                             rendering(window);
                         }
@@ -509,12 +581,14 @@ int main(int argc, char* argv[]){
 
 /**
  *
+ * Tastiera
+ *
  * W --> Accellera
  * S --> Decellera sino a retromarcia
  * A --> Svolta a sinistra
  * D --> Svolta a destra
  *
- * P --> mette il gioco in pausa
+ * P --> Mette il gioco in pausa
  * L --> Accende faro moto
  * SHIFT --> Camera retromarcia
  * TAB --> Visualizza mappa
@@ -524,6 +598,24 @@ int main(int argc, char* argv[]){
  *
  *
  *
+ *
+ * Joystick
+ *
+ * Freccia sinistra --> Svolta a sinistra
+ * Freccia destra --> Svolta a destra
+ *
+ * Triangolo-->Accellera
+ * Cerchio-->On/Off faro moto
+ * X-->Decellera sino a retromarcia
+ * Quadrato-->On/Off visualizza mappa
+ *
+ * L1-->On/Off visualizza ombre
+ * L2-->On/Off visualizza wireframe
+ * R1-->Cambia camera
+ * R2-->Camera retromarcia
+ *
+ * START--> Mette il gioco in pausa
+ * SELECT-->Esce dal gioco
  *
  *
  */
