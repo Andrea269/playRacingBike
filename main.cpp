@@ -39,7 +39,7 @@ int viewportW=1000;
 int viewportH=1000;
 
 bool isOnHeadlight=false;
-bool showTrackMap=true;//todo false
+bool showTrackMap=false;
 bool useWireframe=false;
 bool isShadow=false;
 bool isPause=false;
@@ -192,63 +192,181 @@ void drawFloor(){
     glDisable(GL_TEXTURE_2D);
 }
 
-void drawMap(){//todo implementare texture strada e relativa posizione moto
+void drawMap(){
     int originX=0;
     int originY=viewportH;
-    int maxX=viewportW*2/7;
-    int maxY=viewportH*5/7;
+    int maxX=260;
+    int maxY=viewportH-260;
+    int centroX=maxX/2;
+    int centroY=maxY+((originY-maxY)/2);
 
-//    int pointX=maxX-10;
-//    int pointY=maxY+10;
-    int pointX=(maxX/2)+(bike.positionOnX*viewportW/2000);
-    int pointY=(maxY+((originY-maxY)/2))+(bike.positionOnZ*viewportH/2000);
-
-
+    int pointX=centroX-(bike.positionOnX*1/2);
+    int pointY=centroY+(bike.positionOnZ*1/2);
 
     glColor3f(1, 0, 0);
     glPointSize(7);
     glBegin(GL_POINTS);
     glVertex2d(pointX, pointY);
     glEnd();
-//    glBegin(GL_QUADS);
-//    glVertex2d(pointX-10, pointY+10);
-//    glVertex2d(pointX+10, pointY+10);
-//    glVertex2d(pointX+10, pointY-10);
-//    glVertex2d(pointX-10, pointY-10);
-//    glEnd();
 
-//    glBindTexture(GL_TEXTURE_2D, 13);
-//    glEnable(GL_TEXTURE_2D);
+    glColor3f(0, 0, 0);
+    glBegin(GL_QUADS);
+    glVertex2d(centroX+7, centroY-45);
+    glVertex2d(centroX-7, centroY-45);
+    glVertex2d(centroX-7, centroY+50);
+    glVertex2d(centroX+7, centroY+50);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2d(centroX+43, centroY+40);
+    glVertex2d(centroX-7, centroY+40);
+    glVertex2d(centroX-7, centroY+55);
+    glVertex2d(centroX+43, centroY+55);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2d(centroX+43, centroY+40);
+    glVertex2d(centroX+30, centroY+40);
+    glVertex2d(centroX+30, centroY+75);
+    glVertex2d(centroX+43, centroY+75);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2d(centroX+40, centroY+60);
+    glVertex2d(centroX+55, centroY+60);
+    glVertex2d(centroX+55, centroY+75);
+    glVertex2d(centroX+40, centroY+75);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2d(centroX+83, centroY+52);
+    glVertex2d(centroX+45, centroY+52);
+    glVertex2d(centroX+45, centroY+65);
+    glVertex2d(centroX+83, centroY+65);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2d(centroX+78, centroY+40);
+    glVertex2d(centroX+93, centroY+40);
+    glVertex2d(centroX+93, centroY+65);
+    glVertex2d(centroX+78, centroY+65);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2d(centroX+83, centroY-7);
+    glVertex2d(centroX+68, centroY-7);
+    glVertex2d(centroX+68, centroY+50);
+    glVertex2d(centroX+83, centroY+50);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2d(centroX+68, centroY+7);
+    glVertex2d(centroX-43, centroY+7);
+    glVertex2d(centroX-43, centroY-7);
+    glVertex2d(centroX+68, centroY-7);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2d(centroX-31, centroY+7);
+    glVertex2d(centroX-46, centroY+7);
+    glVertex2d(centroX-46, centroY-45);
+    glVertex2d(centroX-31, centroY-45);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2d(centroX+47, centroY-30);
+    glVertex2d(centroX-63, centroY-30);
+    glVertex2d(centroX-63, centroY-45);
+    glVertex2d(centroX+47, centroY-45);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2d(centroX-82, centroY-37);
+    glVertex2d(centroX-50, centroY-37);
+    glVertex2d(centroX-50, centroY-23);
+    glVertex2d(centroX-82, centroY-23);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2d(centroX-82, centroY+15);
+    glVertex2d(centroX-67, centroY+15);
+    glVertex2d(centroX-67, centroY-66);
+    glVertex2d(centroX-82, centroY-66);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2d(centroX-82, centroY-52);
+    glVertex2d(centroX+78, centroY-52);
+    glVertex2d(centroX+78, centroY-66);
+    glVertex2d(centroX-82, centroY-66);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2d(centroX+63, centroY-40);
+    glVertex2d(centroX+78, centroY-40);
+    glVertex2d(centroX+78, centroY-66);
+    glVertex2d(centroX+63, centroY-66);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2d(centroX+71, centroY-50);
+    glVertex2d(centroX+56, centroY-50);
+    glVertex2d(centroX+56, centroY-17);
+    glVertex2d(centroX+71, centroY-17);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2d(centroX+47, centroY-45);
+    glVertex2d(centroX+56, centroY-32);
+    glVertex2d(centroX+56, centroY-17);
+    glVertex2d(centroX+47, centroY-30);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2d(centroX-23, centroY+45);
+    glVertex2d(centroX-37, centroY+45);
+    glVertex2d(centroX-37, centroY-7);
+    glVertex2d(centroX-23, centroY-7);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2d(centroX-23, centroY+46);
+    glVertex2d(centroX-50, centroY+46);
+    glVertex2d(centroX-50, centroY+32);
+    glVertex2d(centroX-23, centroY+32);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2d(centroX-65, centroY+43);
+    glVertex2d(centroX-40, centroY+43);
+    glVertex2d(centroX-40, centroY+57);
+    glVertex2d(centroX-65, centroY+57);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2d(centroX-65, centroY+57);
+    glVertex2d(centroX-51, centroY+57);
+    glVertex2d(centroX-51, centroY-7);
+    glVertex2d(centroX-65, centroY-7);
+    glEnd();
+
+    glBegin(GL_QUADS);
+    glVertex2d(centroX-65, centroY+8);
+    glVertex2d(centroX-67, centroY+15);
+    glVertex2d(centroX-67, centroY);
+    glVertex2d(centroX-65, centroY-7);
+    glEnd();
 
 
-//    glEnable(GL_TEXTURE_GEN_S);
-//    glEnable(GL_TEXTURE_GEN_T);
-//    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
-//    glTexGeni(GL_T, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
-//    float sx=1.0/( 2*maxX);
-//    float sy=1/(2*(originY- maxY));
-//    float s[3]={sx, 0, 0};
-//    float t[3]={0,sy, 0};
-//    glTexGenfv(GL_S, GL_OBJECT_PLANE, t);
-//    glTexGenfv(GL_T, GL_OBJECT_PLANE, s);
 
 
-//    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-//    glTexImage2D(GL_TEXTURE_2D, 0, 3, 4, 4, 0,
-//                 GL_RGB, GL_UNSIGNED_BYTE, texture);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-//    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
-
-    glColor3f(0.6, 0.6, 0.6);
+    glColor3f(0, 1, 0.3);
     glBegin(GL_QUADS);
     glVertex2d(originX, originY);
     glVertex2d(maxX, originY);
     glVertex2d(maxX, maxY);
     glVertex2d(originX, maxY);
     glEnd();
-//    glDisable(GL_TEXTURE_2D);
 }
 
 void rendering(SDL_Window *window){
@@ -335,7 +453,6 @@ void initObj(){
     if (!LoadTexture(9,(char *)"Texture/Cross3road2.png")){SDL_Quit();}
     if (!LoadTexture(11,(char *)"Texture/sky.jpg")){SDL_Quit();}
     if (!LoadTexture(12,(char *)"Texture/greenLawn.jpg")){SDL_Quit();}
-    if (!LoadTexture(13,(char *)"Texture/TrackTotal.png")){SDL_Quit();}
 }
 
 int main(int argc, char* argv[]){
