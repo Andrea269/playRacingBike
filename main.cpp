@@ -43,6 +43,8 @@ bool showTrackMap=false;
 bool useWireframe=false;
 bool isShadow=false;
 bool isPause=false;
+bool startPlay=false;
+bool timePlay=false;
 float worldLimit=250;
 
 void  SetCoordToPixel(){
@@ -376,61 +378,70 @@ void rendering(SDL_Window *window){
     // riempe tutto lo screen buffer di pixel color sfondo
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
-    menu.DrawMenu(viewportW, viewportH, point);
-    glViewport(0, 0, viewportW *5/6, viewportH);//setto la viewport della pista
+    if(!startPlay){
+        menu.DrawStart(viewportW, viewportH);
+    }else {
+        menu.DrawMenu(viewportW, viewportH, point);
+        glViewport(0, 0, viewportW * 5 / 6, viewportH);//setto la viewport della pista
 
-    if(showTrackMap){
-        drawMap();
+        if (showTrackMap) {
+            drawMap();
+        }
+        glColor3f(1, 1, 1);//setto il colore bianco di default
+
+        // settiamo la matrice di proiezione
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        gluPerspective(70, //fovy,
+                       ((float) viewportW * 5 / 6) / viewportH,//aspect Y/X,
+                       0.25,//zNear,
+                       500  //zFar
+        );
+
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
+
+
+        // setto la posizione luce
+        float tmpv[4] = {0, 1, 2, 0}; // ultima comp=0 => luce direzionale
+        glLightfv(GL_LIGHT0, GL_POSITION, tmpv);
+
+        camera.UpdateCamera(bike.orientation, bike.positionOnX, bike.positionOnY, bike.positionOnZ);
+
+        // disegna assi frame MONDO
+        static float tmpcol[4] = {1, 1, 1, 1};
+        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, tmpcol);
+        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 127);
+
+
+        glEnable(GL_LIGHTING);
+
+        drawSky();
+        drawFloor();
+
+        bike.Render();
+        track.Render();
+        coin.Render();
+
+        if(timePlay){
+            //todo giro libero e giro a tempo drawTime
+
+
+            //todo classifica
+        }
+        if (isPause) {
+            menu.DrawPause(viewportW, viewportH);
+        }
+
+        glDisable(GL_DEPTH_TEST);
+        glDisable(GL_LIGHTING);
+
+        SetCoordToPixel();
+        glEnd();
+
+        glEnable(GL_DEPTH_TEST);
+        glEnable(GL_LIGHTING);
     }
-    glColor3f(1, 1, 1);//setto il colore bianco di default
-
-    // settiamo la matrice di proiezione
-    glMatrixMode( GL_PROJECTION );
-    glLoadIdentity();
-    gluPerspective( 70, //fovy,
-                    ((float)viewportW*5/6) / viewportH,//aspect Y/X,
-                    0.25,//zNear,
-                    500  //zFar
-    );
-
-    glMatrixMode( GL_MODELVIEW );
-    glLoadIdentity();
-
-
-    // setto la posizione luce
-    float tmpv[4] = {0,1,2,  0}; // ultima comp=0 => luce direzionale
-    glLightfv(GL_LIGHT0, GL_POSITION, tmpv );
-
-    camera.UpdateCamera(bike.orientation, bike.positionOnX, bike.positionOnY, bike.positionOnZ);
-
-    // disegna assi frame MONDO
-    static float tmpcol[4] = {1,1,1,1};
-    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, tmpcol);
-    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 127);
-
-
-    glEnable(GL_LIGHTING);
-
-    drawSky();
-    drawFloor();
-
-    bike.Render();
-    track.Render();
-    coin.Render();
-
-    if(isPause){
-        menu.DrawPause(viewportW, viewportH);
-    }
-
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_LIGHTING);
-
-    SetCoordToPixel();
-    glEnd();
-
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_LIGHTING);
-
     glFinish();
     // ho finito: buffer di lavoro diventa visibile
     SDL_GL_SwapWindow(window);
@@ -544,7 +555,15 @@ int main(int argc, char* argv[]){
                                 showTrackMap=!showTrackMap;
                                 break;
                             case 6://esci
-                                cond= false;
+                                startPlay= false;
+                                break;
+                            case 8:
+                                startPlay= true;
+                                timePlay=true;
+                                break;
+                            case 9:
+                                startPlay= true;
+                                timePlay=false;
                                 break;
                         }
                         break;
@@ -599,7 +618,7 @@ int main(int argc, char* argv[]){
                                 camera.UpdateIndexCamera();
                                 break;
                             case 8://SELECT-->esci
-                                cond= false;
+                                startPlay= false;
                                 break;
                             case 9://START-->pausa
                                 isPause=!isPause;
@@ -657,7 +676,7 @@ int main(int argc, char* argv[]){
                         break;
                     case SDL_JOYBUTTONDOWN:
                         if(event.jbutton.button==8){
-                            cond= false;
+                            startPlay= false;
                         }
                         if(event.jbutton.button==9){
                             isPause=!isPause;

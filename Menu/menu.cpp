@@ -78,9 +78,23 @@ void Menu::InitMenu(int width, int height){
     itemsMenu[7].y = height*3/5;
     itemsMenu[7].w = 100;
     itemsMenu[7].h = 70;
+
+
+    itemsMenu[8].id = "Giro a tempo";
+    itemsMenu[8].x = (width/2)-100;
+    itemsMenu[8].y = height*2/6;
+    itemsMenu[8].w = 200;
+    itemsMenu[8].h = 70;
+
+
+    itemsMenu[9].id = "Giro libero";
+    itemsMenu[9].x = (width/2)-100;
+    itemsMenu[9].y = height*4/6;
+    itemsMenu[9].w = 200;
+    itemsMenu[9].h = 70;
 }
 
-void Menu::DrowButton(int totalPoint){
+void Menu::DrawButton(int totalPoint){
     structMenu item;
     char* id;
     int x,y,w,h;
@@ -91,9 +105,13 @@ void Menu::DrowButton(int totalPoint){
     SDL_Surface *intermediary;
     //setto il font del testo
     int initI=0;
-    int limitElement=-1;
+    int limitElement=-3;
     if(totalPoint==-1){
-        initI=(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-1;
+        initI=(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-3;
+        limitElement=-2;
+    }
+    if(totalPoint==-2){
+        initI=(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-2;
         limitElement=0;
     }
 
@@ -153,7 +171,7 @@ void Menu::DrowButton(int totalPoint){
         glDisable(GL_BLEND);
 
         //bordo bottone
-        if(!i==(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-1){
+        if(!i==(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-3){
             glColor3ub(0,0,0);
             glBegin(GL_QUADS);
             glVertex2i(x-1,y-1);
@@ -173,7 +191,7 @@ void Menu::DrawMenu(int width, int height, int totalPoint){
     glLoadIdentity();
 
 
-    DrowButton(totalPoint);
+    DrawButton(totalPoint);
 
     //Background
     glColor3ub(200, 200, 200);
@@ -186,7 +204,7 @@ void Menu::DrawMenu(int width, int height, int totalPoint){
 }
 
 int Menu::ButtonPress(int cordX, int cordY){
-    int ret= sizeof(itemsMenu)/ sizeof(itemsMenu[0])-1;
+    int ret= sizeof(itemsMenu)/ sizeof(itemsMenu[0]);
     int i = 0;
     structMenu item;
     while(i < ret){
@@ -206,5 +224,15 @@ void Menu::DrawPause(int width, int height){
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    DrowButton(-1);
+    DrawButton(-1);
+}
+
+void Menu::DrawStart(int width, int height){
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(0, width, 0, height);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    DrawButton(-2);
 }
