@@ -33,7 +33,6 @@ Menu menu;
 Coin coin;
 Track track;
 int point=0;
-//todo aggiungere scelta di tempo massimo raccolta coin o girare liberamente
 
 int viewportW=1000;
 int viewportH=1000;
@@ -444,9 +443,6 @@ void rendering(SDL_Window *window){
         coin.Render();
 
         if(timePlay){
-            //todo giro libero e giro a tempo drawTime
-
-
             //todo classifica
         }
         if (isPause) {
@@ -463,10 +459,9 @@ void rendering(SDL_Window *window){
         glEnable(GL_LIGHTING);
     }
     glFinish();
-    // ho finito: buffer di lavoro diventa visibile
+    // il buffer di lavoro diventa visibile
     SDL_GL_SwapWindow(window);
 }
-
 
 Uint32 EndTimer( Uint32 interval, void* param ){
     // todo startPlay= false;
@@ -479,6 +474,19 @@ Uint32 UpdateTimerVideo( Uint32 interval, void* param ){
     timeGame--;
     timerVideo = SDL_AddTimer( 1 * 1000, UpdateTimerVideo, (void*)"1 seconds waited!" );
     return 0;
+}
+
+void pauseStatus(){
+    isPause=!isPause;
+    if(timePlay){
+        if(isPause){
+            SDL_RemoveTimer( timerID );
+            SDL_RemoveTimer( timerVideo );
+        }else{
+            timerID = SDL_AddTimer( timeGame * 1000, EndTimer, (void*)"60 seconds waited!" );
+            timerVideo = SDL_AddTimer( 1 * 1000, UpdateTimerVideo, (void*)"1 seconds waited!" );
+        }
+    }
 }
 
 void initObj(){
@@ -552,7 +560,7 @@ int main(int argc, char* argv[]){
                                 isOnHeadlight=!isOnHeadlight;
                                 break;
                             case SDLK_p:
-                                isPause=!isPause;
+                                pauseStatus();
                                 rendering(window);
                                 break;
                             case SDLK_F1://cambia camera
@@ -596,8 +604,7 @@ int main(int argc, char* argv[]){
                                 startPlay= true;
                                 timePlay=true;
                                 timeGame=60;
-                                //todo startTimer
-                                timerID = SDL_AddTimer( 60 * 1000, EndTimer, (void*)"60 seconds waited!" );
+                                timerID = SDL_AddTimer( timeGame * 1000, EndTimer, (void*)"60 seconds waited!" );
                                 timerVideo = SDL_AddTimer( 1 * 1000, UpdateTimerVideo, (void*)"1 seconds waited!" );
                                 break;
                             case 10:
@@ -660,7 +667,7 @@ int main(int argc, char* argv[]){
                                 SetEndPlay();
                                 break;
                             case 9://START-->pausa
-                                isPause=!isPause;
+                                pauseStatus();
                                 rendering(window);
                                 break;
                         }
@@ -709,7 +716,7 @@ int main(int argc, char* argv[]){
                 switch (event.type) {
                     case SDL_KEYDOWN:
                         if(event.key.keysym.sym==SDLK_p){
-                            isPause=!isPause;
+                            pauseStatus();
                             rendering(window);
                         }
                         break;
@@ -718,7 +725,7 @@ int main(int argc, char* argv[]){
                             SetEndPlay();
                         }
                         if(event.jbutton.button==9){
-                            isPause=!isPause;
+                            pauseStatus();
                             rendering(window);
                         }
                         break;
