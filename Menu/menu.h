@@ -27,7 +27,7 @@ public:
     };
     int indentMenu;
     int heightMenu;
-    structMenu itemsMenu[10];
+    structMenu itemsMenu[11];
 private:
     void DrawButton(int totalPoint);
 };

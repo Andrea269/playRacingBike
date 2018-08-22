@@ -31,18 +31,31 @@ Mesh knobs((char *)"Bike/BikeMesh/KnobsBike.obj");
 Mesh brakes((char *)"Bike/BikeMesh/BrakesBike.obj");
 Mesh inclinationReference((char *)"Bike/BikeMesh/InclinationReference.obj");
 
+extern bool startPlay;
 extern bool isOnHeadlight;
 extern bool isShadow;
 extern float worldLimit;
 
 void EventBike::EventButton(int button, bool isPressed, int* comands){
     for (int i=0; i<NBUTTON; i++){
-        if(button==comands[i]){
+        if(startPlay && button==comands[i]){
             isButtonPres[i]=isPressed;
         }
     }
 }
 
+void Bike::Init() {
+    positionOnX=0.0;
+    positionOnY=0.0;
+    positionOnZ=0.0;
+    speedOnX=0.0;
+    speedOnY=0.0;
+    speedOnZ=0.0;
+    orientation=180;
+    steeringWheel=0.0;
+    handlebars=0.0;
+    wheelRotation=0.0;
+}
 
 void Bike::Render() const{//todo ruote oscillano SISTEMARE
     glPushMatrix();

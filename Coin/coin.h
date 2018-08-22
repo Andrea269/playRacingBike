@@ -9,14 +9,15 @@
 class Coin{
 public:
     void InitCoin();
+    void InitStatusCoin();
     void Render(); // disegna la moneta a schermo
     int ChangeState(float x, float z);
     Coin(){
         coinRotation=1;
         positionOnY=0.1;
         positionOnX, positionOnZ=0;
-        coinDestroy=0;
         InitCoin();
+        InitStatusCoin();
     }
 
     float positionOnX, positionOnY, positionOnZ;

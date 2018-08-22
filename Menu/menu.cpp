@@ -18,6 +18,9 @@
 TTF_Font *fontText;
 SDL_Color colorTemp;
 
+extern int timeGame;
+extern bool timePlay;
+
 void Menu::Init(){
     if (! TTF_WasInit () && TTF_Init () == - 1) {
         printf ("TTF_Init:% s \n", TTF_GetError ());
@@ -73,25 +76,31 @@ void Menu::InitMenu(int width, int height){
     itemsMenu[6].w = 50;
     itemsMenu[6].h = 30;
 
-    itemsMenu[7].id = "PAUSA";
-    itemsMenu[7].x = startMenuW/2;
-    itemsMenu[7].y = height*3/5;
-    itemsMenu[7].w = 100;
-    itemsMenu[7].h = 70;
+    itemsMenu[7].id = "Tempo: 00:";
+    itemsMenu[7].x = width*4/6;
+    itemsMenu[7].y = height-50;
+    itemsMenu[7].w = 150;
+    itemsMenu[7].h = 30;
 
-
-    itemsMenu[8].id = "Giro a tempo";
-    itemsMenu[8].x = (width/2)-100;
-    itemsMenu[8].y = height*2/6;
-    itemsMenu[8].w = 200;
+    itemsMenu[8].id = "PAUSA";
+    itemsMenu[8].x = startMenuW/2;
+    itemsMenu[8].y = height*3/5;
+    itemsMenu[8].w = 100;
     itemsMenu[8].h = 70;
 
 
-    itemsMenu[9].id = "Giro libero";
+    itemsMenu[9].id = "Giro a tempo";
     itemsMenu[9].x = (width/2)-100;
-    itemsMenu[9].y = height*4/6;
+    itemsMenu[9].y = height*2/6;
     itemsMenu[9].w = 200;
     itemsMenu[9].h = 70;
+
+    itemsMenu[10].id = "Giro libero";
+    itemsMenu[10].x = (width/2)-100;
+    itemsMenu[10].y = height*4/6;
+    itemsMenu[10].w = 200;
+    itemsMenu[10].h = 70;
+
 }
 
 void Menu::DrawButton(int totalPoint){
@@ -105,7 +114,10 @@ void Menu::DrawButton(int totalPoint){
     SDL_Surface *intermediary;
     //setto il font del testo
     int initI=0;
-    int limitElement=-3;
+    int limitElement=-4;
+    if(timePlay){
+        limitElement=-3;
+    }
     if(totalPoint==-1){
         initI=(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-3;
         limitElement=-2;
@@ -114,6 +126,10 @@ void Menu::DrawButton(int totalPoint){
         initI=(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-2;
         limitElement=0;
     }
+//    if(totalPoint==-3){
+//        initI=(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-1;
+//        limitElement=0;
+//    }
 
     for (int i = initI; i < (sizeof(itemsMenu)/ sizeof(itemsMenu[0]))+limitElement; ++i) {
         item=itemsMenu[i];
@@ -121,6 +137,9 @@ void Menu::DrawButton(int totalPoint){
             id=(char *)(item.id+to_string(totalPoint)).c_str();
         }else{
             id=(char *)(item.id).c_str();
+        }
+        if(i==7){
+            id=(char *)(item.id+to_string(timeGame)).c_str();
         }
         x=item.x;
         y=item.y;

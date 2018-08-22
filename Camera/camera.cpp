@@ -39,6 +39,11 @@ void Camera::InitCamera(){
     cameras[3].plusEY= 0;
 }
 
+
+void Camera::InitIndex(){
+    indexCamera=0;
+}
+
 void Camera::UpdateCamera(float orientation, float positionOnX, float positionOnY, float positionOnZ){
 
     if(indexCamera==4){

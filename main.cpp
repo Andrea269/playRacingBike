@@ -45,7 +45,27 @@ bool isShadow=false;
 bool isPause=false;
 bool startPlay=false;
 bool timePlay=false;
+int timeGame;
 float worldLimit=250;
+SDL_TimerID timerID;
+SDL_TimerID timerVideo;
+
+void  SetEndPlay(){
+    bike.Init();
+    coin.InitStatusCoin();
+    camera.InitIndex();
+    point=0;
+    isOnHeadlight=false;
+    showTrackMap=false;
+    useWireframe=false;
+    isShadow=false;
+    isPause=false;
+    startPlay=false;
+    timePlay=false;
+    SDL_RemoveTimer( timerID );
+    SDL_RemoveTimer( timerVideo );
+
+}
 
 void  SetCoordToPixel(){
     glMatrixMode(GL_PROJECTION);
@@ -447,6 +467,20 @@ void rendering(SDL_Window *window){
     SDL_GL_SwapWindow(window);
 }
 
+
+Uint32 EndTimer( Uint32 interval, void* param ){
+    // todo startPlay= false;
+
+    return 0;
+}
+
+
+Uint32 UpdateTimerVideo( Uint32 interval, void* param ){
+    timeGame--;
+    timerVideo = SDL_AddTimer( 1 * 1000, UpdateTimerVideo, (void*)"1 seconds waited!" );
+    return 0;
+}
+
 void initObj(){
     menu.InitMenu(viewportW, viewportH);
 
@@ -499,6 +533,7 @@ int main(int argc, char* argv[]){
     initObj();
 
     bool cond=true;
+    SDL_TimerID timerID;
     while(cond){
         SDL_Event event;
         if(!isPause){
@@ -555,13 +590,17 @@ int main(int argc, char* argv[]){
                                 showTrackMap=!showTrackMap;
                                 break;
                             case 6://esci
-                                startPlay= false;
-                                break;
-                            case 8:
-                                startPlay= true;
-                                timePlay=true;
+                                SetEndPlay();
                                 break;
                             case 9:
+                                startPlay= true;
+                                timePlay=true;
+                                timeGame=60;
+                                //todo startTimer
+                                timerID = SDL_AddTimer( 60 * 1000, EndTimer, (void*)"60 seconds waited!" );
+                                timerVideo = SDL_AddTimer( 1 * 1000, UpdateTimerVideo, (void*)"1 seconds waited!" );
+                                break;
+                            case 10:
                                 startPlay= true;
                                 timePlay=false;
                                 break;
@@ -618,7 +657,7 @@ int main(int argc, char* argv[]){
                                 camera.UpdateIndexCamera();
                                 break;
                             case 8://SELECT-->esci
-                                startPlay= false;
+                                SetEndPlay();
                                 break;
                             case 9://START-->pausa
                                 isPause=!isPause;
@@ -676,7 +715,7 @@ int main(int argc, char* argv[]){
                         break;
                     case SDL_JOYBUTTONDOWN:
                         if(event.jbutton.button==8){
-                            startPlay= false;
+                            SetEndPlay();
                         }
                         if(event.jbutton.button==9){
                             isPause=!isPause;

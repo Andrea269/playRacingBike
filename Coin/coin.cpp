@@ -148,10 +148,13 @@ void Coin::InitCoin() {
     coins[57]=&coin57;
     coins[58]=&coin58;
     coins[59]=&coin59;
+}
 
+void Coin::InitStatusCoin() {
     for (int i = 0; i < MAX_COINS; i++) {
         destroy[i]=false;
     }
+    coinDestroy=0;
 }
 
 void Coin::Render() {
