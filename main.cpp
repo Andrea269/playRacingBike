@@ -42,7 +42,6 @@ bool startPlay=false;
 bool timePlay=false;
 int timeGame;
 float worldLimit=250;
-SDL_TimerID timerID;
 SDL_TimerID timerVideo;
 
 bool isOnHeadlight=false;
@@ -64,7 +63,6 @@ void  SetEndPlay(){
     isPause=false;
     startPlay=false;
     timePlay=false;
-    SDL_RemoveTimer( timerID );
     SDL_RemoveTimer( timerVideo );
 
 }
@@ -467,13 +465,6 @@ void rendering(SDL_Window *window){
     SDL_GL_SwapWindow(window);
 }
 
-Uint32 EndTimer( Uint32 interval, void* param ){
-    // todo startPlay= false; voce menu altro
-
-    return 0;
-}
-
-
 Uint32 UpdateTimerVideo( Uint32 interval, void* param ){
     timeGame--;
     timerVideo = SDL_AddTimer( 1 * 1000, UpdateTimerVideo, (void*)"1 seconds waited!" );
@@ -484,10 +475,8 @@ void pauseStatus(){
     isPause=!isPause;
     if(timePlay){
         if(isPause){
-            SDL_RemoveTimer( timerID );
             SDL_RemoveTimer( timerVideo );
         }else{
-            timerID = SDL_AddTimer( timeGame * 1000, EndTimer, (void*)"60 seconds waited!" );
             timerVideo = SDL_AddTimer( 1 * 1000, UpdateTimerVideo, (void*)"1 seconds waited!" );
         }
     }
@@ -545,7 +534,6 @@ int main(int argc, char* argv[]){
     initObj();
 
     bool cond=true;
-    SDL_TimerID timerID;
     while(cond){
         SDL_Event event;
         if(!isPause){
@@ -609,14 +597,13 @@ int main(int argc, char* argv[]){
                             case 6://esci
                                 SetEndPlay();
                                 break;
-                            case 11:
+                            case 13:
                                 startPlay= true;
                                 timePlay=true;
-                                timeGame=1;
-                                timerID = SDL_AddTimer( timeGame * 1000, EndTimer, (void*)"60 seconds waited!" );
+                                timeGame=10;//todo 60
                                 timerVideo = SDL_AddTimer( 1 * 1000, UpdateTimerVideo, (void*)"1 seconds waited!" );
                                 break;
-                            case 12:
+                            case 14:
                                 startPlay= true;
                                 timePlay=false;
                                 break;

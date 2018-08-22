@@ -26,6 +26,7 @@ void Menu::Init(){
         printf ("TTF_Init:% s \n", TTF_GetError ());
         exit (1);
     }
+    //setto il font del testo
     fontText=TTF_OpenFont("Roboto-Light.ttf", 20);
     colorTemp = {0,0,0,0};
 }
@@ -100,17 +101,29 @@ void Menu::InitMenu(int width, int height){
     itemsMenu[10].w = 250;
     itemsMenu[10].h = 70;
 
-    itemsMenu[11].id = "Giro a tempo";
-    itemsMenu[11].x = (width/2)-100;
-    itemsMenu[11].y = height*2/6;
-    itemsMenu[11].w = 200;
-    itemsMenu[11].h = 70;
+    itemsMenu[11].id = "Premere F12 per Uscire";
+    itemsMenu[11].x = 50;
+    itemsMenu[11].y = height/2-150;
+    itemsMenu[11].w = 250;
+    itemsMenu[11].h = 30;
 
-    itemsMenu[12].id = "Giro libero";
-    itemsMenu[12].x = (width/2)-100;
-    itemsMenu[12].y = height*4/6;
-    itemsMenu[12].w = 200;
+    itemsMenu[12].id = "Selezionare la modalita' di gioco";
+    itemsMenu[12].x = (width/2)-200;
+    itemsMenu[12].y = height*5/6;
+    itemsMenu[12].w = 350;
     itemsMenu[12].h = 70;
+
+    itemsMenu[13].id = "Giro a tempo";
+    itemsMenu[13].x = (width/2)-100;
+    itemsMenu[13].y = height*3/6;
+    itemsMenu[13].w = 150;
+    itemsMenu[13].h = 70;
+
+    itemsMenu[14].id = "Giro libero";
+    itemsMenu[14].x = (width/2)-100;
+    itemsMenu[14].y = height*2/6;
+    itemsMenu[14].w = 150;
+    itemsMenu[14].h = 70;
 
 }
 
@@ -123,29 +136,28 @@ void Menu::DrawButton(int totalPoint){
 
     SDL_Surface *renderText;
     SDL_Surface *intermediary;
-    //setto il font del testo
     int initI;
     int limitElement;
 
     if(totalPoint<0){
         if(totalPoint==-1){//disegna la scritta PAUSA
-            initI=(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-5;
-            limitElement=-4;
+            initI=(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-7;
+            limitElement=-6;
         }else if(totalPoint==-2){//visualizza le 2 opzioni di gioco
-            initI=(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-2;
+            initI=(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-3;
             limitElement=0;
         }
     }else{
         initI=0;
         if(timePlay){//disegna anche il tempo se gioco a tempo
             if(timeGame<0){
-                initI=(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-4;
-                limitElement=-2;
+                initI=(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-6;
+                limitElement=-3;
             }else{
-                limitElement=-5;
+                limitElement=-7;
             }
         }else{
-            limitElement=-6;
+            limitElement=-8;
         }
     }
 
@@ -159,7 +171,7 @@ void Menu::DrawButton(int totalPoint){
                 id=(char *)(item.id+to_string(timeGame)).c_str();
                 break;
             case 10:
-                id=(char *)(to_string(totalPoint)+item.id).c_str();//todo
+                id=(char *)(to_string(totalPoint)+item.id).c_str();
                 break;
             default:
                 id=(char *)(item.id).c_str();
