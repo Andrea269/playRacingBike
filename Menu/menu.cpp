@@ -88,18 +88,24 @@ void Menu::InitMenu(int width, int height){
     itemsMenu[8].w = 100;
     itemsMenu[8].h = 70;
 
-
-    itemsMenu[9].id = "Giro a tempo";
-    itemsMenu[9].x = (width/2)-100;
-    itemsMenu[9].y = height*2/6;
-    itemsMenu[9].w = 200;
+    itemsMenu[9].id = "altro";//todo punteggio
+    itemsMenu[9].x = startMenuW/2;
+    itemsMenu[9].y = height*3/5;
+    itemsMenu[9].w = 100;
     itemsMenu[9].h = 70;
 
-    itemsMenu[10].id = "Giro libero";
+
+    itemsMenu[10].id = "Giro a tempo";
     itemsMenu[10].x = (width/2)-100;
-    itemsMenu[10].y = height*4/6;
+    itemsMenu[10].y = height*2/6;
     itemsMenu[10].w = 200;
     itemsMenu[10].h = 70;
+
+    itemsMenu[11].id = "Giro libero";
+    itemsMenu[11].x = (width/2)-100;
+    itemsMenu[11].y = height*4/6;
+    itemsMenu[11].w = 200;
+    itemsMenu[11].h = 70;
 
 }
 
@@ -113,23 +119,25 @@ void Menu::DrawButton(int totalPoint){
     SDL_Surface *renderText;
     SDL_Surface *intermediary;
     //setto il font del testo
-    int initI=0;
-    int limitElement=-4;
-    if(timePlay){
-        limitElement=-3;
+    int initI;
+    int limitElement;
+
+    if(totalPoint<0){
+        if(totalPoint==-1){//disegna la scritta PAUSA
+            initI=(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-4;
+            limitElement=-3;
+        }else if(totalPoint==-2){//visualizza le 2 opzioni di gioco
+            initI=(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-2;
+            limitElement=0;
+        }
+    }else{
+        initI=0;
+        if(timePlay){//disegna anche il tempo se gioco a tempo
+            limitElement=-4;
+        }else{
+            limitElement=-5;
+        }
     }
-    if(totalPoint==-1){
-        initI=(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-3;
-        limitElement=-2;
-    }
-    if(totalPoint==-2){
-        initI=(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-2;
-        limitElement=0;
-    }
-//    if(totalPoint==-3){
-//        initI=(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-1;
-//        limitElement=0;
-//    }
 
     for (int i = initI; i < (sizeof(itemsMenu)/ sizeof(itemsMenu[0]))+limitElement; ++i) {
         item=itemsMenu[i];
@@ -254,4 +262,14 @@ void Menu::DrawStart(int width, int height){
     glLoadIdentity();
 
     DrawButton(-2);
+}
+
+void Menu::DrawEndGame(int width, int height){
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(0, width, 0, height);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    DrawButton(-3);
 }

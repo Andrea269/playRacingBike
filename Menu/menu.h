@@ -15,6 +15,7 @@ public:
     int ButtonPress(int cordX, int cordY);
     void DrawPause(int width, int height);
     void DrawStart(int width, int height);
+    void DrawEndGame(int width, int height);
 
     Menu(){
         indentMenu=10;
@@ -27,7 +28,7 @@ public:
     };
     int indentMenu;
     int heightMenu;
-    structMenu itemsMenu[11];
+    structMenu itemsMenu[12];
 private:
     void DrawButton(int totalPoint);
 };

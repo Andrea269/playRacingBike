@@ -464,7 +464,7 @@ void rendering(SDL_Window *window){
 }
 
 Uint32 EndTimer( Uint32 interval, void* param ){
-    // todo startPlay= false;
+    // todo startPlay= false; voce menu altro
 
     return 0;
 }
@@ -600,14 +600,14 @@ int main(int argc, char* argv[]){
                             case 6://esci
                                 SetEndPlay();
                                 break;
-                            case 9:
+                            case 10:
                                 startPlay= true;
                                 timePlay=true;
                                 timeGame=60;
                                 timerID = SDL_AddTimer( timeGame * 1000, EndTimer, (void*)"60 seconds waited!" );
                                 timerVideo = SDL_AddTimer( 1 * 1000, UpdateTimerVideo, (void*)"1 seconds waited!" );
                                 break;
-                            case 10:
+                            case 11:
                                 startPlay= true;
                                 timePlay=false;
                                 break;
