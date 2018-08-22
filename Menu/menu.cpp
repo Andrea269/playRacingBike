@@ -88,24 +88,29 @@ void Menu::InitMenu(int width, int height){
     itemsMenu[8].w = 100;
     itemsMenu[8].h = 70;
 
-    itemsMenu[9].id = "altro";//todo punteggio
-    itemsMenu[9].x = startMenuW/2;
-    itemsMenu[9].y = height*3/5;
-    itemsMenu[9].w = 100;
+    itemsMenu[9].id = "In 60 secondi hai raccolto: ";
+    itemsMenu[9].x = 50;
+    itemsMenu[9].y = height/2+50;
+    itemsMenu[9].w = 500;
     itemsMenu[9].h = 70;
 
-
-    itemsMenu[10].id = "Giro a tempo";
-    itemsMenu[10].x = (width/2)-100;
-    itemsMenu[10].y = height*2/6;
-    itemsMenu[10].w = 200;
+    itemsMenu[10].id = " Monete";
+    itemsMenu[10].x = 250;
+    itemsMenu[10].y = height/2-50;
+    itemsMenu[10].w = 250;
     itemsMenu[10].h = 70;
 
-    itemsMenu[11].id = "Giro libero";
+    itemsMenu[11].id = "Giro a tempo";
     itemsMenu[11].x = (width/2)-100;
-    itemsMenu[11].y = height*4/6;
+    itemsMenu[11].y = height*2/6;
     itemsMenu[11].w = 200;
     itemsMenu[11].h = 70;
+
+    itemsMenu[12].id = "Giro libero";
+    itemsMenu[12].x = (width/2)-100;
+    itemsMenu[12].y = height*4/6;
+    itemsMenu[12].w = 200;
+    itemsMenu[12].h = 70;
 
 }
 
@@ -124,8 +129,8 @@ void Menu::DrawButton(int totalPoint){
 
     if(totalPoint<0){
         if(totalPoint==-1){//disegna la scritta PAUSA
-            initI=(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-4;
-            limitElement=-3;
+            initI=(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-5;
+            limitElement=-4;
         }else if(totalPoint==-2){//visualizza le 2 opzioni di gioco
             initI=(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-2;
             limitElement=0;
@@ -133,22 +138,34 @@ void Menu::DrawButton(int totalPoint){
     }else{
         initI=0;
         if(timePlay){//disegna anche il tempo se gioco a tempo
-            limitElement=-4;
+            if(timeGame<0){
+                initI=(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-4;
+                limitElement=-2;
+            }else{
+                limitElement=-5;
+            }
         }else{
-            limitElement=-5;
+            limitElement=-6;
         }
     }
 
     for (int i = initI; i < (sizeof(itemsMenu)/ sizeof(itemsMenu[0]))+limitElement; ++i) {
         item=itemsMenu[i];
-        if(i==0){
-            id=(char *)(item.id+to_string(totalPoint)).c_str();
-        }else{
-            id=(char *)(item.id).c_str();
+        switch (i){
+            case 0:
+                id=(char *)(item.id+to_string(totalPoint)).c_str();
+                break;
+            case 7:
+                id=(char *)(item.id+to_string(timeGame)).c_str();
+                break;
+            case 10:
+                id=(char *)(to_string(totalPoint)+item.id).c_str();//todo
+                break;
+            default:
+                id=(char *)(item.id).c_str();
+                break;
         }
-        if(i==7){
-            id=(char *)(item.id+to_string(timeGame)).c_str();
-        }
+
         x=item.x;
         y=item.y;
         w=item.w;
@@ -198,7 +215,7 @@ void Menu::DrawButton(int totalPoint){
         glDisable(GL_BLEND);
 
         //bordo bottone
-        if(!i==(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-3){
+        if(!i==(sizeof(itemsMenu)/ sizeof(itemsMenu[0]))-5){
             glColor3ub(0,0,0);
             glBegin(GL_QUADS);
             glVertex2i(x-1,y-1);
@@ -264,12 +281,12 @@ void Menu::DrawStart(int width, int height){
     DrawButton(-2);
 }
 
-void Menu::DrawEndGame(int width, int height){
+void Menu::DrawEndGame(int width, int height, int totalPoint){
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluOrtho2D(0, width, 0, height);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    DrawButton(-3);
+    DrawButton(totalPoint);
 }

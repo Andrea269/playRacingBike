@@ -37,17 +37,20 @@ int point=0;
 int viewportW=1000;
 int viewportH=1000;
 
-bool isOnHeadlight=false;
-bool showTrackMap=false;
-bool useWireframe=false;
-bool isShadow=false;
-bool isPause=false;
+
 bool startPlay=false;
 bool timePlay=false;
 int timeGame;
 float worldLimit=250;
 SDL_TimerID timerID;
 SDL_TimerID timerVideo;
+
+bool isOnHeadlight=false;
+bool showTrackMap=false;
+bool useWireframe=false;
+bool isShadow=false;
+bool isPause=false;
+
 
 void  SetEndPlay(){
     bike.Init();
@@ -400,63 +403,64 @@ void rendering(SDL_Window *window){
     if(!startPlay){
         menu.DrawStart(viewportW, viewportH);
     }else {
-        menu.DrawMenu(viewportW, viewportH, point);
-        glViewport(0, 0, viewportW * 5 / 6, viewportH);//setto la viewport della pista
+        if(timePlay && timeGame<0){
+            menu.DrawEndGame(viewportW, viewportH, point);
+        }else{
+            menu.DrawMenu(viewportW, viewportH, point);
+            glViewport(0, 0, viewportW * 5 / 6, viewportH);//setto la viewport della pista
 
-        if (showTrackMap) {
-            drawMap();
+            if (showTrackMap) {
+                drawMap();
+            }
+            glColor3f(1, 1, 1);//setto il colore bianco di default
+
+            // settiamo la matrice di proiezione
+            glMatrixMode(GL_PROJECTION);
+            glLoadIdentity();
+            gluPerspective(70, //fovy,
+                           ((float) viewportW * 5 / 6) / viewportH,//aspect Y/X,
+                           0.25,//zNear,
+                           500  //zFar
+            );
+
+            glMatrixMode(GL_MODELVIEW);
+            glLoadIdentity();
+
+
+            // setto la posizione luce
+            float tmpv[4] = {0, 1, 2, 0}; // ultima comp=0 => luce direzionale
+            glLightfv(GL_LIGHT0, GL_POSITION, tmpv);
+
+            camera.UpdateCamera(bike.orientation, bike.positionOnX, bike.positionOnY, bike.positionOnZ);
+
+            // disegna assi frame MONDO
+            static float tmpcol[4] = {1, 1, 1, 1};
+            glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, tmpcol);
+            glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 127);
+
+
+            glEnable(GL_LIGHTING);
+
+            drawSky();
+            drawFloor();
+
+            bike.Render();
+            track.Render();
+            coin.Render();
+
+            if (isPause) {
+                menu.DrawPause(viewportW, viewportH);
+            }
+
+            glDisable(GL_DEPTH_TEST);
+            glDisable(GL_LIGHTING);
+
+            SetCoordToPixel();
+            glEnd();
+
+            glEnable(GL_DEPTH_TEST);
+            glEnable(GL_LIGHTING);
         }
-        glColor3f(1, 1, 1);//setto il colore bianco di default
-
-        // settiamo la matrice di proiezione
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        gluPerspective(70, //fovy,
-                       ((float) viewportW * 5 / 6) / viewportH,//aspect Y/X,
-                       0.25,//zNear,
-                       500  //zFar
-        );
-
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-
-
-        // setto la posizione luce
-        float tmpv[4] = {0, 1, 2, 0}; // ultima comp=0 => luce direzionale
-        glLightfv(GL_LIGHT0, GL_POSITION, tmpv);
-
-        camera.UpdateCamera(bike.orientation, bike.positionOnX, bike.positionOnY, bike.positionOnZ);
-
-        // disegna assi frame MONDO
-        static float tmpcol[4] = {1, 1, 1, 1};
-        glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, tmpcol);
-        glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 127);
-
-
-        glEnable(GL_LIGHTING);
-
-        drawSky();
-        drawFloor();
-
-        bike.Render();
-        track.Render();
-        coin.Render();
-
-        if(timePlay){
-            //todo classifica
-        }
-        if (isPause) {
-            menu.DrawPause(viewportW, viewportH);
-        }
-
-        glDisable(GL_DEPTH_TEST);
-        glDisable(GL_LIGHTING);
-
-        SetCoordToPixel();
-        glEnd();
-
-        glEnable(GL_DEPTH_TEST);
-        glEnable(GL_LIGHTING);
     }
     glFinish();
     // il buffer di lavoro diventa visibile
@@ -572,6 +576,11 @@ int main(int argc, char* argv[]){
                             case SDLK_F3://On/Off visualizza ombre
                                 isShadow=!isShadow;
                                 break;
+                            case SDLK_F12://On/Off visualizza ombre
+                                if(timePlay && timeGame<0){
+                                    SetEndPlay();
+                                }
+                                break;
                         }
                         break;
                     case SDL_KEYUP:
@@ -600,14 +609,14 @@ int main(int argc, char* argv[]){
                             case 6://esci
                                 SetEndPlay();
                                 break;
-                            case 10:
+                            case 11:
                                 startPlay= true;
                                 timePlay=true;
-                                timeGame=60;
+                                timeGame=1;
                                 timerID = SDL_AddTimer( timeGame * 1000, EndTimer, (void*)"60 seconds waited!" );
                                 timerVideo = SDL_AddTimer( 1 * 1000, UpdateTimerVideo, (void*)"1 seconds waited!" );
                                 break;
-                            case 11:
+                            case 12:
                                 startPlay= true;
                                 timePlay=false;
                                 break;
