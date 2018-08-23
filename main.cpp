@@ -46,7 +46,7 @@ bool startPlay = false;
 bool timePlay = false;
 int timeGame;
 int secondsStart = 3;
-const int secondsGame = 61;
+const int secondsGame = 2;// todo 61
 float worldLimit = 250;
 SDL_TimerID timerVideo;
 
@@ -394,8 +394,7 @@ void drawMap() {
 
 void rendering(SDL_Window *window) {
     glViewport(0, 0, viewportW, viewportH);
-    glClearColor(1, 1, 1, 1);// colore sfondo bianco
-
+    glClearColor(0.5, 1, 0.5, 1);// colore sfondo bianco
     // riempe tutto lo screen buffer di pixel color sfondo
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -405,6 +404,9 @@ void rendering(SDL_Window *window) {
         if (timePlay && timeGame < 0) {
             menu.DrawEndGame(viewportW, viewportH, point);
         } else {
+            glClearColor(1, 1, 1, 1);// colore sfondo bianco
+            // riempe tutto lo screen buffer di pixel color sfondo
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             menu.DrawMenu(viewportW, viewportH, point);
             glViewport(0, 0, viewportW * 5 / 6, viewportH);//setto la viewport della pista
 
@@ -708,9 +710,11 @@ int main(int argc, char *argv[]) {
                         break;
                 }
             } else {
+                /* quando renderizzare
+                 * attualmente 60 frame al secondo ovvero minimo 17 millisecondi di latenza fra 2 frame differenti
+                 */
                 nowTime = SDL_GetTicks();
-                //quando renderizzare
-                if (lastTime + (1/fps*1000) < nowTime) {//attualmente 60 frame al secondo ovvero 17 millisecondi di latenza fra 2 frame differenti
+                if (lastTime + (1/fps*1000) < nowTime) {
                     lastTime = nowTime;
                     bike.ChangeState();
                     point = coin.ChangeState(bike.positionOnX, bike.positionOnZ);

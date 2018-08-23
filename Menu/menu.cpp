@@ -40,7 +40,7 @@ void Menu::Init() {
 void Menu::InitMenu(int width, int height) {
     int startMenuW = (width * 5 / 6) + indentMenu;
     heightMenu = height;
-    itemsMenu[0].id = "Punteggio: ";
+    itemsMenu[0].id = "Monete: ";
     itemsMenu[0].x = startMenuW;
     itemsMenu[0].y = height - 50;
     itemsMenu[0].w = 150;
@@ -101,9 +101,9 @@ void Menu::InitMenu(int width, int height) {
     itemsMenu[9].h = 60;
 
     itemsMenu[10].id = " Monete";
-    itemsMenu[10].x = 250;
+    itemsMenu[10].x = 300;
     itemsMenu[10].y = height / 2 - 50;
-    itemsMenu[10].w = 250;
+    itemsMenu[10].w = 200;
     itemsMenu[10].h = 60;
 
     itemsMenu[11].id = "Premere F12 per Uscire";
@@ -112,23 +112,23 @@ void Menu::InitMenu(int width, int height) {
     itemsMenu[11].w = 250;
     itemsMenu[11].h = 30;
 
-    itemsMenu[12].id = "Selezionare la modalita' di gioco";
-    itemsMenu[12].x = (width / 2) - 200;
+    itemsMenu[12].id = "Selezionare la modalita' di gioco:";
+    itemsMenu[12].x = (width / 2) - 250;
     itemsMenu[12].y = height * 5 / 6;
-    itemsMenu[12].w = 350;
+    itemsMenu[12].w = 500;
     itemsMenu[12].h = 70;
 
     itemsMenu[13].id = "Giro a tempo";
     itemsMenu[13].x = (width / 2) - 100;
     itemsMenu[13].y = height * 3 / 6;
     itemsMenu[13].w = 150;
-    itemsMenu[13].h = 70;
+    itemsMenu[13].h = 50;
 
     itemsMenu[14].id = "Giro libero";
     itemsMenu[14].x = (width / 2) - 100;
     itemsMenu[14].y = height * 2 / 6;
     itemsMenu[14].w = 150;
-    itemsMenu[14].h = 70;
+    itemsMenu[14].h = 50;
 
 }
 
