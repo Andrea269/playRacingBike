@@ -32,14 +32,36 @@ Mesh brakes((char *)"Bike/BikeMesh/BrakesBike.obj");
 Mesh inclinationReference((char *)"Bike/BikeMesh/InclinationReference.obj");
 
 extern bool startPlay;
+extern bool timePlay;
+extern int secondsStart;
 extern bool isOnHeadlight;
 extern bool isShadow;
 extern float worldLimit;
 
-void EventBike::EventButton(int button, bool isPressed, int* comands){
+
+void EventBike::Init(){
     for (int i=0; i<NBUTTON; i++){
-        if(startPlay && button==comands[i]){
-            isButtonPres[i]=isPressed;
+        isButtonPres[i]=false;
+    }
+}
+
+
+void EventBike::EventButton(int button, bool isPressed, int* comands){
+    bool condComands=false;
+    if(startPlay){
+        if(timePlay){
+            if(secondsStart<0){
+                condComands=true;
+            }
+        }else{
+            condComands=true;
+        }
+    }
+    if(condComands){
+        for (int i=0; i<NBUTTON; i++){
+            if(button==comands[i]){
+                isButtonPres[i]=isPressed;
+            }
         }
     }
 }
@@ -55,6 +77,7 @@ void Bike::Init() {
     steeringWheel=0.0;
     handlebars=0.0;
     wheelRotation=0.0;
+    eventBike.Init();
 }
 
 void Bike::Render() const{//todo ruote oscillano SISTEMARE

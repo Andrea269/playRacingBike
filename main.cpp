@@ -38,13 +38,15 @@ int viewportW=1000;
 int viewportH=1000;
 
 
-bool startPlay= true;//todo
+bool startPlay= false;
 bool timePlay=false;
 int timeGame;
+int secondsStart = 3;
+const int secondsGame = 11;//todo 61
 float worldLimit=250;
 SDL_TimerID timerVideo;
 
-bool isOnHeadlight=true;//todo
+bool isOnHeadlight=false;
 bool showTrackMap=false;
 bool useWireframe=false;
 bool isShadow=false;
@@ -64,7 +66,7 @@ void  SetEndPlay(){
     startPlay=false;
     timePlay=false;
     SDL_RemoveTimer( timerVideo );
-
+    secondsStart = 3;
 }
 
 void  SetCoordToPixel(){
@@ -467,6 +469,7 @@ void rendering(SDL_Window *window){
 
 Uint32 UpdateTimerVideo( Uint32 interval, void* param ){
     timeGame--;
+    secondsStart--;
     timerVideo = SDL_AddTimer( 1 * 1000, UpdateTimerVideo, (void*)"1 seconds waited!" );
     return 0;
 }
@@ -599,8 +602,8 @@ int main(int argc, char* argv[]){
                                 break;
                             case 13:
                                 startPlay= true;
+                                timeGame=secondsStart+secondsGame;
                                 timePlay=true;
-                                timeGame=10;//todo 60
                                 timerVideo = SDL_AddTimer( 1 * 1000, UpdateTimerVideo, (void*)"1 seconds waited!" );
                                 break;
                             case 14:

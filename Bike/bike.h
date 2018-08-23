@@ -5,11 +5,10 @@ enum {NBUTTON=4, W=0, S=1, A=2, D=3};
 
 class EventBike{
 public:
+    void Init();
     void EventButton(int button, bool isPressed, int* comands);
     EventBike(){
-        for (int i=0; i<NBUTTON; i++){
-            isButtonPres[i]=false;
-        }
+        Init();
     }
 
     bool isButtonPres[NBUTTON];
