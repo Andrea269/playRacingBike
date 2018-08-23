@@ -85,8 +85,6 @@ void Bike::Render() const{//todo ruote oscillano SISTEMARE
     glTranslatef(positionOnX, positionOnY, positionOnZ);
     glRotatef(orientation, 0, 1, 0);
 
-
-
     RenderBike(false);
     if(isShadow){
         RenderBike(true);
@@ -140,7 +138,7 @@ void Bike::RenderBike(bool isShadow) const{
         if(isOnHeadlight){
             OnHeadlight(0, 2.5, 1.3, GL_LIGHT1 + 4);
         }else {
-            glDisable(GL_LIGHT1 + 1);
+            glDisable(GL_LIGHT1 + 4);
         }
     }
     //glTranslatef(0, -backWheel.bbmin.Y(), 0);

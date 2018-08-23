@@ -42,7 +42,7 @@ bool startPlay= false;
 bool timePlay=false;
 int timeGame;
 int secondsStart = 3;
-const int secondsGame = 11;//todo 61
+const int secondsGame = 61;
 float worldLimit=250;
 SDL_TimerID timerVideo;
 
