@@ -92,7 +92,7 @@ void Bike::OnHeadlight(float x, float y, float z, int intensityLight) const{
     glLightf (intensityLight, GL_SPOT_EXPONENT,5);
 
     glLightf(intensityLight,GL_CONSTANT_ATTENUATION,0);
-    glLightf(intensityLight,GL_LINEAR_ATTENUATION,1);
+    glLightf(intensityLight,GL_LINEAR_ATTENUATION,0.1);
 
 }
 
@@ -115,7 +115,7 @@ void Bike::RenderBike(bool isShadow) const{
     if(!isShadow){
 
         if(isOnHeadlight){
-            OnHeadlight(0, 2.5, 1.3, GL_LIGHT1 + 1);
+            OnHeadlight(0, 2.5, 1.3, GL_LIGHT1 + 4);
         }else {
             glDisable(GL_LIGHT1 + 1);
         }

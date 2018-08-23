@@ -38,13 +38,13 @@ int viewportW=1000;
 int viewportH=1000;
 
 
-bool startPlay=false;
+bool startPlay= true;//todo
 bool timePlay=false;
 int timeGame;
 float worldLimit=250;
 SDL_TimerID timerVideo;
 
-bool isOnHeadlight=false;
+bool isOnHeadlight=true;//todo
 bool showTrackMap=false;
 bool useWireframe=false;
 bool isShadow=false;
@@ -442,9 +442,9 @@ void rendering(SDL_Window *window){
             drawSky();
             drawFloor();
 
-            bike.Render();
             track.Render();
             coin.Render();
+            bike.Render();
 
             if (isPause) {
                 menu.DrawPause(viewportW, viewportH);

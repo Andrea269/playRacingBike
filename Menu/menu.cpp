@@ -77,10 +77,10 @@ void Menu::InitMenu(int width, int height){
     itemsMenu[6].w = 50;
     itemsMenu[6].h = 30;
 
-    itemsMenu[7].id = "Tempo: 00:";
-    itemsMenu[7].x = width*4/6;
+    itemsMenu[7].id = "00:";
+    itemsMenu[7].x = (width*5/6)/2-30;
     itemsMenu[7].y = height-50;
-    itemsMenu[7].w = 150;
+    itemsMenu[7].w = 60;
     itemsMenu[7].h = 30;
 
     itemsMenu[8].id = "PAUSA";
@@ -93,13 +93,13 @@ void Menu::InitMenu(int width, int height){
     itemsMenu[9].x = 50;
     itemsMenu[9].y = height/2+50;
     itemsMenu[9].w = 500;
-    itemsMenu[9].h = 70;
+    itemsMenu[9].h = 60;
 
     itemsMenu[10].id = " Monete";
     itemsMenu[10].x = 250;
     itemsMenu[10].y = height/2-50;
     itemsMenu[10].w = 250;
-    itemsMenu[10].h = 70;
+    itemsMenu[10].h = 60;
 
     itemsMenu[11].id = "Premere F12 per Uscire";
     itemsMenu[11].x = 50;
