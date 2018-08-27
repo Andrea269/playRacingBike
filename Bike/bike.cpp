@@ -160,7 +160,7 @@ void Bike::RenderBike(bool isShadow) const{
     if(!isShadow){
         glColor3f(0.2, 0.2, 0.2);
     }
-    backWheel.RenderNxV();
+    backWheel.RenderNxF();
     if(!isShadow){
         glColor3f(0.9, 0.9, 0.9);
     }
@@ -193,7 +193,7 @@ void Bike::RenderBike(bool isShadow) const{
     if(!isShadow){
         glColor3f(0.2, 0.2, 0.2);
     }
-    frontWheel.RenderNxV();
+    frontWheel.RenderNxF();
     if(!isShadow){
         glColor3f(0.9, 0.9, 0.9);
     }

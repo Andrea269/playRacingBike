@@ -40,8 +40,8 @@ public:
     const float returnSpeedSteering= 0.95;
     const float frictionOnX= 0.8;
     const float frictionOnY= 1.0;
-    const float frictionOnZ= 0.999;
-    const float acceleration= 0.0015;
+    const float frictionOnZ= 0.99;
+    const float acceleration= 0.004;
     const float grip = 0.45;
     const float wheelSpoke = 0.8;
 private:
