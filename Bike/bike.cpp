@@ -80,7 +80,7 @@ void Bike::Init() {
     eventBike.Init();
 }
 
-void Bike::Render() const{//todo ruote oscillano SISTEMARE
+void Bike::Render() const{
     glPushMatrix();
     glTranslatef(positionOnX, positionOnY, positionOnZ);
     glRotatef(orientation, 0, 1, 0);
@@ -97,10 +97,10 @@ void Bike::OnHeadlight(float x, float y, float z, int intensityLight) const{
 
     glEnable(intensityLight);
 
-    float col0[4]= {0.8,0.8,0.0,  1};
+    float col0[4]= {0.8,0.8,0.0,1};
     glLightfv(intensityLight, GL_DIFFUSE, col0);
 
-    float col1[4]= {0.5,0.5,0.0,  1};
+    float col1[4]= {0.5,0.5,0.0,1};
     glLightfv(intensityLight, GL_AMBIENT, col1);
 
     float tmpPos[4] = {x,y,z,  1}; // ultima comp=1 => luce posizionale
@@ -129,7 +129,7 @@ void Bike::RenderBike(bool isShadow) const{
         glEnable(GL_LIGHTING);
     }
     glScalef(-0.4,0.4,-0.4);
-//    float xxx=(backWheel.bbmax.Z()-backWheel.bbmin.Z())/2;
+    glRotatef(-2, 0, 0, 1);//allineamento moto
     glTranslate(  inclinationReference.Center() );
     glRotatef(steeringWheel, 0, 0, 1);//inclinazione moto per svolta destra o sinistra
     glTranslate(  -inclinationReference.Center() );
@@ -154,12 +154,13 @@ void Bike::RenderBike(bool isShadow) const{
 
     glPushMatrix();
     glTranslate(  backWheel.Center() );
-    glRotatef(-wheelRotation, 1, 0, 0);
+    glRotatef(-wheelRotation, 1, 0, 0);//rotazione ruota
+    glRotatef(-2, 0, 0, 1);//allineamento ruota
     glTranslate( -backWheel.Center() );
     if(!isShadow){
         glColor3f(0.2, 0.2, 0.2);
     }
-    backWheel.RenderNxF();
+    backWheel.RenderNxV();
     if(!isShadow){
         glColor3f(0.9, 0.9, 0.9);
     }
@@ -186,12 +187,13 @@ void Bike::RenderBike(bool isShadow) const{
 
     glPushMatrix();
     glTranslate(  frontWheel.Center() );
-    glRotatef(-wheelRotation, 1, 0, 0);
+    glRotatef(-wheelRotation, 1, 0, 0);//rotazione ruota
+    glRotatef(-2, 0, 0, 1);//allineamento ruota
     glTranslate( -frontWheel.Center() );
     if(!isShadow){
         glColor3f(0.2, 0.2, 0.2);
     }
-    frontWheel.RenderNxF();
+    frontWheel.RenderNxV();
     if(!isShadow){
         glColor3f(0.9, 0.9, 0.9);
     }
