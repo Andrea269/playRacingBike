@@ -11,6 +11,7 @@ class Track{
 public:
     void InitTrack(float x, float z);
     void Render();
+    bool OnTrack(float x, float z);
     Track(){
         positionOnY=0;
         positionOnX, positionOnZ=0;

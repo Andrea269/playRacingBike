@@ -46,7 +46,7 @@ bool startPlay = false;
 bool timePlay = false;
 int timeGame;
 int secondsStart = 3;
-const int secondsGame = 1;
+const int secondsGame = 1;//todo
 float worldLimit = 250;
 SDL_TimerID timerVideo;
 
@@ -55,6 +55,8 @@ bool showTrackMap = false;
 bool useWireframe = false;
 bool isShadow = false;
 bool isPause = false;
+
+bool isOnTrack = true;
 
 
 void SetEndPlay() {
@@ -394,8 +396,8 @@ void drawMap() {
 
 void rendering(SDL_Window *window) {
     glViewport(0, 0, viewportW, viewportH);
-    glClearColor(0.5, 1, 0.5, 1);// colore sfondo bianco
-    // riempe tutto lo screen buffer di pixel color sfondo
+    glClearColor(0.5, 1, 0.5, 1);// colore sfondo
+    // riempe tutto lo screen buffer di pixel colore sfondo
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     if (!startPlay) {
@@ -716,6 +718,7 @@ int main(int argc, char *argv[]) {
                 nowTime = SDL_GetTicks();
                 if (lastTime + (1/fps*1000) < nowTime) {
                     lastTime = nowTime;
+                    isOnTrack=track.OnTrack(bike.positionOnX, bike.positionOnZ);
                     bike.ChangeState();
                     point = coin.ChangeState(bike.positionOnX, bike.positionOnZ);
                     rendering(window);

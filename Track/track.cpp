@@ -124,9 +124,136 @@ Mesh curve27t2((char *)"Track/TrackMesh/Curve/Curve27-2.obj");
 Mesh curve28t1((char *)"Track/TrackMesh/Curve/Curve28-1.obj");
 Mesh curve29t3((char *)"Track/TrackMesh/Curve/Curve29-3.obj");
 
+
+const int MAX_PIECES=102;
+Mesh* piecesTrack[MAX_PIECES];
+
 void Track::InitTrack(float x, float z) {
     positionOnX=x;
     positionOnZ=z;
+
+    piecesTrack[0]=&start;
+    piecesTrack[1]=&cross3road1t1;
+    piecesTrack[2]=&cross3road2t1;
+    piecesTrack[3]=&cross3road3t1;
+    piecesTrack[4]=&cross3road4t2;
+    piecesTrack[5]=&line1v;
+    piecesTrack[6]=&line2v;
+    piecesTrack[7]=&line3v;
+    piecesTrack[8]=&line4v;
+    piecesTrack[9]=&line5o;
+    piecesTrack[10]=&line6o;
+    piecesTrack[11]=&line7o;
+    piecesTrack[12]=&line8v;
+    piecesTrack[13]=&line9o;
+    piecesTrack[14]=&line10o;
+    piecesTrack[15]=&line11o;
+    piecesTrack[16]=&line12v;
+    piecesTrack[17]=&line13v;
+    piecesTrack[18]=&line14v;
+    piecesTrack[19]=&line15v;
+    piecesTrack[20]=&line16o;
+    piecesTrack[21]=&line17o;
+    piecesTrack[22]=&line18o;
+    piecesTrack[23]=&line19o;
+    piecesTrack[24]=&line20o;
+    piecesTrack[25]=&line21o;
+    piecesTrack[26]=&line22o;
+    piecesTrack[27]=&line23o;
+    piecesTrack[28]=&line24o;
+    piecesTrack[29]=&line25v;
+    piecesTrack[30]=&line26v;
+    piecesTrack[31]=&line27v;
+    piecesTrack[32]=&line28v;
+    piecesTrack[33]=&line29v;
+    piecesTrack[34]=&line30v;
+    piecesTrack[35]=&line31o;
+    piecesTrack[36]=&line32v;
+    piecesTrack[37]=&line33v;
+    piecesTrack[38]=&line34v;
+    piecesTrack[39]=&line35v;
+    piecesTrack[40]=&line36v;
+    piecesTrack[41]=&line37v;
+    piecesTrack[42]=&line38v;
+    piecesTrack[43]=&line39v;
+    piecesTrack[44]=&line40v;
+    piecesTrack[45]=&line41o;
+    piecesTrack[46]=&line42o;
+    piecesTrack[47]=&line43o;
+    piecesTrack[48]=&line44o;
+    piecesTrack[49]=&line45o;
+    piecesTrack[50]=&line46o;
+    piecesTrack[51]=&line47o;
+    piecesTrack[52]=&line48o;
+    piecesTrack[53]=&line49o;
+    piecesTrack[54]=&line50o;
+    piecesTrack[55]=&line51o;
+    piecesTrack[56]=&line52o;
+    piecesTrack[57]=&line53o;
+    piecesTrack[58]=&line54o;
+    piecesTrack[59]=&line55v;
+    piecesTrack[60]=&line56v;
+    piecesTrack[61]=&line57o;
+    piecesTrack[62]=&line58o;
+    piecesTrack[63]=&line59o;
+    piecesTrack[64]=&line60o;
+    piecesTrack[65]=&line61o;
+    piecesTrack[66]=&line62o;
+    piecesTrack[67]=&line63o;
+    piecesTrack[68]=&line64o;
+    piecesTrack[69]=&line65o;
+    piecesTrack[70]=&line66v;
+    piecesTrack[71]=&line67v;
+    piecesTrack[72]=&line68v;
+    piecesTrack[73]=&curve1t4;
+    piecesTrack[74]=&curve2t2;
+    piecesTrack[75]=&curve3t4;
+    piecesTrack[76]=&curve4t3;
+    piecesTrack[77]=&curve5t1;
+    piecesTrack[78]=&curve6t3;
+    piecesTrack[79]=&curve7t2;
+    piecesTrack[80]=&curve8t4;
+    piecesTrack[81]=&curve9t2;
+    piecesTrack[82]=&curve10t4;
+    piecesTrack[83]=&curve11t3;
+    piecesTrack[84]=&curve12t1;
+    piecesTrack[85]=&curve13t3;
+    piecesTrack[86]=&curve14t4;
+    piecesTrack[87]=&curve15t2;
+    piecesTrack[88]=&curve16t1;
+    piecesTrack[89]=&curve17t3;
+    piecesTrack[90]=&curve18t4;
+    piecesTrack[91]=&curve19t1;
+    piecesTrack[92]=&curve20t2;
+    piecesTrack[93]=&curve21t3;
+    piecesTrack[94]=&curve22t1;
+    piecesTrack[95]=&curve23t3;
+    piecesTrack[96]=&curve24t4;
+    piecesTrack[97]=&curve25t2;
+    piecesTrack[98]=&curve26t4;
+    piecesTrack[99]=&curve27t2;
+    piecesTrack[100]=&curve28t1;
+    piecesTrack[101]=&curve29t3;
+}
+
+
+bool Track::OnTrack(float x, float z) {
+    bool res=false;
+    int i=0;
+    while (!res && i<MAX_PIECES){
+        /*
+         coins[i]->Center().X()>x-rangeBike && coins[i]->Center().X()<x+rangeBike &&
+               coins[i]->Center().Z()>z-rangeBike && coins[i]->Center().Z()<z+rangeBike
+         */
+
+
+
+        if(false){//todo
+            res=true;
+        }
+        i++;
+    }
+    return res;
 }
 
 void Track::Render() {

@@ -37,6 +37,7 @@ extern int secondsStart;
 extern bool isOnHeadlight;
 extern bool isShadow;
 extern float worldLimit;
+extern bool isOnTrack;
 
 
 void EventBike::Init(){
@@ -77,6 +78,10 @@ void Bike::Init() {
     steeringWheel=0.0;
     handlebars=0.0;
     wheelRotation=0.0;
+
+    frictionOnX= 0.8;
+    frictionOnY= 1.0;
+    frictionOnZ= 0.99;
     eventBike.Init();
 }
 
@@ -209,6 +214,14 @@ void Bike::RenderBike(bool isShadow) const{
 }
 
 void Bike::ChangeState(){
+    if(isOnTrack){
+        frictionOnX= 0.8;
+        frictionOnZ= 0.99;
+    }else{
+        frictionOnX= 0.9;
+        frictionOnZ= 0.8;//todo
+    }
+
     float limitBike=(pow(positionOnX,2))+(pow(positionOnZ,2));
     // da velocità frame mondo a velocità frame moto
     float angleOrientation=orientation*M_PI/180.0;
