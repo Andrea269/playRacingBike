@@ -218,8 +218,8 @@ void Bike::ChangeState(){
         frictionOnX= 0.8;
         frictionOnZ= 0.99;
     }else{
-        frictionOnX= 0.9;
-        frictionOnZ= 0.8;//todo
+        frictionOnX= 0.98;
+        frictionOnZ= 1;
     }
 
     float limitBike=(pow(positionOnX,2))+(pow(positionOnZ,2));

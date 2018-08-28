@@ -17,7 +17,7 @@ public:
         positionOnX, positionOnZ=0;
     }
     float positionOnX, positionOnY, positionOnZ;
-//    vector pieceTrack;
+    const float scale = 10;
 private:
     void SetupRoadTexture(float minX, float maxX, float minZ, float maxZ, int numbertexture);
 };

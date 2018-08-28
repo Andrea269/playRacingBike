@@ -241,15 +241,10 @@ bool Track::OnTrack(float x, float z) {
     bool res=false;
     int i=0;
     while (!res && i<MAX_PIECES){
-        /*
-         coins[i]->Center().X()>x-rangeBike && coins[i]->Center().X()<x+rangeBike &&
-               coins[i]->Center().Z()>z-rangeBike && coins[i]->Center().Z()<z+rangeBike
-         */
-
-
-
-        if(false){//todo
+        if(piecesTrack[i]->bbmax.X()*scale>-x && piecesTrack[i]->bbmin.X()*scale<-x &&
+                piecesTrack[i]->bbmax.Z()*scale>-z && piecesTrack[i]->bbmin.Z()*scale<-z){
             res=true;
+           // printf("%d:x=%f,z=%f,xmax=%f,xmin=%f,zmax=%f,zmin=%f\n",i,x,z,piecesTrack[i]->bbmax.X()*scale,piecesTrack[i]->bbmin.X()*scale,piecesTrack[i]->bbmax.Z()*scale, piecesTrack[i]->bbmin.Z()*scale);
         }
         i++;
     }
@@ -260,7 +255,7 @@ void Track::Render() {
     glPushMatrix();
     glTranslatef(positionOnX, positionOnY, positionOnZ);
 
-    glScalef(-10,10,-10);
+    glScalef(-scale,scale,-scale);
 
     SetupRoadTexture(start.bbmin.X(), start.bbmax.X(), start.bbmin.Z(), start.bbmax.Z(), 7);
     start.RenderNxV();
@@ -441,7 +436,7 @@ void Track::SetupRoadTexture(float minX, float maxX, float minZ, float maxZ, int
 
     glTexGeni(GL_S, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
     glTexGeni(GL_T, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
-    float sz=1.0/(maxZ - minZ);
+    float sz=1/(maxZ - minZ);
     float sx=1/(maxX - minX);
     float s[4]={sx, 0,0, - minX*sx };
     float t[4]={0,0,sz,  - minZ*sz };
