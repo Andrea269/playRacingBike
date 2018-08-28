@@ -82,8 +82,10 @@ Mesh coin58((char *)"Coin/CoinMesh/coin58.obj");
 Mesh coin59((char *)"Coin/CoinMesh/coin59.obj");
 
 const int MAX_COINS=60;
+const int MAX_SPECIALCOINS=7;
 Mesh* coins[MAX_COINS];
 bool destroy[MAX_COINS];
+int specialCoins[MAX_SPECIALCOINS];
 
 extern bool isShadow;
 
@@ -155,6 +157,10 @@ void Coin::InitStatusCoin() {
         destroy[i]=false;
     }
     coinDestroy=0;
+    int rangeRadom=MAX_COINS/MAX_SPECIALCOINS;
+    for (int i = 0; i < MAX_SPECIALCOINS; ++i) {
+        specialCoins[i]=(rand() % 10) +(rangeRadom*i);
+    }
 }
 
 void Coin::Render() {
@@ -163,22 +169,37 @@ void Coin::Render() {
 
     glScalef(-scale,scale,-scale);
     glBindTexture(GL_TEXTURE_2D,0);
+    bool condSpecialCoins;
 
     for (int i = 0; i < MAX_COINS; i++) {
+        condSpecialCoins=false;
         if(!destroy[i]){
+            for (int j = 0; j < MAX_SPECIALCOINS; ++j) {
+                if(i==specialCoins[j]){
+                    condSpecialCoins=true;
+                }
+            }
             glPushMatrix();
 
             glPushMatrix();
             glTranslate(coins[i]->Center());
             glRotatef(coinRotation, 0, 1, 0);
             glTranslate(-coins[i]->Center());
-            SetupCoinTexture(coins[i]->bbmin.Z(), coins[i]->bbmax.Z(), coins[i]->bbmin.Y(), coins[i]->bbmax.Y());
-            coins[i]->RenderNxV();
-            glPopMatrix();
+            if(condSpecialCoins){
+                glColor3f(1,0,0);
+                coins[i]->RenderNxV();
+                glPopMatrix();
+            }else{
+                glColor3f(1,1,1);
+                SetupCoinTexture(coins[i]->bbmin.Z(), coins[i]->bbmax.Z(), coins[i]->bbmin.Y(), coins[i]->bbmax.Y());
+                coins[i]->RenderNxV();
+                glPopMatrix();
 
-            glDisable(GL_TEXTURE_GEN_S);
-            glDisable(GL_TEXTURE_GEN_T);
-            glDisable(GL_TEXTURE_2D);
+                glDisable(GL_TEXTURE_GEN_S);
+                glDisable(GL_TEXTURE_GEN_T);
+                glDisable(GL_TEXTURE_2D);
+            }
+
             glPopMatrix();
         }
     }
@@ -196,6 +217,11 @@ int Coin::ChangeState(float xBike, float zBike) {
                coins[i]->Center().Z()>z-rangeBike && coins[i]->Center().Z()<z+rangeBike){
                 destroy[i]=true;
                 coinDestroy++;
+                for (int j = 0; j < MAX_SPECIALCOINS; ++j) {
+                    if(i==specialCoins[j]){
+                        coinDestroy+=6;
+                    }
+                }
             }
         }
     }
