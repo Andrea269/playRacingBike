@@ -43,7 +43,7 @@ void Menu::InitMenu(int width, int height) {
     itemsMenu[0].id = "Monete: ";
     itemsMenu[0].x = startMenuW;
     itemsMenu[0].y = height - 50;
-    itemsMenu[0].w = 150;
+    itemsMenu[0].w = 130;
     itemsMenu[0].h = 30;
 
     itemsMenu[1].id = "On/Off Faro moto";
@@ -54,13 +54,13 @@ void Menu::InitMenu(int width, int height) {
 
     itemsMenu[2].id = "On/Off Ombra";
     itemsMenu[2].x = startMenuW;
-    itemsMenu[2].y = ((height / 7) * 5) - 50;
+    itemsMenu[2].y = ((height / 7) * 5) - 50+20;
     itemsMenu[2].w = 150;
     itemsMenu[2].h = 30;
 
     itemsMenu[3].id = "On/Off Wireframe";
     itemsMenu[3].x = startMenuW;
-    itemsMenu[3].y = ((height / 7) * 4) - 50;
+    itemsMenu[3].y = ((height / 7) * 4) - 50+40;
     itemsMenu[3].w = 150;
     itemsMenu[3].h = 30;
 
@@ -72,7 +72,7 @@ void Menu::InitMenu(int width, int height) {
 
     itemsMenu[5].id = "Mappa";
     itemsMenu[5].x = startMenuW;
-    itemsMenu[5].y = ((height / 7) * 2) - 50;
+    itemsMenu[5].y = ((height / 7) * 2) - 50+20;
     itemsMenu[5].w = 70;
     itemsMenu[5].h = 30;
 
@@ -95,19 +95,19 @@ void Menu::InitMenu(int width, int height) {
     itemsMenu[8].h = 70;
 
     itemsMenu[9].id = "In 60 secondi hai raccolto: ";
-    itemsMenu[9].x = 50;
+    itemsMenu[9].x = width/2-150;
     itemsMenu[9].y = height / 2 + 50;
-    itemsMenu[9].w = 500;
-    itemsMenu[9].h = 60;
+    itemsMenu[9].w = 300;
+    itemsMenu[9].h = 45;
 
     itemsMenu[10].id = " Monete";
-    itemsMenu[10].x = 300;
+    itemsMenu[10].x = width/2-50;
     itemsMenu[10].y = height / 2 - 50;
-    itemsMenu[10].w = 200;
-    itemsMenu[10].h = 60;
+    itemsMenu[10].w = 100;
+    itemsMenu[10].h = 45;
 
     itemsMenu[11].id = "Premere F12 per Uscire";
-    itemsMenu[11].x = 50;
+    itemsMenu[11].x = width-350;
     itemsMenu[11].y = height / 2 - 150;
     itemsMenu[11].w = 250;
     itemsMenu[11].h = 30;
@@ -239,7 +239,7 @@ void Menu::DrawButton(int totalPoint) {
         glDisable(GL_BLEND);
 
         //bordo bottone
-        if (!i == (sizeof(itemsMenu) / sizeof(itemsMenu[0])) - 5) {
+        if (i<(sizeof(itemsMenu) / sizeof(itemsMenu[0])) - 7 || i >(sizeof(itemsMenu) / sizeof(itemsMenu[0])) - 3){
             glColor3ub(0, 0, 0);
             glBegin(GL_QUADS);
             glVertex2i(x - 1, y - 1);
