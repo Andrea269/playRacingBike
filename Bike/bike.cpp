@@ -215,7 +215,7 @@ void Bike::RenderBike(bool isShadow) const{
 
 void Bike::ChangeState(){
     if(isOnTrack){
-        frictionOnX= 0.8;
+        frictionOnX= 0.7;
         frictionOnZ= 0.99;
     }else{
         frictionOnX= 0.98;
