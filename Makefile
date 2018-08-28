@@ -34,7 +34,6 @@ RM = rm -f
 
 all: $(BIN)
 
-
 clean:
 	${RM} $(OBJ) $(BIN)
 
@@ -61,4 +60,3 @@ Coin/coin.o: Coin/coin.cpp
 
 Track/track.o: Track/track.cpp
 	$(CPP) -c -Wno-deprecated $(FRMPATH) Track/track.cpp -o Track/track.o
-

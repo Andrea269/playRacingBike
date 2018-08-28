@@ -22,7 +22,7 @@ void Camera::InitCamera(){
     cameras[0].height= 1;
     cameras[0].plusAngle= 1;
     cameras[0].plusEY= 1;
-    //camera posizionata d'avanti alla moto
+    //camera posizionata d'avanti alla moto in direzione della moto
     cameras[1].distance= -3.1;
     cameras[1].height= 1;
     cameras[1].plusAngle= -1;
@@ -45,8 +45,7 @@ void Camera::InitIndex(){
 }
 
 void Camera::UpdateCamera(float orientation, float positionOnX, float positionOnY, float positionOnZ){
-
-    if(indexCamera==4){
+    if(indexCamera==4){//camera libera
         glTranslatef(0,0,-eyeDistance);
         glRotatef(viewBeta,  1,0,0);
         glRotatef(viewAlpha, 0,1,0);
@@ -89,7 +88,6 @@ void Camera::UpdateIndexCamera(){
 }
 
 void Camera::UpdateEyeDistance(bool greater0, bool lower0){
-
     if(indexCamera==4){
         // avvicino il punto di vista (zoom in)
         if (greater0) {
@@ -103,7 +101,6 @@ void Camera::UpdateEyeDistance(bool greater0, bool lower0){
             eyeDistance=eyeDistance/0.9;
         }
     }
-
 }
 
 void Camera::UpdateView(float x, float y){

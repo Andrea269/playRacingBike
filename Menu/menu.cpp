@@ -40,6 +40,10 @@ void Menu::Init() {
 void Menu::InitMenu(int width, int height) {
     int startMenuW = (width * 5 / 6) + indentMenu;
     heightMenu = height;
+    /*
+     * le seguenti 7 voci in itemsMenu di indice 0-1-2-3-4-5-6
+     * rappresentano il menu 2D affiancato al gioco
+    */
     itemsMenu[0].id = "Monete: ";
     itemsMenu[0].x = startMenuW;
     itemsMenu[0].y = height - 50;
@@ -82,6 +86,7 @@ void Menu::InitMenu(int width, int height) {
     itemsMenu[6].w = 50;
     itemsMenu[6].h = 30;
 
+    //voce dedicata al timer per la modalità di gioco a tempo
     itemsMenu[7].id = "00:";
     itemsMenu[7].x = (width * 5 / 6) / 2 - 30;
     itemsMenu[7].y = height - 50;
@@ -94,6 +99,10 @@ void Menu::InitMenu(int width, int height) {
     itemsMenu[8].w = 100;
     itemsMenu[8].h = 70;
 
+    /*
+     * le seguenti 3 voci in itemsMenu di indice 9-10-11
+     * rappresentano le scritte visualizzate dopo lo scadere del tempo nella modalità di gioco a tempo
+    */
     itemsMenu[9].id = "In 60 secondi hai raccolto: ";
     itemsMenu[9].x = width/2-150;
     itemsMenu[9].y = height / 2 + 50;
@@ -112,6 +121,10 @@ void Menu::InitMenu(int width, int height) {
     itemsMenu[11].w = 250;
     itemsMenu[11].h = 30;
 
+    /*
+     * le seguenti 3 voci in itemsMenu di indice 12-13-14
+     * rappresentano il menu iniziale per la scelta della modalità di gioco
+    */
     itemsMenu[12].id = "Selezionare la modalita' di gioco:";
     itemsMenu[12].x = (width / 2) - 250;
     itemsMenu[12].y = height * 5 / 6;
@@ -129,7 +142,6 @@ void Menu::InitMenu(int width, int height) {
     itemsMenu[14].y = height * 2 / 6;
     itemsMenu[14].w = 150;
     itemsMenu[14].h = 50;
-
 }
 
 void Menu::DrawButton(int totalPoint) {
@@ -219,11 +231,11 @@ void Menu::DrawButton(int totalPoint) {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         glEnable(GL_BLEND);
-        //prepara il render della texture
+        //preparo il render della texture
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, 10);
 
-        // disegno bottone
+        //disegno il bottone
         glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 1.0f);
         glVertex2f(x, y);
@@ -238,7 +250,7 @@ void Menu::DrawButton(int totalPoint) {
         glDisable(GL_TEXTURE_2D);
         glDisable(GL_BLEND);
 
-        //bordo bottone
+        //disegno il contorno ai bottoni ove necessario
         if (i<(sizeof(itemsMenu) / sizeof(itemsMenu[0])) - 7 || i >(sizeof(itemsMenu) / sizeof(itemsMenu[0])) - 3){
             glColor3ub(0, 0, 0);
             glBegin(GL_QUADS);
@@ -257,7 +269,6 @@ void Menu::DrawMenu(int width, int height, int totalPoint) {
     gluOrtho2D(0, width, 0, height);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
 
     DrawButton(totalPoint);
 

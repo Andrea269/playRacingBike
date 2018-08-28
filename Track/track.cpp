@@ -18,7 +18,6 @@
 #include "../Mesh/mesh.h"
 #include "track.h"
 
-
 Mesh start((char *)"Track/TrackMesh/Crossroad/Cross4road.obj");
 Mesh cross3road1t1((char *)"Track/TrackMesh/Crossroad/Cross3road1-1.obj");
 Mesh cross3road2t1((char *)"Track/TrackMesh/Crossroad/Cross3road2-1.obj");
@@ -123,7 +122,6 @@ Mesh curve26t4((char *)"Track/TrackMesh/Curve/Curve26-4.obj");
 Mesh curve27t2((char *)"Track/TrackMesh/Curve/Curve27-2.obj");
 Mesh curve28t1((char *)"Track/TrackMesh/Curve/Curve28-1.obj");
 Mesh curve29t3((char *)"Track/TrackMesh/Curve/Curve29-3.obj");
-
 
 const int MAX_PIECES=102;
 Mesh* piecesTrack[MAX_PIECES];
@@ -236,7 +234,6 @@ void Track::InitTrack(float x, float z) {
     piecesTrack[101]=&curve29t3;
 }
 
-
 bool Track::OnTrack(float x, float z) {
     bool res=false;
     int i=0;
@@ -244,7 +241,6 @@ bool Track::OnTrack(float x, float z) {
         if(piecesTrack[i]->bbmax.X()*scale>-x && piecesTrack[i]->bbmin.X()*scale<-x &&
                 piecesTrack[i]->bbmax.Z()*scale>-z && piecesTrack[i]->bbmin.Z()*scale<-z){
             res=true;
-           // printf("%d:x=%f,z=%f,xmax=%f,xmin=%f,zmax=%f,zmin=%f\n",i,x,z,piecesTrack[i]->bbmax.X()*scale,piecesTrack[i]->bbmin.X()*scale,piecesTrack[i]->bbmax.Z()*scale, piecesTrack[i]->bbmin.Z()*scale);
         }
         i++;
     }
@@ -430,9 +426,11 @@ void Track::SetupRoadTexture(float minX, float maxX, float minZ, float maxZ, int
     glEnable(GL_TEXTURE_GEN_S);
     glEnable(GL_TEXTURE_GEN_T);
 
-    // ulilizzo le coordinate OGGETTO
-    // cioe' le coordnate originali, PRIMA della moltiplicazione per la ModelView
-    // in modo che la texture sia "attaccata" all'oggetto, e non "proiettata" su esso
+    /*
+     * ulilizzo le coordinate OGGETTO
+     * cioe' le coordnate originali, PRIMA della moltiplicazione per la ModelView
+     * in modo che la texture sia "attaccata" all'oggetto, e non "proiettata" su esso
+    */
 
     glTexGeni(GL_S, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
     glTexGeni(GL_T, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);

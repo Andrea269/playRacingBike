@@ -202,7 +202,7 @@ void drawFloor() {
     glTexGenfv(GL_T, GL_OBJECT_PLANE, s);
 
     glBegin(GL_QUADS);
-    glNormal3f(0, 1, 0);// normale verticale uguale x tutti
+    glNormal3f(0, 1, 0);// imposta la normale verticale uguale per tutti
     for (int x = 0; x < K; x++) {
         for (int z = 0; z < K; z++) {
             float x0 = -S + 2 * (x + 0) * S / K;
@@ -534,9 +534,7 @@ int main(int argc, char *argv[]) {
     glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 
 
-    glEnable(GL_POLYGON_OFFSET_FILL); // caro openGL sposta i
-    // frammenti generati dalla
-    // rasterizzazione poligoni
+    glEnable(GL_POLYGON_OFFSET_FILL); // caro openGL sposta i frammenti generati dalla rasterizzazione dei poligoni
     glPolygonOffset(1, 1);
 
     initObj();

@@ -199,11 +199,9 @@ void Coin::Render() {
                 glDisable(GL_TEXTURE_GEN_T);
                 glDisable(GL_TEXTURE_2D);
             }
-
             glPopMatrix();
         }
     }
-
     glPopMatrix();
     coinRotation+=speedRotation;
 }
@@ -233,9 +231,12 @@ void Coin::SetupCoinTexture(float minZ, float maxZ, float minY, float maxY){
     glEnable(GL_TEXTURE_GEN_S);
     glEnable(GL_TEXTURE_GEN_T);
 
-    // ulilizzo le coordinate OGGETTO
-    // cioe' le coordnate originali, PRIMA della moltiplicazione per la ModelView
-    // in modo che la texture sia "attaccata" all'oggetto, e non "proiettata" su esso
+    /*
+     * ulilizzo le coordinate OGGETTO
+     * cioe' le coordnate originali, PRIMA della moltiplicazione per la ModelView
+     * in modo che la texture sia "attaccata" all'oggetto, e non "proiettata" su esso
+    */
+
     glTexGeni(GL_S, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
     glTexGeni(GL_T, GL_TEXTURE_GEN_MODE , GL_OBJECT_LINEAR);
     float sz=1.0/(maxZ - minZ);
