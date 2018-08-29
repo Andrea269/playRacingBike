@@ -527,11 +527,11 @@ int main(int argc, char *argv[]) {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
-    glEnable(GL_NORMALIZE); // rinormalizza le normali prima di usarle
+    glEnable(GL_NORMALIZE); //rinormalizza le normali prima di usarle
 
-    glFrontFace(GL_CW); // consideriamo Front Facing le facce ClockWise
-    glEnable(GL_COLOR_MATERIAL);
-    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+    glFrontFace(GL_CW); //le facce frontali sono selezionate in senso orario
+    glEnable(GL_COLOR_MATERIAL);//abbilita il comore sugli oggetti
+    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);//GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE sono valori di default
 
 
     glEnable(GL_POLYGON_OFFSET_FILL); // caro openGL sposta i frammenti generati dalla rasterizzazione dei poligoni
@@ -694,7 +694,6 @@ int main(int argc, char *argv[]) {
                                     case SDL_WINDOWEVENT_SIZE_CHANGED: {
                                         viewportW = event.window.data1;
                                         viewportH = event.window.data2;
-                                        glViewport(0, 0, viewportW, viewportH);
                                         menu.InitMenu(viewportW, viewportH);
                                         rendering(window);
                                         break;
