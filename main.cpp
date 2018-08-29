@@ -571,10 +571,8 @@ int main(int argc, char *argv[]) {
                             case SDLK_F3://On/Off visualizza ombre
                                 isShadow = !isShadow;
                                 break;
-                            case SDLK_F12://On/Off visualizza ombre
-                                if (timePlay && timeGame < 0) {
-                                    SetEndPlay();
-                                }
+                            case SDLK_DELETE://torna al menù scelta modalità di gioco
+                                SetEndPlay();
                                 break;
                         }
                         break;
@@ -601,7 +599,7 @@ int main(int argc, char *argv[]) {
                             case 5://On/Off visualizza mappa
                                 showTrackMap = !showTrackMap;
                                 break;
-                            case 6://esci
+                            case 6://torna al menù scelta modalità di gioco
                                 SetEndPlay();
                                 break;
                             case 13:
@@ -666,7 +664,7 @@ int main(int argc, char *argv[]) {
                             case 7://R1-->cambia camera
                                 camera.UpdateIndexCamera();
                                 break;
-                            case 8://SELECT-->esci
+                            case 8://SELECT-->torna al menù scelta modalità di gioco
                                 SetEndPlay();
                                 break;
                             case 9://START-->pausa
@@ -716,9 +714,11 @@ int main(int argc, char *argv[]) {
                 nowTime = SDL_GetTicks();
                 if (lastTime + (1/fps*1000) < nowTime) {
                     lastTime = nowTime;
-                    isOnTrack=track.OnTrack(bike.positionOnX, bike.positionOnZ);
-                    bike.ChangeState();
-                    point = coin.ChangeState(bike.positionOnX, bike.positionOnZ);
+                    if (!(timePlay && timeGame < 0)) {
+                        isOnTrack=track.OnTrack(bike.positionOnX, bike.positionOnZ);
+                        bike.ChangeState();
+                        point = coin.ChangeState(bike.positionOnX, bike.positionOnZ);
+                    }
                     rendering(window);
                 }
             }
@@ -730,9 +730,12 @@ int main(int argc, char *argv[]) {
                             pauseStatus();
                             rendering(window);
                         }
+                        if (event.key.keysym.sym == SDLK_DELETE) {//torna al menù scelta modalità di gioco
+                            SetEndPlay();
+                        }
                         break;
                     case SDL_JOYBUTTONDOWN:
-                        if (event.jbutton.button == 8) {
+                        if (event.jbutton.button == 8) {//torna al menù scelta modalità di gioco
                             SetEndPlay();
                         }
                         if (event.jbutton.button == 9) {

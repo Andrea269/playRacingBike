@@ -115,7 +115,7 @@ void Menu::InitMenu(int width, int height) {
     itemsMenu[10].w = 100;
     itemsMenu[10].h = 45;
 
-    itemsMenu[11].id = "Premere F12 per Uscire";
+    itemsMenu[11].id = "Premere Canc per Uscire";
     itemsMenu[11].x = width-350;
     itemsMenu[11].y = height / 2 - 150;
     itemsMenu[11].w = 250;
