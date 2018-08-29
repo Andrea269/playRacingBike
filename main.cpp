@@ -395,7 +395,7 @@ void drawMap() {
 }
 
 void rendering(SDL_Window *window) {
-    glViewport(0, 0, viewportW, viewportH);
+    glViewport(0, 0, viewportW, viewportH);//setto la viewport totale
     glClearColor(0.5, 1, 0.5, 1);// colore sfondo
     // riempe tutto lo screen buffer di pixel colore sfondo
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -421,7 +421,7 @@ void rendering(SDL_Window *window) {
             glMatrixMode(GL_PROJECTION);
             glLoadIdentity();
             gluPerspective(70, //fovy,
-                           ((float) viewportW * 5 / 6) / viewportH,//aspect Y/X,
+                           ((float) viewportW * 5 / 6) / viewportH,//campo visivo x/y,
                            0.25,//zNear,
                            500  //zFar
             );
@@ -752,7 +752,6 @@ int main(int argc, char *argv[]) {
                                     case SDL_WINDOWEVENT_SIZE_CHANGED: {
                                         viewportW = event.window.data1;
                                         viewportH = event.window.data2;
-                                        glViewport(0, 0, viewportW, viewportH);
                                         menu.InitMenu(viewportW, viewportH);
                                         rendering(window);
                                         break;
