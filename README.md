@@ -17,6 +17,7 @@ Keyboard:
 * F1 -> Change camera; There are 5 different cameras
 * F2 -> Change the use of Wireframe
 * F3 -> Choose whether or not to display the shadow of objects
+* Canc -> Return to the main menu
 
 Joystick:
 * Left arrow -> Turn left
@@ -30,4 +31,4 @@ Joystick:
 * R1 -> Change room
 * R2 -> Reverse gear
 * START -> Pause the game
-* SELECT -> Exit the game
+* SELECT -> Return to the main menu

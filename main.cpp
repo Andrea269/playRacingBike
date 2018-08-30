@@ -436,12 +436,9 @@ void rendering(SDL_Window *window) {
 
             camera.UpdateCamera(bike.orientation, bike.positionOnX, bike.positionOnY, bike.positionOnZ);
 
-            // disegna assi frame MONDO
             static float tmpcol[4] = {1, 1, 1, 1};
             glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, tmpcol);
             glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 127);
-
-
             glEnable(GL_LIGHTING);
 
             drawSky();
@@ -466,8 +463,8 @@ void rendering(SDL_Window *window) {
         }
     }
     glFinish();
-    // il buffer di lavoro diventa visibile
-    SDL_GL_SwapWindow(window);
+
+    SDL_GL_SwapWindow(window);// il buffer di lavoro diventa visibile
 }
 
 Uint32 UpdateTimerVideo(Uint32 interval, void *param) {
@@ -520,7 +517,7 @@ int main(int argc, char *argv[]) {
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-    SDL_Window *window = SDL_CreateWindow("Racing Bike", 0, 0, viewportW, viewportH,
+    SDL_Window *window = SDL_CreateWindow("Play Racing Bike", 0, 0, viewportW, viewportH,
                                           SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
     SDL_GLContext sdlContext = SDL_GL_CreateContext(window);
 
